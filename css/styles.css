@@ -1,0 +1,256 @@
+/*
+
+RESETS
+
+*/
+body, html {
+    background: #F7F7F7;
+    margin: 0;
+    padding: 0;
+    font-family: sans-serif;
+    color: #757575;
+}
+body {
+    display: block;
+    padding: 30px 0;
+    overflow-x: hidden;
+}
+a {
+    color: #006699;
+    text-decoration: none;
+}
+a:hover {
+    color: #444;
+}
+a:focus {
+    outline: 0;
+}
+h1, h2, h3, h4, h5 {
+    text-transform: uppercase;
+    font-weight: normal;
+    line-height: 20px;
+    margin: 0 0 10px;
+    padding: 0;
+}
+h1, h4 {
+    font-size: 20px;
+    font-weight: bold;
+    color: #444;
+}
+h2, h5 {
+    font-size: 16px;
+    color: #666;
+}
+h3 {
+    font-size: 12px;
+    margin: 35px 0 0;
+}
+    
+/*
+
+BOOTSTRAP
+
+*/
+.container {
+    display: block;
+    position: relative;
+    width: 980px;
+    margin: 0 auto;
+    z-index: 1;
+}
+.col-sm-6:first-child {
+    float: left;
+    text-align: left;
+    padding: 0 2% 30px 0;
+}
+.col-sm-6 {
+    display: inline-block;
+    position: relative;
+    vertical-align: top;
+    width: 47%;
+    margin: 0;
+    padding: 0 0 30px 2%;
+    float: right;
+    text-align: right;
+}
+
+/*
+
+HEADERS
+
+*/
+.header {
+    display: block;
+    position: absolute;
+    z-index: 0;
+    background: #EEE;
+    border-bottom: 1px solid #DDD;
+    top: -30px;
+    left: 0;
+    right: 0;
+    height: 125px;
+}
+img.avatar {
+    display: inline-block;
+    position: relative;
+    width: 100px;
+    height: 100px;
+    margin: 0;
+    background: #FFF;
+    border: 1px solid #CCC;
+}
+.meta {
+    display: block;
+    position: absolute;
+    right: 0;
+    top: 0;
+    left: 120px;
+}
+
+/*
+
+LISTS
+
+*/
+ul.thumbnails,
+ul.social {
+    display: block;
+    position: relative;
+    margin: 30px 0 0;
+    padding: 0;
+    list-style: none;
+    text-align: right;
+}
+ul.social li {
+    display: inline-block;
+    position: relative;
+}
+ul.social li a {
+    display: inline-block;
+    position: relative;
+    width: 24px;
+    height: 24px;
+    margin: 0 0 0 5px;
+    text-indent: 999em;
+    background-image: url(../img/icons.png);
+}
+ul.thumbnails {
+    text-align: left;
+}
+ul.thumbnails li a {
+    display: block;
+    position: relative;
+    margin: 0 0 20px;
+    border: 1px solid #CCC;
+    padding: 50px 100px;
+    text-align: center;
+}
+ul.thumbnails li.light a {
+    background: #EEE;
+}
+ul.thumbnails li.dark a {
+    background: #222;
+    border-color: #000;
+}
+ul.thumbnails li img {
+    display: block;
+    width: 100%;
+    height: auto;
+}
+ul.thumbnails li a:hover img {
+    opacity: 0.5;
+}
+ul.social li.twitter a {
+    background-position: 0 0;
+}
+ul.social li.github a {
+    background-position: -30px 0;
+}
+ul.social li.facebook a {
+    background-position: -60px 0;
+}
+ul.social li.instagram a {
+    background-position: -90px 0;
+}
+ul.social li.linkedin a {
+    background-position: -120px 0;
+}
+ul.social li.pinterest a {
+    background-position: -150px 0;
+}
+ul.social li.slideshare a {
+    background-position: -180px 0;
+}
+ul.social li.twitter a:hover {
+    background-position: 0 -30px;
+}
+ul.social li.github a:hover {
+    background-position: -30px -30px;
+}
+ul.social li.facebook a:hover {
+    background-position: -60px -30px;
+}
+ul.social li.instagram a:hover {
+    background-position: -90px -30px;
+}
+ul.social li.linkedin a:hover {
+    background-position: -120px -30px;
+}
+ul.social li.pinterest a:hover {
+    background-position: -150px -30px;
+}
+ul.social li.slideshare a:hover {
+    background-position: -180px -30px;
+}
+
+/*
+
+WIDGETS
+
+*/
+.tweets {
+    display: block;
+    position: relative;
+    padding: 30px 0 0;
+}
+
+/*
+
+RESPONSIVENESS
+
+*/
+@media only screen and (max-width : 990px) {
+    .container,
+    .col-sm-6,
+    .col-sm-6:first-child {
+        float: none;
+        width: 96%;
+        padding: 0 2%;
+        text-align: center;
+    }
+    .col-sm-6:first-child {
+        text-align: left;
+    }
+    .meta {
+        text-align: right;
+    }
+    .col-sm-6:first-child {
+        margin-bottom: 60px;
+    }
+    ul.social {
+        text-align: center;
+    }
+}
+@media only screen and (max-width : 465px) {
+    img.avatar {
+        display: none;
+    }
+    .meta {
+        float: none;
+        position: relative;
+        left: 0;
+        right: 0;
+        width: 100%;
+        text-align: center;
+    }
+}
