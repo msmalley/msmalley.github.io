@@ -527,7 +527,7 @@ function startImageProcessing()
                     turningAngle: rand1.integer(3, 9)
                 };
 
-                console.log('defaults', defaults);
+                //console.log('defaults', defaults);
 
                 var chromata = false;
 

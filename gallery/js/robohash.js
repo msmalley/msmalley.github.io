@@ -52,7 +52,6 @@
 	var canvas, img, context;
 
 	function render(input, callback) {
-        console.log('input', input);
 	  renderHash(md5(input || ''), callback);
 	}
 
@@ -62,7 +61,6 @@
 	  }
 	  //strip uuid dashes
 	  hash = hash.replace(/\-/g, '');
-        console.log('hash', hash);
 	  renderBuckets(getBuckets(hash), callback);
 	}
 
@@ -98,7 +96,6 @@
 
         img = new Image();
         img.onload = function () {
-            console.info("Image loaded !");
             //do something...
             
             if(img) {
@@ -124,39 +121,6 @@
 	global.render = render;
 	global.renderHash = renderHash;
     
-     $(function(){
-        
-     });
-                                                          
-
-     /*                                                     
-	$(function(){
-	  canvas = document.getElementById('canvas');
-	  context = canvas.getContext('2d');
-
-	  $("#hashInput").focus();
-
-	  $("#hashInput").bind ("input propertychange", function (e) {
-	    render($(this).val());
-	  });
-
-	  $("#hashInput").val(startingWord);
-
-	  img= new Image();
-	  img.onload = function () {
-	     console.info("Image loaded !");
-	     //do something...
-	     render(startingWord);
-	  }
-	  img.onerror = function () {
-	     console.error("Cannot load img");
-	     //do something else...
-	  }
-	  img.src = "set1.png";
-
-	});
-    
-    */
 
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1).Buffer, (function() { return this; }())))
 

@@ -11,22 +11,34 @@ var pandora = {
         jQuery.each(artists, function(a)
         {
             var ts = '' + new Date().getTime() + '';
-            var seed = stringToSeed(artists[a] + ts.split("").reverse().join(""));
-            var title = getRelevantRandomWord('title', 'all', false, seed);
-            var surname = getRelevantRandomWord('surname', 'all', false, seed);
-            var name = title + ' ' + surname;
-            render(name, function(avatar = false)
+            var str = artists[a] + ts.split("").reverse().join("");
+            const digest = async ({ algorithm = "SHA-256", message }) =>
+              Array.prototype.map
+                .call(
+                  new Uint8Array(
+                    await crypto.subtle.digest(algorithm, new TextEncoder().encode(message))
+                  ),
+                  (x) => ("0" + x.toString(16)).slice(-2)
+                )
+                .join("");
+
+            digest({message: str}).then(function(id)
             {
-                var colours = getImageColours(avatar);
-                console.log('colours', colours);
-                var description = getArtistDescription(title, surname, colours);
-                console.log('description', description);
-                if(avatar)
+                var seed = stringToSeed(id);
+                var title = getRelevantRandomWord('title', 'all', false, seed);
+                var surname = getRelevantRandomWord('surname', 'all', false, seed);
+                var name = title + ' ' + surname;
+                render(name, function(avatar = false)
                 {
-                    jQuery('.card-artist-' + a).prepend(avatar);
-                    jQuery('.card-artist-' + a).find('.artist-name').text(name);
-                    jQuery('.card-artist-' + a).find('.artist-description').text(description);
-                }
+                    var colours = getImageColours(avatar);
+                    var description = getArtistDescription(title, surname, colours);
+                    if(avatar)
+                    {
+                        jQuery('.card-artist-' + a).prepend(avatar);
+                        jQuery('.card-artist-' + a).find('.artist-name').text(name);
+                        jQuery('.card-artist-' + a).find('.artist-description').text(description);
+                    }
+                });
             });
         });
     }
@@ -67,7 +79,6 @@ function getArtistDescription(title, surname, colours)
     }
     var job = getRelevantRandomWord('noun', 'job', false, seed);
     var firstname = getRelevantRandomWord('firstname', gender, false, seed);
-    console.log('firstname', firstname);
     var commitments = [
         'a professional',
         'an amateur'
@@ -78,7 +89,6 @@ function getArtistDescription(title, surname, colours)
     var random = new XorShift128(seed);
     var number_of_children = random.integer(0, 5);
     var commitment_type = commitments[random.integer(0, (commitments.length - 1))];
-    console.log('commitment_type', commitment_type);
     var child_status_intro = 'Although it';
     if(gender == 'male') child_status_intro = 'Athough he';
     else if(gender == 'female') child_status_intro = 'Athough she';
