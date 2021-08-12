@@ -104,7 +104,7 @@ function getArtistDescription(title, surname, colours, callback)
 
     var child_status = child_status_intro + ' has no ' + colour3 + ' children, ' + firstname + ' plans to marry'; // 51 * 
 
-    var conclusions = ' to ' + gender_term + ' ' + relative + '\'s favourite ' + child_job + '.';
+    var conclusions = ' ' + gender_term + ' ' + relative + '\'s favourite ' + child_job + '.';
 
     if(number_of_children == 1)
     {
