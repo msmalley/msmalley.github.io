@@ -23,6 +23,10 @@ RESETS
     z-index: 999;
 }
 
+.card-body p {
+    font-size: 0.9rem;
+}
+
 /* 
 
 HEADER
