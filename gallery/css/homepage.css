@@ -23,6 +23,9 @@ RESETS
     z-index: 999;
 }
 
+.card {
+    border: none;
+}
 .card-body p {
     font-size: 0.9rem;
 }
