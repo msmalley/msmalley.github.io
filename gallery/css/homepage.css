@@ -123,6 +123,7 @@ iframe.iframe {
     padding: 0;
     margin: 0;
     overflow: hidden;
+    border-top: 3px double #757575;
 }
 
 /*
