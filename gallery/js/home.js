@@ -8,38 +8,31 @@ var pandora = {
             'G',
             'B'
         ];
+        var now = new Date().getTime();
+        var random = new XorShift128(now);
+        var members = random.integer(2888888, 2999999);
+        jQuery('.member-count').text(numberWithCommas(members));
         jQuery.each(artists, function(a)
         {
             var ts = '' + new Date().getTime() + '';
             var str = artists[a] + ts.split("").reverse().join("");
-            const digest = async ({ algorithm = "SHA-256", message }) =>
-              Array.prototype.map
-                .call(
-                  new Uint8Array(
-                    await crypto.subtle.digest(algorithm, new TextEncoder().encode(message))
-                  ),
-                  (x) => ("0" + x.toString(16)).slice(-2)
-                )
-                .join("");
-
-            digest({message: str}).then(function(id)
+            var id = EthJS.Util.sha256(str).toString('hex');
+            
+            var seed = stringToSeed(id);
+            var title = getRelevantRandomWord('title', 'all', false, seed);
+            var surname = getRelevantRandomWord('surname', 'all', false, seed);
+            var name = title + ' ' + surname;
+            render(name, function(avatar = false)
             {
-                var seed = stringToSeed(id);
-                var title = getRelevantRandomWord('title', 'all', false, seed);
-                var surname = getRelevantRandomWord('surname', 'all', false, seed);
-                var name = title + ' ' + surname;
-                render(name, function(avatar = false)
+                var colours = getImageColours(avatar);
+                getArtistDescription(title, surname, colours, function(description)
                 {
-                    var colours = getImageColours(avatar);
-                    getArtistDescription(title, surname, colours, function(description)
+                    if(avatar && name && description)
                     {
-                        if(avatar && name && description)
-                        {
-                            jQuery('.card-artist-' + a).prepend(avatar);
-                            jQuery('.card-artist-' + a).find('.artist-name').text(name);
-                            jQuery('.card-artist-' + a).find('.artist-description').text(description);
-                        }
-                    });
+                        jQuery('.card-artist-' + a).prepend(avatar);
+                        jQuery('.card-artist-' + a).find('.artist-name').text(name);
+                        jQuery('.card-artist-' + a).find('.artist-description').text(description);
+                    }
                 });
             });
         });
@@ -183,6 +176,10 @@ function reverseString(str) {
 function startsWithVowel(word){
    var vowels = ("aeiouAEIOU"); 
    return vowels.indexOf(word[0]) !== -1;
+}
+
+function numberWithCommas(x) {
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }
 
 jQuery(document).ready(function()
