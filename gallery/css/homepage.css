@@ -32,6 +32,9 @@ HEADER
 nav#navigation {
     border-bottom: 3px double #757575;
 }
+.navbar-brand b {
+    color: #fd50af;
+}
 
 /* 
 
