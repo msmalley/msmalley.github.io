@@ -20,6 +20,8 @@ if(p)
 
 function resizeMound()
 {
+    jQuery('html').removeClass('full');
+    jQuery('.mound').removeClass('fullsize');
     var frame_width = jQuery('.frame').outerWidth();
     var screen_width = jQuery(document).width();
     var marge = (frame_width + ((screen_width/10)*2));
