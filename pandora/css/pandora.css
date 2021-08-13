@@ -266,6 +266,7 @@ html body, html, body {
     background: transparent;
     background-size: 100%;
     animation: none;
+    width: 100%;
 }
 .frame img {
     min-height: 100%;

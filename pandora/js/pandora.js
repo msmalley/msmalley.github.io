@@ -128,7 +128,7 @@ var pandora = {
             });
             return colours;
         },
-        description: function(colours, callback, homepage = true)
+        description: function(colours, callback, homepage = true, title_of_artist = false, surname_of_artist = false)
         {
             var words = en_US();
     
@@ -163,6 +163,13 @@ var pandora = {
             var profession1 = getRelevantRandomWord('noun', 'job', false, seed1);
             var title1 = getRelevantRandomWord('title', 'all', false, seed2);
             var name1 = getRelevantRandomWord('surname', 'all', false, seed3);
+            
+            if(title_of_artist && surname_of_artist)
+            {
+                title1 = title_of_artist;
+                name1 = surname_of_artist;
+            }
+            
             var person1 = profession1 + ' ' + title1 + ' ' + name1;
 
             var name_of_colour = colours[4].name;
@@ -208,8 +215,12 @@ var pandora = {
                 callback(html, avatar, colours);
             });
         },
-        fetch: function()
+        fetch: function(title_of_artist = false, surname_of_artist = false)
         {
+            if(title_of_artist && surname_of_artist)
+            {
+                jQuery('.section.iframe').show();
+            }
             if(
                 typeof params == 'object'
                 && typeof params.term != 'undefined'
@@ -239,7 +250,11 @@ var pandora = {
                         jQuery('.nft-image').attr('src', response.hits[index].webformatURL);
                         jQuery('.nft-image').load(function()
                         {
-                            pandora.images.generate(jQuery('.nft-image').attr('src'));
+                            pandora.images.generate(
+                                jQuery('.nft-image').attr('src'), 
+                                title_of_artist, 
+                                surname_of_artist
+                            );
                         });
                     }
                     else
@@ -253,18 +268,22 @@ var pandora = {
                 jQuery('.nft-image').attr('src', 'https://picsum.photos/200/300');
                 jQuery('.nft-image').load(function()
                 {
-                    pandora.images.generate(jQuery('.nft-image').attr('src'));
+                    pandora.images.generate(
+                        jQuery('.nft-image').attr('src'),
+                        title_of_artist,
+                        surname_of_artist
+                    );
                 });
             }
         },
-        generate: function(source)
+        generate: function(source, title_of_artist = false, surname_of_artist = false)
         {
             var acolours = [];
             var img = new Image();
             var page_id = jQuery('body').attr('id');
             function resizeMound()
             {
-                if(page_id == 'body-index')
+                if(page_id == 'body-index' || page_id == 'body-artists')
                 {
                     pandora.resizes.home();
                 }
@@ -495,7 +514,7 @@ var pandora = {
                             resizeMound();
                         });
 
-                    });
+                    }, false, title_of_artist, surname_of_artist);
                 }
                 else
                 {
@@ -708,7 +727,7 @@ var pandora = {
                             resizeMound();
                         });
 
-                    });
+                    }, false, title_of_artist, surname_of_artist);
                 }
             });
             img.crossOrigin = 'Anonymous';
@@ -728,6 +747,7 @@ var pandora = {
                 var surname = names[1];
                 var name = title + ' ' + surname;
                 var url = 'artists/?name=' + title + '+' + surname;
+                pandora.images.fetch(title, surname);
                 render(name, function(avatar = false)
                 {
                     var colours = pandora.images.colours(avatar);
