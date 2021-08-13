@@ -195,8 +195,15 @@ var pandora = {
                 if(got_canvas) avatar = got_canvas;
 
                 var intro = 'Prominent ' + colour1 + ' ' + job1 + ' framed by ' + colour2 + ' upon a ' + colour3 + ' canvas invoke memories of ' + colour4 + ' ' + substance1 + ' during ' + time2 + '.';
+                
+                var actions = '<hr><div class="btn-group" role="group">';
+                actions+= '<a href="#" class="btn btn-outline-dark">INFO</a>';
+                actions+= '<a href="#" class="btn btn-outline-dark">MINT</a>';
+                actions+= '<a href="#" class="btn btn-outline-dark">SHARE</a>';
+                actions+= '<a href="#" class="btn btn-outline-dark">NEW</a>';
+                actions+= '</div>';
 
-                var html = '<h4 class="inline">' + name_of_image + '</h4> <h6 class="inline">by <b><a href="' + url + '">' + name_of_artist + '</a></b></h6><hr class="card-line">' + intro;
+                var html = '<h4 class="inline">' + name_of_image + '</h4> <h6 class="inline">by <b><a href="' + url + '">' + name_of_artist + '</a></b></h6><hr class="card-line">' + intro + actions;
 
                 callback(html, avatar, colours);
             });
