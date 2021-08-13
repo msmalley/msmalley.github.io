@@ -240,7 +240,7 @@ html body, html, body {
     text-align: center;
     font-size: 1.2rem;
     color: #757575;
-    line-height: 100vh;
+    line-height: 100%;
     display: block;
     position: absolute;
     top: 0;
