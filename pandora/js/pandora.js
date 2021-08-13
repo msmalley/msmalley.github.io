@@ -193,6 +193,8 @@ var pandora = {
 
             var name_of_image = name_of_colour + ' ' + noun_to_use;
             var name_of_artist = title1 + ' ' + name1;
+            
+            console.log('homepage', homepage);
             var url = '../artists/?name=' + title1 + '+' + name1;
             if(homepage) url = 'artists/?name=' + title1 + '+' + name1;
 
@@ -280,7 +282,12 @@ var pandora = {
         {
             var acolours = [];
             var img = new Image();
+            var is_homepage = false;
             var page_id = jQuery('body').attr('id');
+            if(page_id == 'body-index')
+            {
+                is_homepage = true;
+            }
             function resizeMound()
             {
                 if(page_id == 'body-index' || page_id == 'body-artists')
@@ -514,7 +521,7 @@ var pandora = {
                             resizeMound();
                         });
 
-                    }, false, title_of_artist, surname_of_artist);
+                    }, is_homepage, title_of_artist, surname_of_artist);
                 }
                 else
                 {
@@ -727,7 +734,7 @@ var pandora = {
                             resizeMound();
                         });
 
-                    }, false, title_of_artist, surname_of_artist);
+                    }, is_homepage, title_of_artist, surname_of_artist);
                 }
             });
             img.crossOrigin = 'Anonymous';
