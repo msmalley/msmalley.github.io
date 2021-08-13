@@ -15,7 +15,7 @@
         <script type="text/javascript" src="../js/colorthief.js"></script>
         <script type="text/javascript" src="../js/ethereum-tx.js"></script>
     </head>
-    <body id="body-artists">
+    <body id="body-artists" data-robohash="../img/robohash/set1.png">
         <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top" id="navigation">
             <div class="container">
                 <a class="navbar-brand orb" href="../">the <b>pandora</b> initiative</a>
@@ -32,10 +32,21 @@
                 </div>
             </div>
         </nav>
-        <div class="section sub-header">
-            <div class="container">
-                <h2 class="amatic">Search For Artist</h2>
-                <h4 class="orb" style="opacity:0.35">or art specific to artist?</h4>
+        <div class="section sub-header loading">
+            <div class="container relative">
+                <h2 class="amatic">Search For a Specific Artist</h2>
+                <h4 class="orb">
+                    <form>
+                        <div class="row">
+                            <div class="col-md-8">
+                                <input type="text" class="form-control" placeholder="Pick a name, any name ..." style="margin: 5px 0 0 0; opacity: 0.75;" />
+                            </div>
+                            <div class="col-md-4">
+                                <button type="submit" class="btn btn-block btn-outline-dark">SEARCH</button>
+                            </div>
+                        </div>
+                    </form>
+                </h4>
                 <div class="artist"></div>
             </div>
         </div>
@@ -49,7 +60,7 @@
                 </alert>
                 <alert class="alert text-center">
                     <p>&nbsp;</p>
-                    <h6 class="pstart">You can see an example of our most recent work below!</h6>
+                    <h6 class="pstart">You can see an example of my most recent work below!</h6>
                     <p>&nbsp;</p>
                 </alert>
             </div>

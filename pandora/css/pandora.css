@@ -6,6 +6,10 @@ RESETS
 
 */
 
+.relative {
+    position: relative;
+}
+
 .amatic {
     font-family: 'Amatic SC', cursive;
     z-index: 999;
@@ -41,6 +45,14 @@ a:focus {
     outline: 0;
 }
 
+.art-actions .btn {
+    opacity: 0.65;
+}
+.art-actions .btn:hover,
+.art-actions .btn:focus {
+    opacity: 0.85;
+}
+
 /* 
 
 HEADER
@@ -49,6 +61,7 @@ HEADER
 
 nav#navigation {
     border-bottom: 3px double #757575;
+    z-index: 99999;
 }
 .navbar-brand b {
     color: #fd50af;
@@ -86,6 +99,16 @@ div.section.sub-header {
     border-bottom: 3px double #757575;
     padding-top: 120px;
 }
+div.section.sub-header.altered .artist {
+    margin-top: -330px;
+    margin-bottom: -20px;
+    margin-right: -120px;
+    border: none;
+}
+div.section.sub-header.altered .artist canvas {
+    width: 500px;
+    height: 500px;
+}
 div.section.sub-header h2 {
     font-size: 3rem;
     display: block;
@@ -102,6 +125,11 @@ div.section.sub-header h4 {
     top: 50%;
     margin-top: 0;
     color: #555;
+    z-index: 999;
+}
+div.section.sub-header.altered h2,
+div.section.sub-header.altered h4 {
+    position: relative;
 }
 div.section.sub-header:before {
     content: "";
@@ -155,6 +183,12 @@ div.section.iframe {
     border-top: 3px double #757575;
 }
 
+div.section.sub-header h4.orbed {
+    opacity: 0.65;
+    font-size: 1.4rem;
+    padding-right: 550px;
+}
+
 /*
 
 GALLERY
@@ -199,6 +233,7 @@ html body, html, body {
     margin: 0;
     padding: 0;
 }
+.section.sub-header.loading:before,
 .section.iframe.loading:before {
     content: "GENERATING ART";
     font-family: sans-serif;
@@ -213,7 +248,7 @@ html body, html, body {
     right: 0;
     bottom: 0;
     background: #EEE;
-    z-index: 99999;
+    z-index: 9999;
 }
 .frame img {
     min-height: 100%;

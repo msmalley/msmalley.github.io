@@ -196,7 +196,7 @@ var pandora = {
 
                 var intro = 'Prominent ' + colour1 + ' ' + job1 + ' framed by ' + colour2 + ' upon a ' + colour3 + ' canvas invoke memories of ' + colour4 + ' ' + substance1 + ' during ' + time2 + '.';
                 
-                var actions = '<hr><div class="btn-group" role="group">';
+                var actions = '<hr><div class="btn-group art-actions" role="group">';
                 actions+= '<a href="#" class="btn btn-outline-dark">INFO</a>';
                 actions+= '<a href="#" class="btn btn-outline-dark">MINT</a>';
                 actions+= '<a href="#" class="btn btn-outline-dark">SHARE</a>';
@@ -719,6 +719,41 @@ var pandora = {
         artists: function()
         {
             console.log('init.artists');
+            if(
+                typeof params == 'object'
+                && typeof params.name != 'undefined'
+            ){
+                var names = params.name.split('+');
+                var title = names[0];
+                var surname = names[1];
+                var name = title + ' ' + surname;
+                var url = 'artists/?name=' + title + '+' + surname;
+                render(name, function(avatar = false)
+                {
+                    var colours = pandora.images.colours(avatar);
+                    var description = pandora.artists.description(title, surname, colours);
+                    if(avatar)
+                    {
+                        jQuery('.section.sub-header').addClass('altered');
+                        jQuery('.section.sub-header .amatic').css({marginTop: 100});
+                        jQuery('.section.sub-header .amatic').text(name);
+                        jQuery('.section.sub-header .orb').text(description);
+                        jQuery('.section.sub-header .orb').addClass('orbed');
+                        jQuery('.section.sub-header .orb').removeClass('orb');
+                        jQuery('.section.sub-header .artist').prepend(avatar);
+                        jQuery('.section.sub-header .artist').css({background: 'transparent'});
+                        setTimeout(function()
+                        {
+                            jQuery('.section.sub-header.loading').removeClass('loading');
+                        }, 350);
+                    }
+                });
+            }
+            else
+            {
+                jQuery('.section.sub-header .container.relative').removeClass('relative');
+                jQuery('.section.sub-header.loading').removeClass('loading');
+            }
         },
         gallery: function()
         {

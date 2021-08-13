@@ -114,7 +114,7 @@
             console.error("Cannot load img");
             //do something else...
         }
-        img.src = "img/robohash/set1.png";
+        img.src = jQuery('body').attr('data-robohash');
 	}
 
 
