@@ -194,7 +194,6 @@ var pandora = {
             var name_of_image = name_of_colour + ' ' + noun_to_use;
             var name_of_artist = title1 + ' ' + name1;
             
-            console.log('homepage', homepage);
             var url = '../artists/?name=' + title1 + '+' + name1;
             if(homepage) url = 'artists/?name=' + title1 + '+' + name1;
 
@@ -216,6 +215,317 @@ var pandora = {
 
                 callback(html, avatar, colours);
             });
+        },
+        draw: function(seed, element_id, style = false)
+        {
+            if(seed && seed > 0 && jQuery('#' + element_id).length == 1)
+            {
+                var rand1 = new XorShift128(seed);
+                var rand2 = new XorShift128(parseInt(pandora.strings.rev('' + seed + '')));
+                var styles = [
+                    'mondrian',
+                    'lines',
+                    'circles',
+                    'squares'
+                ];
+                if(
+                    !style
+                    || 
+                    (
+                        style
+                        &&
+                        (
+                            style != 'mondrian'
+                            && style != 'lines'
+                            && style != 'circles'
+                            && style != 'squares'
+                        )
+                    )
+                ){
+                    style = styles[rand1.integer(0, (styles.length - 1))];
+                }
+                var canvas = document.getElementById(element_id);
+                var context = canvas.getContext('2d');
+
+                var size = jQuery('#' + element_id).innerWidth();
+                var dpr = window.devicePixelRatio;
+                
+                canvas.width = size * dpr;
+                canvas.height = size * dpr;
+                context.scale(dpr, dpr);
+                
+                var white = '#' + ntc.randomColour(stringToSeed('F2' + seed));
+                var colors = [
+                    '#' + ntc.randomColour(stringToSeed('D4' + seed)),
+                    '#' + ntc.randomColour(stringToSeed('13' + seed)),
+                    '#' + ntc.randomColour(stringToSeed('F7' + seed))
+                ];
+                
+                if(style == 'mondrian')
+                {
+                    
+                    context.lineWidth = 8;
+                    var step = size / 7;
+
+                    var squares = [{
+                        x: 0,
+                        y: 0,
+                        width: size,
+                        height: size
+                      }];
+
+                    function splitSquaresWith(coordinates) {
+                      const { x, y } = coordinates;
+
+                      for (var i = squares.length - 1; i >= 0; i--) {
+                      const square = squares[i];
+
+                      if (x && x > square.x && x < square.x + square.width) {
+                          if(rand1.integer(0, 1) > 0) {
+                            squares.splice(i, 1);
+                            splitOnX(square, x); 
+                          }
+                      }
+
+                      if (y && y > square.y && y < square.y + square.height) {
+                          if(rand2.integer(0, 1) > 0) {
+                            squares.splice(i, 1);
+                            splitOnY(square, y); 
+                          }
+                      }
+                      }
+                    }
+
+                    function splitOnX(square, splitAt) {
+                      var squareA = {
+                        x: square.x,
+                        y: square.y,
+                        width: square.width - (square.width - splitAt + square.x),
+                        height: square.height
+                      };
+
+                      var squareB = {
+                      x: splitAt,
+                      y: square.y,
+                      width: square.width - splitAt + square.x,
+                      height: square.height
+                      };
+
+                      squares.push(squareA);
+                      squares.push(squareB);
+                    }
+
+                    function splitOnY(square, splitAt) {
+                      var squareA = {
+                        x: square.x,
+                        y: square.y,
+                        width: square.width,
+                        height: square.height - (square.height - splitAt + square.y)
+                      };
+
+                      var squareB = {
+                      x: square.x,
+                      y: splitAt,
+                      width: square.width,
+                      height: square.height - splitAt + square.y
+                      };
+
+                      squares.push(squareA);
+                      squares.push(squareB);
+                    }
+
+                    for (var i = 0; i < size; i += step) {
+                      splitSquaresWith({ y: i });
+                      splitSquaresWith({ x: i });
+                    }
+
+                    function draw() {
+                      for (var i = 0; i < colors.length; i++) {
+                        squares[Math.floor(Math.random() * squares.length)].color = colors[i];
+                      }
+                      for (var i = 0; i < squares.length; i++) {
+                        context.beginPath();
+                        context.rect(
+                          squares[i].x,
+                          squares[i].y,
+                          squares[i].width,
+                          squares[i].height
+                        );
+                        if(squares[i].color) {
+                          context.fillStyle = squares[i].color;
+                        } else {
+                          context.fillStyle = white
+                        }
+                        context.fill()
+                        context.stroke();
+                      }
+                    }
+
+                    draw();
+                }
+                else if(style == 'lines')
+                {
+
+                    context.lineCap = 'square';
+                    context.lineWidth = rand1.integer(1, 5);
+                    
+                    var step = rand1.integer(20, 100);
+
+                    function draw(x, y, width, height) 
+                    {
+                      var leftToRight = rand1.integer(0, 1) > 0;
+                      if(leftToRight) {
+                        context.moveTo(x, y);
+                        context.lineTo(x + width, y + height); 
+                        context.strokeStyle = colors[rand1.integer(0, 2)];
+                      } else {
+                        context.moveTo(x + width, y);
+                        context.lineTo(x, y + height);
+                        context.strokeStyle = colors[rand2.integer(0, 2)];
+                      }
+                      context.fillStyle = white;
+                      context.fill();
+                      context.stroke();
+                    }
+                    
+                    context.rect(
+                      0,
+                      0,
+                      canvas.width,
+                      canvas.height
+                    );
+                    context.fillStyle = white;
+                    context.fill();
+
+                    for(var x = 0; x < size; x += step) {
+                      for(var y = 0; y < size; y+= step) {
+                        draw(x, y, step, step);    
+                      }
+                    }
+                }
+                else if(style == 'circles')
+                {
+                    
+                    context.lineWidth = 2;
+  
+                    var circles = [];
+                    var minRadius = 2;
+                    var maxRadius = 100;
+                    var totalCircles = 500;
+                    var createCircleAttempts = 500;
+
+                    function createAndDrawCircle() {
+
+                      var newCircle;
+                      var circleSafeToDraw = false;
+                      for(var tries = 0; tries < createCircleAttempts; tries++) {
+                        newCircle = {
+                          x: Math.floor(rand1.integer(0, size)),
+                          y: Math.floor(rand2.integer(0, size)),
+                          radius: minRadius
+                        }
+
+                        if(doesCircleHaveACollision(newCircle)) {
+                          continue;
+                        } else {
+                          circleSafeToDraw = true;
+                          break;
+                        }
+                      }
+
+                      if(!circleSafeToDraw) {
+                        return;
+                      }
+
+                      for(var radiusSize = minRadius; radiusSize < maxRadius; radiusSize++) {
+                        newCircle.radius = radiusSize;
+                        if(doesCircleHaveACollision(newCircle)){
+                          newCircle.radius--;
+                          break;
+                        } 
+                      }
+
+                      circles.push(newCircle);
+                      context.beginPath();
+                      context.arc(newCircle.x, newCircle.y, newCircle.radius, 0, 2*Math.PI);
+                      context.fillStyle = colors[rand1.integer(0, (colors.length - 1))];
+                      context.fill(); 
+                      context.stroke(); 
+                    }
+
+                    function doesCircleHaveACollision(circle) {
+                      for(var i = 0; i < circles.length; i++) {
+                        var otherCircle = circles[i];
+                        var a = circle.radius + otherCircle.radius;
+                        var x = circle.x - otherCircle.x;
+                        var y = circle.y - otherCircle.y;
+
+                        if (a >= Math.sqrt((x*x) + (y*y))) {
+                          return true;
+                        }
+                      }
+
+                      if(circle.x + circle.radius >= size ||
+                         circle.x - circle.radius <= 0) {
+                        return true;
+                      }
+
+                      if(circle.y + circle.radius >= size ||
+                          circle.y - circle.radius <= 0) {
+                        return true;
+                      }
+
+                      return false;
+                    }
+
+                    for( var i = 0; i < totalCircles; i++ ) {  
+                      createAndDrawCircle();
+                    }
+                }
+                else if(style == 'squares')
+                {
+                    
+                    context.lineWidth = 2;
+                    
+                    var finalSize = 3;
+                    var startSteps;
+                    var offset = 2;
+                    var tileStep = (size - offset * 2) / 7;
+                    var startSize = tileStep;
+                    var directions = [-1, 0, 1];
+
+                    function draw(x, y, width, height, xMovement, yMovement, steps) {
+                      context.beginPath();
+                      context.rect(x, y, width, height);
+                      context.fillStyle = white;
+                      if(rand1.integer(0, 2))
+                      {
+                          context.fillStyle = colors[rand2.integer(0, 2)];
+                      }
+                      context.strokeStyle = colors[rand1.integer(0, 2)];
+                      context.stroke();
+                      context.fill();
+
+                      if(steps >= 0) {
+                        var newSize = (startSize) * (steps / startSteps) + finalSize;
+                        var newX = x + (width - newSize) / 2
+                        var newY = y + (height - newSize) / 2
+                        newX = newX - ((x - newX) / (steps + 2)) * xMovement
+                        newY = newY - ((y - newY) / (steps + 2)) * yMovement
+                        draw(newX, newY, newSize, newSize, xMovement, yMovement, steps - 1);
+                      }
+                    }
+
+                    for( var x = offset; x < size - offset; x += tileStep) {
+                      for( var y = offset; y < size - offset; y += tileStep) {
+                        startSteps = 2 + Math.ceil(rand1.integer(0, 3))
+                        var xDirection = directions[Math.floor(rand1.integer(0, (directions.length -1)))]
+                        var yDirection = directions[Math.floor(rand1.integer(0, (directions.length -1)))]
+                        draw(x, y, startSize, startSize, xDirection, yDirection, startSteps - 1);
+                      }
+                    }
+                }
+            }
         },
         fetch: function(title_of_artist = false, surname_of_artist = false)
         {
@@ -744,7 +1054,6 @@ var pandora = {
     init: {
         artists: function()
         {
-            console.log('init.artists');
             if(
                 typeof params == 'object'
                 && typeof params.name != 'undefined'
@@ -755,6 +1064,19 @@ var pandora = {
                 var name = title + ' ' + surname;
                 var url = 'artists/?name=' + title + '+' + surname;
                 pandora.images.fetch(title, surname);
+                
+                var arts = [
+                    'R',
+                    'G',
+                    'B',
+                    'r',
+                    'g',
+                    'b',
+                    'C',
+                    'M',
+                    'Y'
+                ];
+                
                 render(name, function(avatar = false)
                 {
                     var colours = pandora.images.colours(avatar);
@@ -774,6 +1096,22 @@ var pandora = {
                             jQuery('.section.sub-header.loading').removeClass('loading');
                         }, 350);
                     }
+                });
+                
+                var temp_seed = stringToSeed(name);
+                var styles = [
+                    'mondrian',
+                    'lines',
+                    'circles',
+                    'squares'
+                ];
+                var random = new XorShift128(temp_seed);
+                var style = styles[random.integer(0, (styles.length - 1))];
+                
+                jQuery.each(arts, function(a)
+                {
+                    var seed = stringToSeed(name + a);
+                    pandora.images.draw(seed, 'artist-art-' + a, style);
                 });
             }
             else

@@ -1751,8 +1751,9 @@ var ntc = {
 
 }
 
-function stringToSeed(label)
+function stringToSeed(raw_label)
 {
+    var label = EthJS.Util.sha256(raw_label).toString('hex');
     var path = '';
     var paths = [];
     var units = [];
