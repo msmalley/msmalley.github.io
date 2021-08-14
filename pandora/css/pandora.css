@@ -334,7 +334,7 @@ img {
 }
 canvas.art {
     background-color: #ddc;
-    border: solid 3vmin #eee;
+    border: solid 2vmin #eee;
     border-bottom-color: #fff;
     border-left-color: #eee;
     border-radius: 2px;
@@ -345,7 +345,7 @@ canvas.art {
     display: block;
     height: 100%;
     width: 100%;
-    padding: 6vmin;
+    padding: 4vmin;
     position: relative;
     text-align: center;
 }
@@ -361,13 +361,13 @@ canvas.art:before {
 }
 canvas.art:after {
     border-radius: 2px;
-    bottom: -2.5vmin;
+    bottom: -1.5vmin;
     box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.25);
     content: "";
-    left: -2.5vmin;
+    left: -1.5vmin;
     position: absolute;
-    right: -2.5vmin;
-    top: -2.5vmin;
+    right: -1.5vmin;
+    top: -1.5vmin;
 }
 
 /*

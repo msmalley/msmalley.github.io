@@ -128,6 +128,73 @@ var pandora = {
             });
             return colours;
         },
+        convert: function(title_of_artist = false, surname_of_artist = false)
+        {
+            if(title_of_artist && surname_of_artist)
+            {
+                jQuery('canvas.art').each(function(i)
+                {
+                    jQuery(this).attr('id', 'new-art-' + i);
+                    var canvas = document.getElementById('new-art-' + i);
+                    var data = canvas.toDataURL();
+                    var img = new Image();
+                    img.addEventListener('load', function() 
+                    {
+                        var acolours = [];
+                        var p = colorThief.getPalette(img, 5);
+                        acolours.push({
+                            hex: rgbToHex(p[0][0], p[0][1], p[0][2]),
+                            name: ntc.name(rgbToHex(p[0][0], p[0][1], p[0][2]))[1]
+                        });
+                        acolours.push({
+                            hex: rgbToHex(p[1][0], p[1][1], p[1][2]),
+                            name: ntc.name(rgbToHex(p[1][0], p[1][1], p[1][2]))[1]
+                        });
+                        acolours.push({
+                            hex: rgbToHex(p[2][0], p[2][1], p[2][2]),
+                            name: ntc.name(rgbToHex(p[2][0], p[2][1], p[2][2]))[1]
+                        });
+                        acolours.push({
+                            hex: rgbToHex(p[3][0], p[3][1], p[3][2]),
+                            name: ntc.name(rgbToHex(p[3][0], p[3][1], p[3][2]))[1]
+                        });
+                        acolours.push({
+                            hex: rgbToHex(p[4][0], p[4][1], p[4][2]),
+                            name: ntc.name(rgbToHex(p[4][0], p[4][1], p[4][2]))[1]
+                        });
+                        var matt_colour = jQuery.xcolor.opacity('#eee', acolours[1].hex, 0.15);
+                        var frame_colour = jQuery.xcolor.opacity('#eee', acolours[0].hex, 0.15);
+                        var frame_colour_darker = jQuery.xcolor.opacity('#eee', acolours[0].hex, 0.2);
+                        var insert_colour = jQuery.xcolor.opacity('#eee', acolours[2].hex, 0.15);
+                        var gradient_top = jQuery.xcolor.opacity('#eee', acolours[3].hex, 0.15);
+                        var gradient_bottom = jQuery.xcolor.opacity('#aaa', acolours[4].hex, 0.15);
+
+                        jQuery(canvas).css({background: matt_colour});
+                        //jQuery('.frame img').css({'border-color': insert_colour});
+                        jQuery(canvas).css({'border-left-color': frame_colour});
+                        jQuery(canvas).css({'border-right-color': frame_colour});
+                        jQuery(canvas).css({'border-top-color': frame_colour_darker});
+                        jQuery(canvas).css({'border-bottom-color': frame_colour_darker});
+                    });
+                    img.crossOrigin = 'Anonymous';
+                    img.src = data;
+                    img.width = canvas.width;
+                    img.height = canvas.height;
+                });
+            }
+            else
+            {
+                jQuery('.nft-image').attr('src', 'https://picsum.photos/200/300');
+                jQuery('.nft-image').load(function()
+                {
+                    pandora.images.generate(
+                        jQuery('.nft-image').attr('src'),
+                        title_of_artist,
+                        surname_of_artist
+                    );
+                });
+            }
+        },
         description: function(colours, callback, homepage = true, title_of_artist = false, surname_of_artist = false)
         {
             var words = en_US();
@@ -1113,6 +1180,8 @@ var pandora = {
                     var seed = stringToSeed(name + a);
                     pandora.images.draw(seed, 'artist-art-' + a, style);
                 });
+                
+                pandora.images.convert(title, surname);
             }
             else
             {
