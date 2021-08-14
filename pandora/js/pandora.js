@@ -672,10 +672,7 @@ var pandora = {
             }
             function resizeMound()
             {
-                if(page_id == 'body-index' || page_id == 'body-artists')
-                {
-                    pandora.resizes.home();
-                }
+                pandora.resizes.home();
             }
             img.addEventListener('load', function() 
             {
@@ -1198,7 +1195,7 @@ var pandora = {
         },
         gallery: function()
         {
-            console.log('init.gallery');
+            pandora.images.fetch();
         },
         home: function()
         {
@@ -1207,7 +1204,7 @@ var pandora = {
         },
         studio: function()
         {
-            console.log('init.studio');
+            pandora.images.fetch();
         }
     },
     resizes: {
