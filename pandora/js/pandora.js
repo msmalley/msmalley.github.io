@@ -332,7 +332,9 @@ var pandora = {
                 {
                     
                     context.lineWidth = 8;
+                    context.lineWidth = rand1.integer(2, 16);
                     var step = size / 7;
+                    var step = size / rand2.integer(3, 14);
 
                     var squares = [{
                         x: 0,
@@ -473,13 +475,13 @@ var pandora = {
                 else if(style == 'circles')
                 {
                     
-                    context.lineWidth = 2;
+                    context.lineWidth = rand1.integer(1, 5);
   
                     var circles = [];
-                    var minRadius = 2;
-                    var maxRadius = 100;
-                    var totalCircles = 500;
-                    var createCircleAttempts = 500;
+                    var minRadius = rand2.integer(1, 5);
+                    var maxRadius = rand1.integer(5, 100) + rand2.integer(5, 100);
+                    var totalCircles = rand1.integer(10, 1000);
+                    var createCircleAttempts = rand2.integer(10, 1000);
 
                     function createAndDrawCircle() {
 
@@ -516,6 +518,7 @@ var pandora = {
                       context.beginPath();
                       context.arc(newCircle.x, newCircle.y, newCircle.radius, 0, 2*Math.PI);
                       context.fillStyle = colors[rand1.integer(0, (colors.length - 1))];
+                      context.strokeStyle = white;
                       context.fill(); 
                       context.stroke(); 
                     }
@@ -553,11 +556,14 @@ var pandora = {
                 {
                     
                     context.lineWidth = 2;
+                    context.lineWidth = rand1.integer(1, 4);
                     
                     var finalSize = 3;
+                    var finalSize = rand1.integer(4, 8);
                     var startSteps;
                     var offset = 2;
                     var tileStep = (size - offset * 2) / 7;
+                    var tileStep = (size - offset * 2) / rand1.integer(3, 14);
                     var startSize = tileStep;
                     var directions = [-1, 0, 1];
 
