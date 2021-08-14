@@ -610,6 +610,7 @@ var pandora = {
             if(
                 typeof params == 'object'
                 && typeof params.term != 'undefined'
+                && params.term
             ){
 
                 var index = 0;
@@ -1131,13 +1132,14 @@ var pandora = {
             if(
                 typeof params == 'object'
                 && typeof params.name != 'undefined'
+                && params.name
             ){
                 var names = params.name.split('+');
                 var title = names[0][0].toUpperCase() + names[0].substring(1);
-                var surname = names[1];
-                if(!surname)
+                var surname = getRelevantRandomWord('surname', 'all', false, stringToSeed(title));
+                if(names.length > 1)
                 {
-                    surname = getRelevantRandomWord('surname', 'all', false, stringToSeed(title));
+                    surname = names[1][0].toUpperCase() + names[1].substring(1);
                 }
                 var name = title + ' ' + surname;
                 var url = 'artists/?name=' + title + '+' + surname;
