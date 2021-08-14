@@ -895,6 +895,8 @@ var pandora = {
                         }
 
                         draw();
+                        
+                        jQuery('.section.iframe').show();
 
                         // Set resize event ...
                         jQuery(window).resize(function()
@@ -1093,6 +1095,7 @@ var pandora = {
                                     console.log('err2', err)
                                 }
                             }
+                            jQuery('.section.iframe').show();
                             setTimeout(function()
                             {
                                 resizeMound();
@@ -1130,8 +1133,12 @@ var pandora = {
                 && typeof params.name != 'undefined'
             ){
                 var names = params.name.split('+');
-                var title = names[0];
+                var title = names[0][0].toUpperCase() + names[0].substring(1);
                 var surname = names[1];
+                if(!surname)
+                {
+                    surname = getRelevantRandomWord('surname', 'all', false, stringToSeed(title));
+                }
                 var name = title + ' ' + surname;
                 var url = 'artists/?name=' + title + '+' + surname;
                 pandora.images.fetch(title, surname);
