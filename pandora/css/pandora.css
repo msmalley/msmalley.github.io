@@ -53,6 +53,12 @@ a:focus {
     opacity: 0.85;
 }
 
+.btn-blocks {
+    display: block;
+    width: 100%;
+    text-align: center;
+}
+
 /* 
 
 HEADER
