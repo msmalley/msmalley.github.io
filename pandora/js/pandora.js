@@ -271,11 +271,10 @@ var pandora = {
 
                 var intro = 'Prominent ' + colour1 + ' ' + job1 + ' framed by ' + colour2 + ' upon a ' + colour3 + ' canvas invoke memories of ' + colour4 + ' ' + substance1 + ' during ' + time2 + '.';
                 
-                var actions = '<hr><div class="btn-group art-actions" role="group">';
-                actions+= '<a href="#" class="btn btn-outline-dark">INFO</a>';
-                actions+= '<a href="#" class="btn btn-outline-dark">MINT</a>';
-                actions+= '<a href="#" class="btn btn-outline-dark">SHARE</a>';
-                actions+= '<a href="#" class="btn btn-outline-dark">NEW</a>';
+                var actions = '<hr><div class="btn-group btn-block art-actions" role="group" style="display: flex;">';
+                actions+= '<a href="#" class="btn btn-outline-dark" style="flex: 1">INFO</a>';
+                actions+= '<a href="#" class="btn btn-outline-dark" style="flex: 1">MINT</a>';
+                actions+= '<a href="#" class="btn btn-outline-dark" style="flex: 1">NEW</a>';
                 actions+= '</div>';
 
                 var html = '<h4 class="inline">' + name_of_image + '</h4> <h6 class="inline">by <b><a href="' + url + '">' + name_of_artist + '</a></b></h6><hr class="card-line">' + intro + actions;

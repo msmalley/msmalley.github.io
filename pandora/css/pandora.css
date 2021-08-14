@@ -348,6 +348,7 @@ canvas.art {
     padding: 4vmin;
     position: relative;
     text-align: center;
+    margin-bottom: 15px;
 }
 canvas.art:before {
     border-radius: 2px;
@@ -375,6 +376,7 @@ canvas.art:after {
 CARD
 
 */
+
 .mound {
     align-items: center;
     background: linear-gradient(-45deg, rgba(0,0,0,0.2), rgba(255,255,255,0.2));
@@ -434,6 +436,16 @@ html.full .frame {
     position: relative;
     text-align: center;
     vertical-align: top;
+}
+
+/*
+
+RE-RESETS
+
+*/
+
+.row.frames .col-md-4 {
+    margin-bottom: 30px;
 }
 
 /*
@@ -526,5 +538,9 @@ RESPONSIVE
     }
     div.section.sub-header.altered h4.orbed {
         padding-right: 0;
+    }
+    nav#navigation .navbar-nav .nav-link {
+        text-align: center;
+        padding: 2rem;
     }
 }
