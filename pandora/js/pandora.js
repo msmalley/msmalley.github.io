@@ -1191,6 +1191,7 @@ var pandora = {
             else
             {
                 jQuery('.artist-info').hide();
+                jQuery('.artist-intro-intro').text('There are');
                 jQuery('.section.sub-header .container.relative').removeClass('relative');
                 jQuery('.section.sub-header.loading').removeClass('loading');
             }
