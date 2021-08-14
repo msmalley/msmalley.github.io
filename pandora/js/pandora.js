@@ -67,13 +67,15 @@ var pandora = {
             if(gender == 'male') child_status_intro = 'Athough he';
             else if(gender == 'female') child_status_intro = 'Athough she';
             var child_status = child_status_intro + ' has no ' + colour3 + ' children, ' + firstname + ' does plan to get married soon';
+            
+            var child_job = getRelevantRandomWord('noun', 'job', false, parseInt('' + number_of_children + seed + ''));
+            
             if(number_of_children == 1)
             {
-                child_status = 'Married last year and recently giving birth to ' + gender_term + ' first ' + colour3 + ' child';
+                child_status = 'Married to an ' + child_job + ' last year; they recently gave birth to their first ' + colour3 + ' child';
             }
             else if(number_of_children > 1)
             {
-                var child_job = getRelevantRandomWord('noun', 'job', false, parseInt('' + number_of_children + seed + ''));
                 child_status = 'Married with ' + number_of_children + ' children, one of which is studying to become a ' + colour3 + ' ' + child_job;
             }
             var description = firstname + ' ' + surname + ' is currently ' + commitment_type + ' ' + colour1 + ' ' + job + ', but would rather work on ' + gender_term + ' ' + colour2 + ' art instead. ' + child_status + '.';
