@@ -90,7 +90,12 @@ var pandora = {
             
             if(number_of_children == 1)
             {
-                child_status = 'Married to an ' + child_job + ' last year; they recently gave birth to their first ' + colour3 + ' child';
+                var this_verb = 'a';
+                if(child_job.match('^[aieouAIEOU].*'))
+                {
+                   this_verb = 'an';
+                }
+                child_status = 'Married to ' + this_verb + ' ' + child_job + ' last year; they recently gave birth to their first ' + colour3 + ' child';
             }
             else if(number_of_children > 1)
             {
