@@ -35,7 +35,6 @@ var pandora = {
                 || title == 'Papa'
                 || title == 'Prince'
                 || title == 'Sir'
-                || percent < 50
             ){
                 gender = 'male';
                 gender_term = 'his';
@@ -51,6 +50,18 @@ var pandora = {
                 || title == 'Queen'
                 || percent > 49
             ){
+                gender = 'female';
+                gender_term = 'her';
+                gender_termed = 'She';
+            }
+            else if(percent < 50)
+            {
+                gender = 'male';
+                gender_term = 'his';
+                gender_termed = 'He';
+            }
+            else if(percent > 49)
+            {
                 gender = 'female';
                 gender_term = 'her';
                 gender_termed = 'She';
@@ -149,6 +160,7 @@ var pandora = {
                 jQuery('canvas.art').each(function(i)
                 {
                     jQuery(this).attr('id', 'new-art-' + i);
+                    var wrapper = jQuery(this).parent();
                     var canvas = document.getElementById('new-art-' + i);
                     var data = canvas.toDataURL();
                     var img = new Image();
@@ -189,6 +201,7 @@ var pandora = {
                         jQuery(canvas).css({'border-right-color': frame_colour});
                         jQuery(canvas).css({'border-top-color': frame_colour_darker});
                         jQuery(canvas).css({'border-bottom-color': frame_colour_darker});
+                        jQuery(wrapper).removeClass('loading');
                     });
                     img.crossOrigin = 'Anonymous';
                     img.src = data;
@@ -287,8 +300,8 @@ var pandora = {
                 
                 var actions = '<hr><div class="btn-group btn-block art-actions" role="group" style="display: flex;">';
                 actions+= '<a href="#" class="btn btn-outline-dark" style="flex: 1">INFO</a>';
-                actions+= '<a href="#" class="btn btn-outline-dark" style="flex: 1">MINT</a>';
-                actions+= '<a href="#" class="btn btn-outline-dark" style="flex: 1">NEW</a>';
+                actions+= '<a href="#" class="btn btn-outline-dark" style="flex: 1">GENERATE</a>';
+                actions+= '<a href="#" class="btn btn-outline-dark" style="flex: 1">SPAWN</a>';
                 actions+= '</div>';
 
                 var html = '<h4 class="inline">' + name_of_image + '</h4> <h6 class="inline">by <b><a href="' + url + '">' + name_of_artist + '</a></b></h6><hr class="card-line">' + intro + actions;
@@ -1180,8 +1193,8 @@ var pandora = {
                     var description = pandora.artists.description(title, surname, colours, forced_first_name);
                     description+= '<hr><div class="btn-group" role="group">';
                         description+= '<a href="#" class="btn btn-outline-dark">LEARN MORE</a>';
-                        description+= '<a href="#" class="btn btn-outline-dark">SPONSOR ME</a>';
                         description+= '<a href="#" class="btn btn-outline-dark">COMMISSION ART</a>';
+                        description+= '<a href="#" class="btn btn-outline-dark">SPONSOR ME</a>';
                     description+= '</div>';
                     if(avatar)
                     {

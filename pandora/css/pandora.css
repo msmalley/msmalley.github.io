@@ -67,7 +67,7 @@ HEADER
 
 nav#navigation {
     border-bottom: 3px double #757575;
-    z-index: 99999;
+    z-index: 9999999;
 }
 .navbar-brand b {
     color: #fd50af;
@@ -245,6 +245,8 @@ html body, html, body {
 .section.sub-header {
     position: relative;
 }
+.artistic.loading:before,
+.frames canvas.art.loading:before,
 .section.sub-header.loading:before,
 .section.iframe.loading:before {
     content: "";
@@ -259,6 +261,8 @@ html body, html, body {
     width: 100%;
     height: 100%;
 }
+.artistic.loading:after,
+.frames canvas.art.loading:after,
 .section.sub-header.loading:after,
 .section.iframe.loading:after {
     content: "GENERATING ART";
@@ -276,6 +280,21 @@ html body, html, body {
     background-size: 100%;
     animation: none;
     width: 100%;
+}
+.artistic.loading:before {
+    content: "";
+    top: -10px;
+    left: -10px;
+    right: -10px;
+    bottom: 0;
+    background: #FFF;
+    z-index: 9999;
+    width: calc(100% + 20px);
+    height: calc(100% + 30px);
+    box-shadow: none;
+}
+.artistic.loading:after {
+    content: "FETCHING";
 }
 .frame img {
     min-height: 100%;
