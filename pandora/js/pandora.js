@@ -18,13 +18,15 @@ if(p)
 
 var pandora = {
     artists: {
-        description: function(title, surname, colours)
+        description: function(title, surname, colours, forced_first_name)
         {
             var gender = 'all';
             var gender_term = 'it\'s';
             var gender_termed = 'It';
             var name = title + ' ' + surname;
             var seed = stringToSeed(name);
+            var random = new XorShift128(seed);
+            var percent = random.integer(0, 99);
             if(
                 title == 'Daddy'
                 || title == 'King'
@@ -33,6 +35,7 @@ var pandora = {
                 || title == 'Papa'
                 || title == 'Prince'
                 || title == 'Sir'
+                || percent < 50
             ){
                 gender = 'male';
                 gender_term = 'his';
@@ -46,13 +49,18 @@ var pandora = {
                 || title == 'Mrs.'
                 || title == 'Ms'
                 || title == 'Queen'
+                || percent > 49
             ){
                 gender = 'female';
                 gender_term = 'her';
                 gender_termed = 'She';
             }
+
             var job = getRelevantRandomWord('noun', 'job', false, seed);
             var firstname = getRelevantRandomWord('firstname', gender, false, seed);
+            
+            if(forced_first_name) firstname = forced_first_name;
+            
             var commitments = [
                 'a professional',
                 'an amateur'
@@ -60,7 +68,6 @@ var pandora = {
             var colour1 = colours[0].name.toLowerCase();
             var colour2 = colours[1].name.toLowerCase();
             var colour3 = colours[2].name.toLowerCase();
-            var random = new XorShift128(seed);
             var number_of_children = random.integer(0, 5);
             var commitment_type = commitments[random.integer(0, (commitments.length - 1))];
             var child_status_intro = 'Although it';
@@ -76,7 +83,12 @@ var pandora = {
             }
             else if(number_of_children > 1)
             {
-                child_status = 'Married with ' + number_of_children + ' children, one of which is studying to become a ' + colour3 + ' ' + child_job;
+                var this_verb = 'a';
+                if(colour3.match('^[aieouAIEOU].*'))
+                {
+                   this_verb = 'an';
+                }
+                child_status = 'Married with ' + number_of_children + ' children, one of which is studying to become ' + this_verb + ' ' + colour3 + ' ' + child_job;
             }
             var description = firstname + ' ' + surname + ' is currently ' + commitment_type + ' ' + colour1 + ' ' + job + ', but would rather work on ' + gender_term + ' ' + colour2 + ' art instead. ' + child_status + '.';
             return description;
@@ -1134,12 +1146,17 @@ var pandora = {
                 && typeof params.name != 'undefined'
                 && params.name
             ){
+                var forced_first_name = false;
                 var names = params.name.split('+');
                 var title = names[0][0].toUpperCase() + names[0].substring(1);
                 var surname = getRelevantRandomWord('surname', 'all', false, stringToSeed(title));
                 if(names.length > 1)
                 {
                     surname = names[1][0].toUpperCase() + names[1].substring(1);
+                }
+                else
+                {
+                    forced_first_name = title;
                 }
                 var name = title + ' ' + surname;
                 var url = 'artists/?name=' + title + '+' + surname;
@@ -1160,13 +1177,18 @@ var pandora = {
                 render(name, function(avatar = false)
                 {
                     var colours = pandora.images.colours(avatar);
-                    var description = pandora.artists.description(title, surname, colours);
+                    var description = pandora.artists.description(title, surname, colours, forced_first_name);
+                    description+= '<hr><div class="btn-group" role="group">';
+                        description+= '<a href="#" class="btn btn-outline-dark">LEARN MORE</a>';
+                        description+= '<a href="#" class="btn btn-outline-dark">SPONSOR ME</a>';
+                        description+= '<a href="#" class="btn btn-outline-dark">COMMISSION ART</a>';
+                    description+= '</div>';
                     if(avatar)
                     {
                         jQuery('.section.sub-header').addClass('altered');
                         jQuery('.section.sub-header .amatic').css({marginTop: 100});
                         jQuery('.section.sub-header .amatic').text(name);
-                        jQuery('.section.sub-header .orb').text(description);
+                        jQuery('.section.sub-header .orb').html(description);
                         jQuery('.section.sub-header .orb').addClass('orbed');
                         jQuery('.section.sub-header .orb').removeClass('orb');
                         jQuery('.section.sub-header .artist').prepend(avatar);
@@ -1176,7 +1198,7 @@ var pandora = {
                             jQuery('.section.sub-header.loading').removeClass('loading');
                         }, 350);
                     }
-                });
+                }, forced_first_name);
                 
                 var temp_seed = stringToSeed(name);
                 var styles = [
