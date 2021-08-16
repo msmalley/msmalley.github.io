@@ -331,7 +331,8 @@ var pandora = {
                     'checkers',
                     'chips',
                     'triangles',
-                    'spirals'
+                    'spirals',
+                    'vee'
                 ];
                 if(
                     !style
@@ -348,6 +349,7 @@ var pandora = {
                             && style != 'chips'
                             && style != 'triangles'
                             && style != 'spirals'
+                            && style != 'vee'
                         )
                     )
                 ){
@@ -370,10 +372,128 @@ var pandora = {
                     '#' + ntc.randomColour(stringToSeed('F7' + seed))
                 ];
                 
-                //style = 'spirals';
+                //style = 'vee';
                 //console.log('style', style);
                 
-                if(style == 'spirals')
+                if(style == 'vee')
+                {
+                    class Point {
+                      constructor (x, y) {
+                        this.x = x
+                        this.y = y
+                      }
+                    }
+
+                    class Triangle {
+                      constructor (a, b, c, angle, height) {
+                        this.a = a
+                        this.b = b
+                        this.c = c
+                        this.angle = angle
+                        this.height = height
+                      }
+
+                      draw (ctx, color, steps, stepSize, lineWidth) {
+                        ctx.fillStyle = colors[rand1.integer(0, 2)];
+                        ctx.lineWidth = lineWidth
+                        ctx.beginPath();
+                        ctx.moveTo(this.a.x, this.a.y)
+                        ctx.lineTo(this.b.x, this.b.y)
+                        ctx.lineTo(this.c.x, this.c.y)
+                        ctx.lineTo(this.a.x, this.a.y)
+                        ctx.strokeStyle = colors[rand2.integer(0, 2)];
+                        ctx.fill();
+                        ctx.stroke();
+                        ctx.closePath();
+
+                        var height = Math.sqrt(Math.pow(this.height, 2)) - this.height / 2
+                        var d = new Point((this.b.x + this.c.x) / 2, (this.b.y + this.c.y) / 2)
+
+                        // Draw inner lines
+                        ctx.strokeStyle = 'white'
+                        ctx.lineWidth = lineWidth
+
+                        for (var i = 1; i <= steps; i++) {
+                          var r = (stepSize * i) / height
+                          var c = new Point(
+                            this.a.x + (d.x - this.a.x) * r,
+                            this.a.y + (d.y - this.a.y) * r,
+                          )
+                          var innerTriangle = newTriangle(c, this.angle, this.height - r * this.height)
+                          ctx.beginPath();
+                          ctx.moveTo(innerTriangle.a.x, innerTriangle.a.y)
+                          ctx.lineTo(innerTriangle.b.x, innerTriangle.b.y)
+                          ctx.moveTo(innerTriangle.a.x, innerTriangle.a.y)
+                          ctx.lineTo(innerTriangle.c.x, innerTriangle.c.y)
+                          ctx.strokeStyle = colors[rand2.integer(0, 2)];
+                          ctx.stroke();
+                          ctx.closePath();
+                        }
+
+                        // Draw white hollow part
+
+                        var r = (stepSize * steps) / height
+                        var c = new Point(
+                          this.a.x + (d.x - this.a.x) * r,
+                          this.a.y + (d.y - this.a.y) * r,
+                        )
+                        var innerTriangle = newTriangle(c, this.angle, this.height - r * this.height)
+                        ctx.beginPath();
+                        ctx.moveTo(innerTriangle.a.x, innerTriangle.a.y)
+                        ctx.lineTo(innerTriangle.b.x, innerTriangle.b.y)
+                        ctx.lineTo(innerTriangle.c.x, innerTriangle.c.y)
+                        ctx.lineTo(innerTriangle.a.x, innerTriangle.a.y)
+                        ctx.fillStyle = colors[rand2.integer(0, 2)];
+                        ctx.strokeStyle = colors[rand1.integer(0, 2)];
+                        ctx.fill();
+                        ctx.stroke();
+                        ctx.closePath();
+                      }
+                    }
+
+                    function degreesToRadians(angle) {
+                      return angle * Math.PI / 180
+                    }
+
+                    function newTriangle(center, angle, height) {
+                      var b = new Point(
+                        height * Math.cos(degreesToRadians(angle - 30)) + center.x,
+                        height * Math.sin(degreesToRadians(angle - 30)) + center.y
+                      )
+                      var c = new Point(
+                        height * Math.cos(degreesToRadians(angle + 30)) + center.x,
+                        height * Math.sin(degreesToRadians(angle + 30)) + center.y
+                      )
+                      return new Triangle(center, b, c, angle, height)
+                    }
+
+                    // Begin drawing
+                    //var canvas = document.getElementById('doodle')
+                    var ctx = context;
+                    
+                    var point1 = rand1.integer(0, canvas.width / 2);
+                    var point2 = rand2.integer(0, canvas.height / 2);
+                    
+                    context.rect(
+                      0,
+                      0,
+                      canvas.width,
+                      canvas.height
+                    );
+                    context.fillStyle = white;
+                    context.fill();
+
+                    //newTriangle(new Point(450, 100), -210, 400).draw(ctx, colors[0], 8, 15, 3);
+                    
+                    var gap_width = rand1.integer(5, 50);
+                    var white_line = rand2.integer(1, 10);
+                    var was_eight = rand1.integer(1, 10);
+                    
+                    newTriangle(new Point(point1, point2), 100 - point1, 400).draw(ctx, colors[0], was_eight, gap_width, white_line)
+                    newTriangle(new Point(point1, point2), 50 - point1, 400).draw(ctx, colors[1], was_eight, gap_width, white_line)
+                    newTriangle(new Point(point1, point2), 0 - point1, 400).draw(ctx, colors[2], was_eight, gap_width, white_line)
+                }
+                else if(style == 'spirals')
                 {
                     class Point {
                       constructor (x, y) {
@@ -1508,7 +1628,8 @@ var pandora = {
                     'checkers',
                     'chips',
                     'triangles',
-                    'spirals'
+                    'spirals',
+                    'vee'
                 ];
                 var random = new XorShift128(temp_seed);
                 var style = styles[random.integer(0, (styles.length - 1))];
@@ -1533,6 +1654,82 @@ var pandora = {
         gallery: function()
         {
             pandora.images.fetch();
+            console.log('params.style', params.style);
+            if(
+                typeof params == 'object'
+                && typeof params.style != 'undefined'
+                && params.style
+            ){
+                var ts = new Date().getTime();
+                var style = params.style;
+                if(
+                    params.style != 'mondrian'
+                    && params.style != 'lines'
+                    && params.style != 'circles'
+                    && params.style != 'squares'
+                    && params.style != 'checkers'
+                    && params.style != 'chips'
+                    && params.style != 'triangles'
+                    && params.style != 'spirals'
+                    && params.style != 'vee'
+                ){
+                    ts = params.style;
+                }
+                
+                var arts = [
+                    'R'+ts,
+                    'G'+ts,
+                    'B'+ts,
+                    'r'+ts,
+                    'g'+ts,
+                    'b'+ts,
+                    'C'+ts,
+                    'M'+ts,
+                    'Y'+ts
+                ];
+                jQuery.each(arts, function(a)
+                {
+                    
+                    var seed = stringToSeed(params.style + ts + a);
+                    
+                    if(
+                        params.style != 'mondrian'
+                        && params.style != 'lines'
+                        && params.style != 'circles'
+                        && params.style != 'squares'
+                        && params.style != 'checkers'
+                        && params.style != 'chips'
+                        && params.style != 'triangles'
+                        && params.style != 'spirals'
+                        && params.style != 'vee'
+                    ){
+                        var styles = [
+                            'mondrian',
+                            'lines',
+                            'circles',
+                            'squares',
+                            'checkers',
+                            'chips',
+                            'triangles',
+                            'spirals',
+                            'vee'
+                        ];
+                        var random = new XorShift128(seed);
+                        style = styles[random.integer(0, (styles.length - 1))];
+                        ts = params.style;
+                    }
+                    
+                    pandora.images.draw(seed, 'artist-art-' + a, style);
+                });
+                pandora.images.convert(params.style, arts[0]);
+                jQuery('.art-filters .btn.active').removeClass('active');
+                jQuery('.btn-' + params.style).addClass('active');
+            }
+            else
+            {
+                jQuery('.artist-info').hide();
+                //jQuery('.alert-filter').html('<p>&nbsp;</p><h6 class="pstart" style="line-height: 2rem;">Our latest artwork can be seen below!</h6><p>&nbsp;</p>');
+            }
         },
         home: function()
         {

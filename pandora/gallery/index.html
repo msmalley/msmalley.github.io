@@ -15,6 +15,8 @@
         <script type="text/javascript" src="../js/colorthief.js"></script>
         <script type="text/javascript" src="../js/xcolor.js"></script>
         <script type="text/javascript" src="../js/draw.js"></script>
+        <script type="text/javascript" src="../js/triangles.js"></script>
+        <script type="text/javascript" src="../js/checkers.js"></script>
         <script type="text/javascript" src="../js/ethereum-tx.js"></script>
     </head>
     <body id="body-gallery" data-robohash="../img/robohash/set1.png">
@@ -27,7 +29,7 @@
                 <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
                     <div class="navbar-nav ms-auto orb">
                         <a class="nav-link" href="../">about</a>
-                        <a class="nav-link active" aria-current="page" href="">gallery</a>
+                        <a class="nav-link active" aria-current="page" href="../gallery/">gallery</a>
                         <a class="nav-link" href="../studio/">studio</a>
                         <a class="nav-link" href="../artists/">artists</a>
                     </div>
@@ -36,17 +38,100 @@
         </nav>
         <div class="section sub-header">
             <div class="container">
-                <h2 class="amatic">Search For Art</h2>
-                <h4 class="orb" style="opacity:0.35">or show specific piece?</h4>
+                <h2 class="amatic">Search For Specific Art</h2>
+                <h4 class="orb">
+                    <p>&nbsp;</p>
+                    <form action="" method="get">
+                        <div class="row">
+                            <div class="col-md-8">
+                                <input type="text" class="form-control" placeholder="Search for anything ..." style="opacity: 0.75;" id="style" name="style" />
+                                <p>&nbsp;</p>
+                            </div>
+                            <div class="col-md-4">
+                                <button type="submit" class="btn btn-blocks btn-outline-dark">SEARCH</button>
+                                <p>&nbsp;</p>
+                            </div>
+                        </div>
+                    </form>
+                </h4>
                 <div class="artist"></div>
             </div>
         </div>
         <div class="section">
             <div class="container">
-                <p>&nbsp;</p>
+                <alert class="alert text-center alert-filter">
+                    <p>&nbsp;</p>
+                    <h6 class="pstart" style="line-height: 2rem;">Browse Styles</h6>
+                    <div class="btn-group btn-block art-filters" role="group" style="display: flex;">
+                        <a href="../gallery/?style=mondrian" class="btn btn-sm btn-outline-dark btn-mondrian" style="flex: 1">
+                            MONDRIAN
+                        </a>
+                        <a href="../gallery/?style=lines" class="btn btn-sm btn-outline-dark btn-lines" style="flex: 1">
+                            LINES
+                        </a>
+                        <a href="../gallery/?style=circles" class="btn btn-sm btn-outline-dark btn-circles" style="flex: 1">
+                            CIRCLES
+                        </a>
+                        <a href="../gallery/?style=squares" class="btn btn-sm btn-outline-dark btn-squares" style="flex: 1">
+                            SQUARES
+                        </a>
+                        <a href="../gallery/?style=checkers" class="btn btn-sm btn-outline-dark btn-checkers" style="flex: 1">
+                            CHECKERS
+                        </a>
+                        <a href="../gallery/?style=chips" class="btn btn-sm btn-outline-dark btn-chips" style="flex: 1">
+                            CHIPS
+                        </a>
+                        <a href="../gallery/?style=triangles" class="btn btn-sm btn-outline-dark btn-triangles" style="flex: 1">
+                            TRIANGLES
+                        </a>
+                        <a href="../gallery/?style=spirals" class="btn btn-sm btn-outline-dark btn-spirals" style="flex: 1">
+                            SPIRALS
+                        </a>
+                        <a href="../gallery/?style=vee" class="btn btn-sm btn-outline-dark btn-vee" style="flex: 1">
+                            VEE
+                        </a>
+                    </div>
+                    <p>&nbsp;</p>
+                </alert>
+                <div class="artist-info">
+                    <div class="row frames">
+                        <div class="col-md-4 artistic loading relative">
+                            <canvas id="artist-art-0" class="art" width="300" height="300"></canvas>
+                        </div>
+                        <div class="col-md-4 artistic loading relative">
+                            <canvas id="artist-art-1" class="art" width="300" height="300"></canvas>
+                        </div>
+                        <div class="col-md-4 artistic loading relative">
+                            <canvas id="artist-art-2" class="art" width="300" height="300"></canvas>
+                        </div>
+                    </div>
+                    <div class="row frames">
+                        <div class="col-md-4 artistic loading relative">
+                            <canvas id="artist-art-3" class="art" width="300" height="300"></canvas>
+                        </div>
+                        <div class="col-md-4 artistic loading relative">
+                            <canvas id="artist-art-4" class="art" width="300" height="300"></canvas>
+                        </div>
+                        <div class="col-md-4 artistic loading relative">
+                            <canvas id="artist-art-5" class="art" width="300" height="300"></canvas>
+                        </div>
+                    </div>
+                    <div class="row frames">
+                        <div class="col-md-4 artistic loading relative">
+                            <canvas id="artist-art-6" class="art" width="300" height="300"></canvas>
+                        </div>
+                        <div class="col-md-4 artistic loading relative">
+                            <canvas id="artist-art-7" class="art" width="300" height="300"></canvas>
+                        </div>
+                        <div class="col-md-4 artistic loading relative">
+                            <canvas id="artist-art-8" class="art" width="300" height="300"></canvas>
+                        </div>
+                    </div>
+                </div>
                 <alert class="alert text-center">
                     <p>&nbsp;</p>
-                    <h4 class="pstart" style="line-height:3rem;">The Pandora Initiative is a creative collective of approximately <b class="member-count">3,264,429</b> artifically random intelligent artists. Our most recent artwork can be seen below!</h4>
+                    <h6 class="pstart" style="line-height: 2rem;">Alternatively...</h6>
+                    <h6 class="pstart" style="line-height: 2rem;">You may enjoy our experiemental artwork, as seen below!</h6>
                     <p>&nbsp;</p>
                 </alert>
             </div>

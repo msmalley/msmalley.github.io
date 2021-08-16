@@ -572,3 +572,12 @@ RESPONSIVE
         padding: 2rem;
     }
 }
+@media(max-width:767px){
+    .art-filters {
+        display: block !important;
+    }
+    .art-filters .btn-outline-dark {
+        flex: none !important;
+        margin: 5px;
+    }
+}
