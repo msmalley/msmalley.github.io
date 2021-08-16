@@ -573,8 +573,6 @@ RESPONSIVE
         text-align: center;
         padding: 2rem;
     }
-}
-@media(max-width:767px){
     .btn-group {
         display: block !important;
     }
@@ -582,4 +580,7 @@ RESPONSIVE
         flex: none !important;
         margin: 5px;
     }
+}
+@media(max-width:767px){
+    
 }
