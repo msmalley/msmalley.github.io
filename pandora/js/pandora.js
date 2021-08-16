@@ -330,7 +330,8 @@ var pandora = {
                     'squares',
                     'checkers',
                     'chips',
-                    'triangles'
+                    'triangles',
+                    'spirals'
                 ];
                 if(
                     !style
@@ -346,6 +347,7 @@ var pandora = {
                             && style != 'checkers'
                             && style != 'chips'
                             && style != 'triangles'
+                            && style != 'spirals'
                         )
                     )
                 ){
@@ -368,10 +370,173 @@ var pandora = {
                     '#' + ntc.randomColour(stringToSeed('F7' + seed))
                 ];
                 
-                //style = 'triangles';
+                //style = 'spirals';
                 //console.log('style', style);
                 
-                if(style == 'triangles')
+                if(style == 'spirals')
+                {
+                    class Point {
+                      constructor (x, y) {
+                        this.x = x
+                        this.y = y
+                      }
+                    }
+                    
+                    var rad = 0.1;
+                    if(rand2.integer(0, 1))
+                    {
+                        rad = parseFloat('0.0' + rand1.integer(1, 9));
+                        if(rand1.integer(0, 1))
+                        {
+                            rad = parseFloat('0.1' + rand1.integer(0, 9));
+                        }
+                    }
+
+                    function createBoundingBox (n, width, height, center) {
+                      // The bounding box points is generated with the trigonometric circle
+                      var radians = []
+                      for (var i = 0; i < n; i++) {
+                        radians[i] = (i / n) * (rand1.integer(1, 3) * Math.PI)
+                      }
+                      // Bounding box coordinates
+                      var box = []
+                      // Starting point
+                      box[0] = new Point(center.x + width * Math.cos(radians[0]), center.y)
+                      // Complete the bounding box
+                      for (i = 1; i < n; i++) {
+                        box[i] = new Point()
+                        box[i].x = center.x + width * Math.cos(radians[i])
+                        box[i].y = center.y + height * Math.sin(radians[i])
+                      }
+                      return box
+                    }
+
+                    function createConvexPolygon (box) {
+                      var polygon = []
+                      // Complete the polygon
+                      for (var i = 0; i < box.length; i++) {
+                        polygon[i] = new Point()
+                        var r = parseFloat('0.' + rand1.integer(1, 9));
+                        // Use the modulo operator for cycling through the array
+                        polygon[i].x = box[i].x + r * (box[(i + 1) % box.length].x - box[i].x)
+                        polygon[i].y = box[i].y + r * (box[(i + 1) % box.length].y - box[i].y)
+                      }
+                      return polygon
+                    }
+
+                    function drawPolygon (ctx, polygon) {
+                      // Draw the outline of the polygon
+                      ctx.moveTo(polygon[0].x, polygon[0].y)
+                      for (var i = 1; i <= polygon.length; i++) {
+                        ctx.lineTo(polygon[i % polygon.length].x, polygon[i % polygon.length].y)
+                      }
+                      // Go to the end of the polygon
+                      ctx.moveTo(polygon[polygon.length - 1].x, polygon[polygon.length - 1].y)
+                      // Start doodling
+                      for (i = 0; i < rand1.integer(250, 1000); i++) {
+                        var r = rad;
+                        var x = polygon[i].x + r * (polygon[i + 1].x - polygon[i].x)
+                        var y = polygon[i].y + r * (polygon[i + 1].y - polygon[i].y)
+                        ctx.lineTo(x, y)
+                        polygon[polygon.length] = new Point(x, y)
+                      }
+                      // Go to the end of the polygon
+                      ctx.moveTo(polygon[0].x, polygon[0].y)
+                    }
+
+                    // Begin
+                    //var canvas = document.getElementById('doodle')
+                    //var ctx = canvas.getContext('2d')
+                    var ctx = context;
+
+                    ctx.beginPath()
+
+                    // Canvas geometry
+                    //var center = new Point(canvas.width / 2, canvas.height / 2)
+                    var center = new Point(rand1.integer(0, canvas.width), rand2.integer(0, canvas.height));
+                    var height = canvas.height
+                    var width = canvas.width
+
+                    // Polygon size
+                    var n = 6;
+                    var n = rand1.integer(3, 12);
+
+                    // Bounding box
+                    var box = createBoundingBox(n, width / 3, height / 3, center)
+
+                    // Initial polygon
+                    var polygon = createConvexPolygon(box)
+
+                    // Draw the polygon
+                    drawPolygon(ctx, polygon)
+
+                    var a = [
+                      new Point(polygon[0].x, polygon[0].y),
+                      new Point(width, polygon[0].y),
+                      new Point(width, height),
+                      new Point(polygon[1].x, height),
+                      new Point(polygon[1].x, polygon[1].y)
+                    ]
+
+                    drawPolygon(ctx, a)
+
+                    var b = [
+                      new Point(polygon[1].x, polygon[1].y),
+                      new Point(polygon[1].x, height),
+                      new Point(0, height),
+                      new Point(0, polygon[2].y),
+                      new Point(polygon[2].x, polygon[2].y)
+                    ]
+                    drawPolygon(ctx, b)
+
+                    var c = [
+                      new Point(polygon[2].x, polygon[2].y),
+                      new Point(0, polygon[2].y),
+                      new Point(0, polygon[3].y),
+                      new Point(polygon[3].x, polygon[3].y)
+                    ]
+                    drawPolygon(ctx, c)
+
+                    var e = [
+                      new Point(polygon[3].x, polygon[3].y),
+                      new Point(0, polygon[3].y),
+                      new Point(0, 0),
+                      new Point(polygon[4].x, 0),
+                      new Point(polygon[4].x, polygon[4].y)
+                    ]
+                    drawPolygon(ctx, e)
+
+                    var f = [
+                        new Point(polygon[4].x, polygon[4].y),
+                        new Point(polygon[4].x, 0),
+                        new Point(width, 0),
+                        new Point(width, polygon[5].y),
+                        new Point(polygon[5].x, polygon[5].y)
+                    ]
+                    drawPolygon(ctx, f)
+
+                    var g = [
+                        new Point(polygon[5].x, polygon[5].y),
+                        new Point(width, polygon[5].y),
+                        new Point(width, polygon[0].y),
+                        new Point(polygon[0].x, polygon[0].y)
+                    ]
+                    drawPolygon(ctx, g)
+
+                    ctx.rect(
+                      0,
+                      0,
+                      canvas.width,
+                      canvas.height
+                    );
+                    ctx.fillStyle = colors[0];
+                    ctx.fill();
+                    
+                    ctx.lineWidth = rand1.integer(1, 5);
+                    ctx.strokeStyle = white;
+                    ctx.stroke();
+                }
+                else if(style == 'triangles')
                 {   
                     var fill_type = true;
                     var stroke_width = 0;
@@ -1342,7 +1507,8 @@ var pandora = {
                     'squares',
                     'checkers',
                     'chips',
-                    'triangles'
+                    'triangles',
+                    'spirals'
                 ];
                 var random = new XorShift128(temp_seed);
                 var style = styles[random.integer(0, (styles.length - 1))];
