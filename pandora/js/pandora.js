@@ -1341,7 +1341,8 @@ var pandora = {
                     'circles',
                     'squares',
                     'checkers',
-                    'chips'
+                    'chips',
+                    'triangles'
                 ];
                 var random = new XorShift128(temp_seed);
                 var style = styles[random.integer(0, (styles.length - 1))];
