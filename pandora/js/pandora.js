@@ -1644,7 +1644,40 @@ var pandora = {
             }
             else
             {
+                var artists = [
+                    'R',
+                    'G',
+                    'B',
+                    'X',
+                    'Z',
+                    'C',
+                    'M',
+                    'Y',
+                    'K'
+                ];
+                jQuery.each(artists, function(a)
+                {
+                    var ts = '' + new Date().getTime() + '';
+                    var seed = stringToSeed(artists[a] + ts.split("").reverse().join(""));
+                    var title = getRelevantRandomWord('title', 'all', false, seed);
+                    var surname = getRelevantRandomWord('surname', 'all', false, seed);
+                    var name = title + ' ' + surname;
+                    var url = '../artists/?name=' + title + '+' + surname;
+                    render(name, function(avatar = false)
+                    {
+                        var colours = pandora.images.colours(avatar);
+                        var description = pandora.artists.description(title, surname, colours);
+                        if(avatar)
+                        {
+                            var link = '<a href="' + url + '">' + name + '</a>';
+                            jQuery('.card-artist-' + a).prepend(avatar);
+                            jQuery('.card-artist-' + a).find('.artist-name').html(link);
+                            jQuery('.card-artist-' + a).find('.artist-description').text(description);
+                        }
+                    });
+                });
                 jQuery('.artist-info').hide();
+                jQuery('.artists-placeholder').show();
                 jQuery('.artist-intro-intro').text('There are');
                 jQuery('.artist-intro-intro').parent().append(' We can almost guarantee you will find who you are looking for!');
                 jQuery('.section.sub-header .container.relative').removeClass('relative');
