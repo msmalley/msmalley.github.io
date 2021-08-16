@@ -575,10 +575,10 @@ RESPONSIVE
     }
 }
 @media(max-width:767px){
-    .art-filters {
+    .btn-group {
         display: block !important;
     }
-    .art-filters .btn-outline-dark {
+    .btn-group .btn-outline-dark {
         flex: none !important;
         margin: 5px;
     }
