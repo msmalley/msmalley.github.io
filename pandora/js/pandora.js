@@ -1612,9 +1612,9 @@ var pandora = {
                     var colours = pandora.images.colours(avatar);
                     var description = pandora.artists.description(title, surname, colours, forced_first_name);
                     description+= '<hr><div class="btn-group" role="group">';
-                        description+= '<a href="#" class="btn btn-outline-dark">LEARN MORE</a>';
-                        description+= '<a href="#" class="btn btn-outline-dark">COMMISSION ART</a>';
-                        description+= '<a href="#" class="btn btn-outline-dark">SPONSOR ME</a>';
+                        description+= '<a href="#" class="btn btn-outline-dark">INFO</a>';
+                        description+= '<a href="#" class="btn btn-outline-dark">GENERATE</a>';
+                        description+= '<a href="#" class="btn btn-outline-dark">SPAWN</a>';
                     description+= '</div>';
                     if(avatar)
                     {
