@@ -1869,4 +1869,19 @@ jQuery(document).ready(function()
     {
         pandora.init.artists();
     }
+    
+    // Random (ish) member count ...
+    var ts = new Date().getTime();
+    var random = new XorShift128(ts);
+    var x = random.integer(100, 499);
+    var y = random.integer(500, 999);
+    var millions = random.integer(2, 3);
+    var thousands = x;
+    var hundreds = y;
+    if(random.integer(0, 1))
+    {
+        thousands = y;
+        hundreds = x;
+    }
+    jQuery('.member-count').text('' + millions + ',' + thousands + ',' + hundreds);
 });
