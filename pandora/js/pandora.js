@@ -1032,7 +1032,7 @@ var pandora = {
                 }
             }
         },
-        fetch: function(title_of_artist = false, surname_of_artist = false)
+        fetch: function(title_of_artist = false, surname_of_artist = false, get_new_image = true)
         {
             if(title_of_artist && surname_of_artist)
             {
@@ -1065,7 +1065,10 @@ var pandora = {
                 {
                     if(typeof response.hits == 'object' && response.hits.length > index)
                     {
-                        jQuery('.nft-image').attr('src', response.hits[index].webformatURL);
+                        if(get_new_image)
+                        {
+                            jQuery('.nft-image').attr('src', response.hits[index].webformatURL);
+                        }
                         jQuery('.nft-image').load(function()
                         {
                             pandora.images.generate(
@@ -1083,15 +1086,26 @@ var pandora = {
             }
             else
             {
-                jQuery('.nft-image').attr('src', 'https://picsum.photos/200/300');
-                jQuery('.nft-image').load(function()
+                if(get_new_image)
+                {
+                    jQuery('.nft-image').attr('src', 'https://picsum.photos/200/300');
+                    jQuery('.nft-image').load(function()
+                    {
+                        pandora.images.generate(
+                            jQuery('.nft-image').attr('src'),
+                            title_of_artist,
+                            surname_of_artist
+                        );
+                    });
+                }
+                else
                 {
                     pandora.images.generate(
                         jQuery('.nft-image').attr('src'),
                         title_of_artist,
                         surname_of_artist
                     );
-                });
+                }
             }
         },
         generate: function(source, title_of_artist = false, surname_of_artist = false)
@@ -1687,7 +1701,6 @@ var pandora = {
         gallery: function()
         {
             pandora.images.fetch();
-            console.log('params.style', params.style);
             if(
                 typeof params == 'object'
                 && typeof params.style != 'undefined'
@@ -1772,6 +1785,25 @@ var pandora = {
         studio: function()
         {
             pandora.images.fetch();
+            jQuery('body').on('change', '#uploaded-image', function(e)
+            {
+                jQuery('.section.iframe.loaded').addClass('loading');
+                jQuery('.section.iframe.loaded').removeClass('loaded');
+                
+                jQuery('.section.iframe .frame canvas').remove();
+                var file = document.querySelector('#uploaded-image').files[0];
+                var reader = new FileReader();
+                
+                reader.readAsDataURL(file);
+                reader.onload = function () {
+                    jQuery('#this-nft-image').css({display: 'block'});
+                    jQuery('#this-nft-image').attr('src', reader.result);
+                    jQuery('.section.text').remove();
+                };
+                reader.onerror = function (error) {
+                    console.log('Error: ', error);
+                };
+            });
         }
     },
     resizes: {
