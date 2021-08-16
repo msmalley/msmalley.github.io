@@ -79,22 +79,25 @@ var pandora = {
             var colour1 = colours[0].name.toLowerCase();
             var colour2 = colours[1].name.toLowerCase();
             var colour3 = colours[2].name.toLowerCase();
-            var number_of_children = random.integer(0, 5);
+            var number_of_children = random.integer(0, 4);
             var commitment_type = commitments[random.integer(0, (commitments.length - 1))];
             var child_status_intro = 'Although it';
             if(gender == 'male') child_status_intro = 'Athough he';
             else if(gender == 'female') child_status_intro = 'Athough she';
-            var child_status = child_status_intro + ' has no ' + colour3 + ' children, ' + firstname + ' does plan to get married soon';
             
             var child_job = getRelevantRandomWord('noun', 'job', false, parseInt('' + number_of_children + seed + ''));
             
+            var this_verb = 'a';
+            if(child_job.match('^[aieouAIEOU].*'))
+            {
+               this_verb = 'an';
+            }
+            
+            var child_status = child_status_intro + ' has no ' + colour3 + ' children, ' + firstname + ' does plan to get married to ' + this_verb + ' ' + child_job + ' soon';
+            
+            
             if(number_of_children == 1)
             {
-                var this_verb = 'a';
-                if(child_job.match('^[aieouAIEOU].*'))
-                {
-                   this_verb = 'an';
-                }
                 child_status = 'Married to ' + this_verb + ' ' + child_job + ' last year; they recently gave birth to their first ' + colour3 + ' child';
             }
             else if(number_of_children > 1)
@@ -324,7 +327,8 @@ var pandora = {
                     'mondrian',
                     'lines',
                     'circles',
-                    'squares'
+                    'squares',
+                    'checkers'
                 ];
                 if(
                     !style
@@ -337,6 +341,7 @@ var pandora = {
                             && style != 'lines'
                             && style != 'circles'
                             && style != 'squares'
+                            && style != 'checkers'
                         )
                     )
                 ){
@@ -359,7 +364,24 @@ var pandora = {
                     '#' + ntc.randomColour(stringToSeed('F7' + seed))
                 ];
                 
-                if(style == 'mondrian')
+                //style = 'checkers';
+                //console.log('style', style);
+                
+                if(style == 'checkers')
+                {   
+                    initialize_checkers(canvas, context, seed, white, colors, rand1, rand2, dpr);
+                    // Add a little extra colour ...
+                    context.rect(
+                      0,
+                      0,
+                      canvas.width,
+                      canvas.height
+                    );
+                    context.fillStyle = colors[0];
+                    context.fill();
+                    
+                }
+                else if(style == 'mondrian')
                 {
                     
                     context.lineWidth = 8;
@@ -487,15 +509,6 @@ var pandora = {
                       context.fill();
                       context.stroke();
                     }
-                    
-                    context.rect(
-                      0,
-                      0,
-                      canvas.width,
-                      canvas.height
-                    );
-                    context.fillStyle = white;
-                    context.fill();
 
                     for(var x = 0; x < size; x += step) {
                       for(var y = 0; y < size; y+= step) {
@@ -1223,7 +1236,8 @@ var pandora = {
                     'mondrian',
                     'lines',
                     'circles',
-                    'squares'
+                    'squares',
+                    'checkers'
                 ];
                 var random = new XorShift128(temp_seed);
                 var style = styles[random.integer(0, (styles.length - 1))];
