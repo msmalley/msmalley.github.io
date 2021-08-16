@@ -328,7 +328,9 @@ var pandora = {
                     'lines',
                     'circles',
                     'squares',
-                    'checkers'
+                    'checkers',
+                    'chips',
+                    'triangles'
                 ];
                 if(
                     !style
@@ -342,6 +344,8 @@ var pandora = {
                             && style != 'circles'
                             && style != 'squares'
                             && style != 'checkers'
+                            && style != 'chips'
+                            && style != 'triangles'
                         )
                     )
                 ){
@@ -364,10 +368,108 @@ var pandora = {
                     '#' + ntc.randomColour(stringToSeed('F7' + seed))
                 ];
                 
-                //style = 'checkers';
+                //style = 'triangles';
                 //console.log('style', style);
                 
-                if(style == 'checkers')
+                if(style == 'triangles')
+                {   
+                    var fill_type = true;
+                    var stroke_width = 0;
+                    
+                    var colour_types = [
+                        'rgb', 'hsv', 'hsl', 'hsi', 'lab', 'hcl'
+                    ];
+                    var colour_type = colour_types[rand1.integer(0, (colour_types.length - 1))];
+                    
+                    if(rand1.integer(0, 1))
+                    {
+                        fill_type = false;
+                        stroke_width = rand2.integer(50, 100);
+                        if(rand2.integer(0, 1))
+                        {
+                            stroke_width = rand2.integer(1, 10);
+                        }
+                    }
+                    
+                    const randomizedOptions = {
+                      width: 600,
+                      height: 400,
+                      cellSize: rand2.integer(25, 250),
+                      variance: parseFloat('0.' + rand1.integer(1, 99)),
+                      seed: colour_type+seed,
+                      xColors: 'random',
+                      yColors: 'match',
+                      fill: fill_type,
+                      //palette: trianglify.colorbrewer,
+                      colorSpace: colour_type,
+                      colorFunction: trianglify.colorFunctions.interpolateLinear(parseFloat('0.' + rand2.integer(1, 99))),
+                      strokeWidth: stroke_width,
+                      points: null
+                    };
+                    const pattern = trianglify(randomizedOptions);
+                    jQuery('#' + element_id).parent().attr('id', 'wrapper-' + element_id);
+                    jQuery('#' + element_id).remove();
+                    jQuery('#wrapper-' + element_id).prepend(pattern.toCanvas());
+                    jQuery('#wrapper-' + element_id).find('canvas').attr('id', element_id);
+                    jQuery('#wrapper-' + element_id).find('canvas').attr('class', 'art');
+                }
+                else if(style == 'chips')
+                {   
+                    var WIDTH = canvas.width;
+                    var HEIGHT = canvas.height;
+                    //var size = 30;
+                    var size = rand1.integer(1, 50);
+
+                    var x_sections = WIDTH / size;
+                    var y_sections = HEIGHT / size;
+                    
+                    line_cap = 'round';
+                    if(rand1.integer(0, 1))
+                    {
+                        line_cap = 'square';
+                    }
+                    
+                    line_width_1 = rand1.integer(5, 25);
+                    line_width_2 = rand1.integer(5, 25);
+
+                    function createLine(x, y, n) {
+                        //context.beginPath();
+                        context.beginPath(rand1.integer(0, canvas.width), rand2.integer(0, canvas.height));
+                        //context.lineWidth = 15;
+                        //context.lineWidth = rand1.integer(5, 25);
+                        // context.lineWidth += .015;
+                        context.lineCap = line_cap;
+                        context.strokeStyle = colors[rand1.integer(0, 2)];
+                        if (n >= Math.random() / rand1.integer(1, 4)) {
+                            context.lineWidth = line_width_1;
+                            context.moveTo(x, y);
+                            context.lineTo(x + size, y + size);
+                        }
+                        else {
+                            context.lineWidth = line_width_2;
+                            context.moveTo(x + size, y);
+                            context.lineTo(x, y + size);
+                            if(rand2.integer(0, 1))
+                            {
+                                context.strokeStyle = colors[rand2.integer(0, 2)];
+                            }
+                        }
+                        context.stroke();
+                    }
+
+                    function draw() {
+                        context.clearRect(0, 0, WIDTH, HEIGHT);
+
+                        for (var x = 0; x < x_sections; x++) {
+                            for (var y = 0; y < y_sections; y++) {
+                                createLine(x * size, y * size, rand1.integer(0, 1));
+                            }
+                        }
+                    }
+
+                    draw();
+                }
+                else if(style == 'checkers')
                 {   
                     initialize_checkers(canvas, context, seed, white, colors, rand1, rand2, dpr);
                     // Add a little extra colour ...
@@ -511,6 +613,7 @@ var pandora = {
                     }
 
                     for(var x = 0; x < size; x += step) {
+                        
                       for(var y = 0; y < size; y+= step) {
                         draw(x, y, step, step);    
                       }
@@ -1237,7 +1340,8 @@ var pandora = {
                     'lines',
                     'circles',
                     'squares',
-                    'checkers'
+                    'checkers',
+                    'chips'
                 ];
                 var random = new XorShift128(temp_seed);
                 var style = styles[random.integer(0, (styles.length - 1))];
