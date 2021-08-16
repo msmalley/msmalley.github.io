@@ -677,8 +677,8 @@ var pandora = {
                     }
                     
                     const randomizedOptions = {
-                      width: 658,
-                      height: 355,
+                      width: 600,
+                      height: 420,
                       cellSize: rand2.integer(25, 250),
                       variance: parseFloat('0.' + rand1.integer(1, 99)),
                       seed: colour_type+seed,
