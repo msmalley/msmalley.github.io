@@ -203,13 +203,16 @@ var pandora = {
                         var gradient_top = jQuery.xcolor.opacity('#eee', acolours[3].hex, 0.15);
                         var gradient_bottom = jQuery.xcolor.opacity('#aaa', acolours[4].hex, 0.15);
 
-                        jQuery(canvas).css({background: matt_colour});
-                        //jQuery('.frame img').css({'border-color': insert_colour});
-                        jQuery(canvas).css({'border-left-color': frame_colour});
-                        jQuery(canvas).css({'border-right-color': frame_colour});
-                        jQuery(canvas).css({'border-top-color': frame_colour_darker});
-                        jQuery(canvas).css({'border-bottom-color': frame_colour_darker});
-                        jQuery(wrapper).removeClass('loading');
+                        setTimeout(function()
+                        {
+                            jQuery(canvas).css({background: matt_colour});
+                            //jQuery('.frame img').css({'border-color': insert_colour});
+                            jQuery(canvas).css({'border-left-color': frame_colour});
+                            jQuery(canvas).css({'border-right-color': frame_colour});
+                            jQuery(canvas).css({'border-top-color': frame_colour_darker});
+                            jQuery(canvas).css({'border-bottom-color': frame_colour_darker});
+                            jQuery(wrapper).removeClass('loading');
+                        }, 300);
                     });
                     img.crossOrigin = 'Anonymous';
                     img.src = data;
@@ -324,15 +327,12 @@ var pandora = {
                 var rand1 = new XorShift128(seed);
                 var rand2 = new XorShift128(parseInt(pandora.strings.rev('' + seed + '')));
                 var styles = [
-                    'mondrian',
                     'lines',
                     'circles',
                     'squares',
-                    'checkers',
-                    'chips',
                     'triangles',
-                    'spirals',
-                    'vee'
+                    'wired',
+                    'crosses'
                 ];
                 if(
                     !style
@@ -341,15 +341,12 @@ var pandora = {
                         style
                         &&
                         (
-                            style != 'mondrian'
-                            && style != 'lines'
+                            style != 'lines'
                             && style != 'circles'
                             && style != 'squares'
-                            && style != 'checkers'
-                            && style != 'chips'
                             && style != 'triangles'
-                            && style != 'spirals'
-                            && style != 'vee'
+                            && style != 'wired'
+                            && style != 'crosses'
                         )
                     )
                 ){
@@ -369,13 +366,24 @@ var pandora = {
                 var colors = [
                     '#' + ntc.randomColour(stringToSeed('D4' + seed)),
                     '#' + ntc.randomColour(stringToSeed('13' + seed)),
-                    '#' + ntc.randomColour(stringToSeed('F7' + seed))
+                    '#' + ntc.randomColour(stringToSeed('F7' + seed)),
+                    '#' + ntc.randomColour(stringToSeed('C' + seed)),
+                    '#' + ntc.randomColour(stringToSeed('M' + seed))
                 ];
                 
-                //style = 'vee';
+                if(rand1.integer(0, 1))
+                {
+                    colors[3] = colors[rand1.integer(0, (colors.length - 1))];
+                }
+                if(rand1.integer(0, 1) && rand2.integer(0, 1))
+                {
+                    colors[4] = colors[rand2.integer(0, (colors.length - 1))];
+                }
+                
+                //style = 'crosses';
                 //console.log('style', style);
                 
-                if(style == 'vee')
+                if(style == 'crosses')
                 {
                     class Point {
                       constructor (x, y) {
@@ -384,536 +392,734 @@ var pandora = {
                       }
                     }
 
-                    class Triangle {
-                      constructor (a, b, c, angle, height) {
-                        this.a = a
-                        this.b = b
-                        this.c = c
-                        this.angle = angle
-                        this.height = height
+                    class Square {
+                      constructor (origin, length, colour) {
+                        this.origin = origin
+                        this.length = length
+                        this.colour = colour
                       }
 
-                      draw (ctx, color, steps, stepSize, lineWidth) {
-                        ctx.fillStyle = colors[rand1.integer(0, 2)];
-                        ctx.lineWidth = lineWidth
-                        ctx.beginPath();
-                        ctx.moveTo(this.a.x, this.a.y)
-                        ctx.lineTo(this.b.x, this.b.y)
-                        ctx.lineTo(this.c.x, this.c.y)
-                        ctx.lineTo(this.a.x, this.a.y)
-                        ctx.strokeStyle = colors[rand2.integer(0, 2)];
-                        ctx.fill();
+                      draw (ctx) {
+                        // Draw clockwise
+                        ctx.beginPath()
+                        ctx.moveTo(this.origin.x, this.origin.y)
+                        ctx.lineTo(this.origin.x + this.length, this.origin.y)
+                        ctx.lineTo(this.origin.x + this.length, this.origin.y + this.length)
+                        ctx.lineTo(this.origin.x, this.origin.y + this.length)
+                        ctx.lineTo(this.origin.x, this.origin.y)
+                        // We want the border color and the fill color to match
+                        ctx.strokeStyle = this.colour;
+                        ctx.lineWidth = 0;
+                        ctx.fillStyle = this.colour;
+                        // Color the border and the body
                         ctx.stroke();
-                        ctx.closePath();
-
-                        var height = Math.sqrt(Math.pow(this.height, 2)) - this.height / 2
-                        var d = new Point((this.b.x + this.c.x) / 2, (this.b.y + this.c.y) / 2)
-
-                        // Draw inner lines
-                        ctx.strokeStyle = 'white'
-                        ctx.lineWidth = lineWidth
-
-                        for (var i = 1; i <= steps; i++) {
-                          var r = (stepSize * i) / height
-                          var c = new Point(
-                            this.a.x + (d.x - this.a.x) * r,
-                            this.a.y + (d.y - this.a.y) * r,
-                          )
-                          var innerTriangle = newTriangle(c, this.angle, this.height - r * this.height)
-                          ctx.beginPath();
-                          ctx.moveTo(innerTriangle.a.x, innerTriangle.a.y)
-                          ctx.lineTo(innerTriangle.b.x, innerTriangle.b.y)
-                          ctx.moveTo(innerTriangle.a.x, innerTriangle.a.y)
-                          ctx.lineTo(innerTriangle.c.x, innerTriangle.c.y)
-                          ctx.strokeStyle = colors[rand2.integer(0, 2)];
-                          ctx.stroke();
-                          ctx.closePath();
-                        }
-
-                        // Draw white hollow part
-
-                        var r = (stepSize * steps) / height
-                        var c = new Point(
-                          this.a.x + (d.x - this.a.x) * r,
-                          this.a.y + (d.y - this.a.y) * r,
-                        )
-                        var innerTriangle = newTriangle(c, this.angle, this.height - r * this.height)
-                        ctx.beginPath();
-                        ctx.moveTo(innerTriangle.a.x, innerTriangle.a.y)
-                        ctx.lineTo(innerTriangle.b.x, innerTriangle.b.y)
-                        ctx.lineTo(innerTriangle.c.x, innerTriangle.c.y)
-                        ctx.lineTo(innerTriangle.a.x, innerTriangle.a.y)
-                        ctx.fillStyle = colors[rand2.integer(0, 2)];
-                        ctx.strokeStyle = colors[rand1.integer(0, 2)];
                         ctx.fill();
-                        ctx.stroke();
                         ctx.closePath();
                       }
                     }
 
-                    function degreesToRadians(angle) {
-                      return angle * Math.PI / 180
+                    class Cross {
+                      constructor (left, top, right, bottom, center) {
+                        this.left = left
+                        this.top = top
+                        this.right = right
+                        this.bottom = bottom
+                        this.center = center
+                      }
+
+                      draw (ctx) {
+                        this.left.draw(ctx);
+                        this.top.draw(ctx);
+                        this.right.draw(ctx);
+                        this.bottom.draw(ctx);
+                        this.center.draw(ctx);
+                      }
                     }
 
-                    function newTriangle(center, angle, height) {
-                      var b = new Point(
-                        height * Math.cos(degreesToRadians(angle - 30)) + center.x,
-                        height * Math.sin(degreesToRadians(angle - 30)) + center.y
-                      )
-                      var c = new Point(
-                        height * Math.cos(degreesToRadians(angle + 30)) + center.x,
-                        height * Math.sin(degreesToRadians(angle + 30)) + center.y
-                      )
-                      return new Triangle(center, b, c, angle, height)
+                    function makeCross(center, squareLength, color) {
+                      // For convenience
+                      var l = squareLength
+                      var x = center.x
+                      var y = center.y
+                      // The position of each square can be guessed from the center of the cross
+                      var left   = new Square(new Point(x - 1.5 * l, y - 0.5 * l), l, color)
+                      var top    = new Square(new Point(x - 0.5 * l, y - 1.5 * l), l, color)
+                      var right  = new Square(new Point(x + 0.5 * l, y - 0.5 * l), l, color)
+                      var bottom = new Square(new Point(x - 0.5 * l, y + 0.5 * l), l, color)
+                      var center = new Square(new Point(x - 0.5 * l, y - 0.5 * l), l, color)
+                      // Assemble the squares and return the resulting cross
+                      return new Cross(left, top, right, bottom, center)
                     }
 
-                    // Begin drawing
+                    function drawRow(start, squareLength, color1, color2, ctx) {
+                      var x = start.x
+                      var y = start.y
+                      var i = 0
+                      while (true) {
+                        var color = [color1, color2][i % 2]
+                        makeCross(new Point(x, y), squareLength, color).draw(ctx)
+                        if (x > 800) { break }
+                        x = x + 5 * squareLength
+                        i = i + 1
+                      }
+                    }
+
+                    //var squareLength = 800 / 16
+                    var squareLength = rand1.integer(20, 2000) / rand1.integer(10, 100);
+
+                    var blue = '#006597'
+                    var orange = '#ff5c30'
+                    var yellow = '#ffd652'
+                    var purple =  '#562b42'
+                    var red = '#df2933'
+                    var green = '#177b4b'
+                    
+                    var blue = white
+                    var orange = colors[0]
+                    var yellow = colors[1]
+                    var purple =  colors[3]
+                    var red = colors[4]
+                    var green = colors[5]
+
                     //var canvas = document.getElementById('doodle')
                     var ctx = context;
-                    
-                    var point1 = rand1.integer(0, canvas.width / 2);
-                    var point2 = rand2.integer(0, canvas.height / 2);
-                    
-                    context.rect(
-                      0,
-                      0,
-                      canvas.width,
-                      canvas.height
-                    );
-                    context.fillStyle = white;
-                    context.fill();
 
-                    //newTriangle(new Point(450, 100), -210, 400).draw(ctx, colors[0], 8, 15, 3);
-                    
-                    var gap_width = rand1.integer(5, 50);
-                    var white_line = rand2.integer(1, 10);
-                    var was_eight = rand1.integer(1, 10);
-                    
-                    newTriangle(new Point(point1, point2), 100 - point1, 400).draw(ctx, colors[0], was_eight, gap_width, white_line)
-                    newTriangle(new Point(point1, point2), 50 - point1, 400).draw(ctx, colors[1], was_eight, gap_width, white_line)
-                    newTriangle(new Point(point1, point2), 0 - point1, 400).draw(ctx, colors[2], was_eight, gap_width, white_line)
+                    var x = 1.5 * squareLength
+                    var y = -0.5 * squareLength
+                    var i = 0
+                    var j = 5
+                    var rc = 0
+                    var colors = [purple, blue, green, yellow, orange, red]
+                    var mirror = [yellow, orange, red, purple, blue, green]
+
+                    while (true) {
+                      if (rc % 2 == 0) {
+                        var idx = i
+                        i = (i + 1) % 6
+                      } else {
+                        var idx = j
+                        j = (j + 1) % 6
+                      }
+                      var color1 = colors[idx]
+                      var color2 = mirror[idx]
+                      drawRow(new Point(x, y), squareLength, color1, color2, ctx)
+                      // Stop if we've gone past the bottom of the canvas
+                      if (y > 800) { break }
+                      // Update the first cross coordinates and the row counter
+                      if (rc % 2 == 0) {
+                        x = x - 3 * squareLength
+                      } else {
+                        x = x + 2 * squareLength
+                      }
+                      y = y + 1 * squareLength
+                      rc = rc + 1
+                    }
                 }
-                else if(style == 'spirals')
+                else if(style == 'wired')
                 {
-                    class Point {
-                      constructor (x, y) {
-                        this.x = x
-                        this.y = y
-                      }
-                    }
+                    var displayCanvas = canvas;
+                    //var context = displayCanvas.getContext("2d");
                     
-                    var rad = 0.1;
-                    if(rand2.integer(0, 1))
-                    {
-                        rad = parseFloat('0.0' + rand1.integer(1, 9));
-                        if(rand1.integer(0, 1))
-                        {
-                            rad = parseFloat('0.1' + rand1.integer(0, 9));
+                    var displayWidth = displayCanvas.width;
+                    var displayHeight = displayCanvas.height;
+
+                    var rowHeight;
+                    var stringSpacing;
+                    var stringThickness;
+                    var margin;
+                    var bgColor;
+                    var numStrings;
+                    var crossingProbability;
+                    var positiveProbability;
+                    var crossingAngle;
+                    var controlYFactor;
+                    var spacerGap;
+                    var generatorsInLastRow;
+                    var colors;
+                    var gradDX, gradDY;
+                    var timer;
+                    
+                    var rand3 = new XorShift128(stringToSeed('' + seed + seed + ''));
+                    
+                    var ch = canvas.height;
+                    var cw = canvas.width;
+                    
+                    var myImageData, rotating = false;   
+                    var rotate = function (canva, cont) {
+                        if (!rotating) {
+                            rotating = true;            
+                            // store current data to an image
+                            myImageData = new Image();
+                            myImageData.src = canva.toDataURL();
+
+                           myImageData.onload = function () {
+                                // reset the canvas with new dimensions
+                                canva.width = ch;
+                                canva.height = cw;
+                                cw = canva.width;
+                                ch = canva.height;
+
+                                cont.save();
+                                // translate and rotate
+                                cont.translate(cw, ch / cw);
+                                cont.rotate(Math.PI / 2);
+                                // draw the previows image, now rotated
+                                cont.drawImage(myImageData, 0, 0);               
+                                cont.restore();
+
+                                // clear the temporary image
+                                myImageData = null;
+
+                                rotating = false;               
+                            }
                         }
                     }
 
-                    function createBoundingBox (n, width, height, center) {
-                      // The bounding box points is generated with the trigonometric circle
-                      var radians = []
-                      for (var i = 0; i < n; i++) {
-                        radians[i] = (i / n) * (rand1.integer(1, 3) * Math.PI)
-                      }
-                      // Bounding box coordinates
-                      var box = []
-                      // Starting point
-                      box[0] = new Point(center.x + width * Math.cos(radians[0]), center.y)
-                      // Complete the bounding box
-                      for (i = 1; i < n; i++) {
-                        box[i] = new Point()
-                        box[i].x = center.x + width * Math.cos(radians[i])
-                        box[i].y = center.y + height * Math.sin(radians[i])
-                      }
-                      return box
+                    init();
+
+                    function init() {
+                        rowHeight = canvas.height / rand1.integer(2, 8);
+                        stringSpacing = 32;
+                        stringThickness = 12;
+                        stringThickness = rand2.integer(2, 30);
+                        stringSpacing = stringThickness * rand2.integer(1, 3);
+                        bgColor = 'transparent';
+                        
+                        if(rand2.integer(0, 1))
+                        {
+                            bgColor = white;
+                        }
+                        
+                        numStrings = 1 + Math.floor((displayWidth-stringThickness)/stringSpacing);
+                        margin = (displayWidth - (numStrings-1)*stringSpacing)/2;
+                        crossingProbability = 0.67;
+                        positiveProbability = 0.5;
+                        spacerGap = 0.5;
+
+                        crossingAngle = 42*Math.PI/180;
+                        controlYFactor = (1 - stringSpacing/rowHeight*Math.tan(crossingAngle));
+
+                        /*
+                        controlYFactor = 0.5;
+                        crossingAngle = Math.atan(rowHeight*(1-controlYFactor)/stringSpacing);
+                        */
+
+                        var gradDist = 2*stringThickness;
+                        gradDX = gradDist*Math.cos(crossingAngle);
+                        gradDY = gradDist*Math.sin(crossingAngle);
+
+                        context.fillStyle = bgColor;
+                        context.fillRect(0,0,displayWidth,canvas.height);		
+
+                        setInitialColors();
+
+                        //initialize generatorsInLastRow - an array which records which braid generators appeared in the previous row.
+                        //I want to know this in order to avoid a braid crossing followed by its inverse.
+                        generatorsInLastRow = [];
+                        for (var k = 0; k < numStrings-1; k++) {
+                            generatorsInLastRow.push(0);
+                        }
+
+                        //timer = setInterval(onTimer,1000/10);
+                        var i = Math.floor(displayHeight/rowHeight);
+                        while (--i > -1) {
+                            fillRow(i*rowHeight);	
+                        }
+
+                        if(rand3.integer(0, 1))
+                        {
+                            setTimeout(function()
+                            {
+                                rotate(canvas, context);
+                            }, 150);
+                        }
                     }
 
-                    function createConvexPolygon (box) {
-                      var polygon = []
-                      // Complete the polygon
-                      for (var i = 0; i < box.length; i++) {
-                        polygon[i] = new Point()
-                        var r = parseFloat('0.' + rand1.integer(1, 9));
-                        // Use the modulo operator for cycling through the array
-                        polygon[i].x = box[i].x + r * (box[(i + 1) % box.length].x - box[i].x)
-                        polygon[i].y = box[i].y + r * (box[(i + 1) % box.length].y - box[i].y)
-                      }
-                      return polygon
+                    function onTimer() {
+                        //scroll down
+                        context.drawImage(displayCanvas, 0, 0, displayWidth, displayHeight-rowHeight, 0, rowHeight, displayWidth, displayHeight-rowHeight);
+                        //clear top row
+                        context.fillStyle = bgColor;
+                        context.fillRect(0,0,displayWidth,rowHeight);		
+                        //draw new top row
+                        fillRow(0);
                     }
 
-                    function drawPolygon (ctx, polygon) {
-                      // Draw the outline of the polygon
-                      ctx.moveTo(polygon[0].x, polygon[0].y)
-                      for (var i = 1; i <= polygon.length; i++) {
-                        ctx.lineTo(polygon[i % polygon.length].x, polygon[i % polygon.length].y)
-                      }
-                      // Go to the end of the polygon
-                      ctx.moveTo(polygon[polygon.length - 1].x, polygon[polygon.length - 1].y)
-                      // Start doodling
-                      for (i = 0; i < rand1.integer(250, 1000); i++) {
-                        var r = rad;
-                        var x = polygon[i].x + r * (polygon[i + 1].x - polygon[i].x)
-                        var y = polygon[i].y + r * (polygon[i + 1].y - polygon[i].y)
-                        ctx.lineTo(x, y)
-                        polygon[polygon.length] = new Point(x, y)
-                      }
-                      // Go to the end of the polygon
-                      ctx.moveTo(polygon[0].x, polygon[0].y)
+
+                    function fillRow(y0) {
+                        var stringNumber = 0;
+                        var x0;
+                        var temp;
+                        var positiveSwitch;
+                        var doPositive;
+                        var prob = 0.5; //first crossing probability at 50%, rest will be set to desired crossingProbability set above.
+                        while (stringNumber < numStrings - 1) {
+                            x0 = margin + stringNumber*stringSpacing;
+                            var this_r = new XorShift128(stringToSeed('m' + stringNumber + seed));
+                            var this_r2 = new XorShift128(stringToSeed('s' + stringNumber + seed));
+                            if (parseFloat('0.' + rand1.integer(1, 99)) < prob) {
+                                positiveSwitch = (parseFloat('0.' + this_r2.integer(1, 99)) < positiveProbability);
+                                doPositive = (positiveSwitch && (generatorsInLastRow[stringNumber] != -1)) ||
+                                              ((!positiveSwitch) && (generatorsInLastRow[stringNumber] == 1));
+                                if (doPositive) {
+                                    drawCrossing(x0, y0, colors[stringNumber], colors[stringNumber+1], true);
+                                    generatorsInLastRow[stringNumber] = 1;
+                                    generatorsInLastRow[stringNumber+1] = 0;
+                                }
+                                else {
+                                    drawCrossing(x0, y0, colors[stringNumber], colors[stringNumber+1], false);
+                                    generatorsInLastRow[stringNumber] = -1;
+                                    generatorsInLastRow[stringNumber+1] = 0;
+                                }
+                                //permute colors
+                                temp = colors[stringNumber];
+                                colors[stringNumber] = colors[stringNumber+1];
+                                colors[stringNumber+1] = temp;
+
+                                //advance
+                                stringNumber += 2;
+                            }
+                            else {
+                                drawString(x0, y0, colors[stringNumber]);
+                                stringNumber += 1;
+                            }
+                        }
+                        if (stringNumber == numStrings - 1) {
+                            drawString(margin + stringNumber*stringSpacing, y0, colors[stringNumber]);
+                        }
+
+                        //after first crossing probability of 50%, remaining crossing probabilities set to desired amount.
+                        prob = crossingProbability;
                     }
 
-                    // Begin
-                    //var canvas = document.getElementById('doodle')
-                    //var ctx = canvas.getContext('2d')
-                    var ctx = context;
+                    function setInitialColors() {
+                        var i;
+                        var r,g,b;
+                        var darkR, darkG, darkB;
+                        var lightR, lightG, lightB;
+                        var param;
 
-                    ctx.beginPath()
+                        colors = [];
 
-                    // Canvas geometry
-                    //var center = new Point(canvas.width / 2, canvas.height / 2)
-                    var center = new Point(rand1.integer(0, canvas.width), rand2.integer(0, canvas.height));
-                    var height = canvas.height
-                    var width = canvas.width
+                        var darkFactor = 0.33;
+                        var lightAdd = 20;
 
-                    // Polygon size
-                    var n = 6;
-                    var n = rand1.integer(3, 12);
+                        for (i = 0; i < numStrings; i++) {
+                            r = 64+rand1.integer(1, 180);
+                            g = 64+rand2.integer(1, 180);
+                            b = 64+rand3.integer(1, 180);
 
-                    // Bounding box
-                    var box = createBoundingBox(n, width / 3, height / 3, center)
+                            darkR = Math.floor(darkFactor*r);
+                            darkG = Math.floor(darkFactor*g);
+                            darkB = Math.floor(darkFactor*b);
 
-                    // Initial polygon
-                    var polygon = createConvexPolygon(box)
+                            lightR = Math.min(Math.floor(r + lightAdd),255);
+                            lightG = Math.min(Math.floor(g + lightAdd),255);
+                            lightB = Math.min(Math.floor(b + lightAdd),255);
 
-                    // Draw the polygon
-                    drawPolygon(ctx, polygon)
+                            var colorObj = {
+                                base: "rgb("+r+","+g+","+b+")",
+                                dark: "rgb("+darkR+","+darkG+","+darkB+")",
+                                light: "rgb("+lightR+","+lightG+","+lightB+")"
+                            }
+                            colors.push(colorObj);
+                        }
 
-                    var a = [
-                      new Point(polygon[0].x, polygon[0].y),
-                      new Point(width, polygon[0].y),
-                      new Point(width, height),
-                      new Point(polygon[1].x, height),
-                      new Point(polygon[1].x, polygon[1].y)
-                    ]
+                    }
 
-                    drawPolygon(ctx, a)
+                    function drawString(x0,y0,color) {
+                        context.strokeStyle = color.base;
+                        context.lineWidth = stringThickness;
+                        context.lineCap = "butt";
+                        context.beginPath();
+                        context.moveTo(x0,y0);
+                        context.lineTo(x0,y0+rowHeight);
+                        context.stroke();
+                    }
 
-                    var b = [
-                      new Point(polygon[1].x, polygon[1].y),
-                      new Point(polygon[1].x, height),
-                      new Point(0, height),
-                      new Point(0, polygon[2].y),
-                      new Point(polygon[2].x, polygon[2].y)
-                    ]
-                    drawPolygon(ctx, b)
+                    function drawCrossing(x0,y0,color1,color2,positive) {
+                        var grad;	
+                        var midX = x0 + stringSpacing/2;
+                        var midY = y0 + rowHeight/2;
+                        context.lineCap = "butt";
+                        if (positive) {
+                            grad = context.createLinearGradient(midX+gradDX, midY-gradDY, midX-gradDX, midY+gradDY);
+                            grad.addColorStop(0, color1.base);
+                            grad.addColorStop(0.5, color1.dark);
+                            grad.addColorStop(1, color1.base);
+                            context.strokeStyle = grad;
+                            drawLine1();
 
-                    var c = [
-                      new Point(polygon[2].x, polygon[2].y),
-                      new Point(0, polygon[2].y),
-                      new Point(0, polygon[3].y),
-                      new Point(polygon[3].x, polygon[3].y)
-                    ]
-                    drawPolygon(ctx, c)
+                            //drawSpacer2();
 
-                    var e = [
-                      new Point(polygon[3].x, polygon[3].y),
-                      new Point(0, polygon[3].y),
-                      new Point(0, 0),
-                      new Point(polygon[4].x, 0),
-                      new Point(polygon[4].x, polygon[4].y)
-                    ]
-                    drawPolygon(ctx, e)
+                            grad = context.createLinearGradient(midX+gradDX, midY+gradDY, midX-gradDX, midY-gradDY);
+                            grad.addColorStop(0, color2.base);
+                            grad.addColorStop(0.5, color2.light);
+                            grad.addColorStop(1, color2.base);
+                            context.strokeStyle = grad;
+                            drawLine2();
+                        }
+                        else {
+                            grad = context.createLinearGradient(midX+gradDX, midY+gradDY, midX-gradDX, midY-gradDY);
+                            grad.addColorStop(0, color2.base);
+                            grad.addColorStop(0.5, color2.dark);
+                            grad.addColorStop(1, color2.base);
+                            context.strokeStyle = grad;
+                            drawLine2();
 
-                    var f = [
-                        new Point(polygon[4].x, polygon[4].y),
-                        new Point(polygon[4].x, 0),
-                        new Point(width, 0),
-                        new Point(width, polygon[5].y),
-                        new Point(polygon[5].x, polygon[5].y)
-                    ]
-                    drawPolygon(ctx, f)
+                            //drawSpacer1();
 
-                    var g = [
-                        new Point(polygon[5].x, polygon[5].y),
-                        new Point(width, polygon[5].y),
-                        new Point(width, polygon[0].y),
-                        new Point(polygon[0].x, polygon[0].y)
-                    ]
-                    drawPolygon(ctx, g)
+                            grad = context.createLinearGradient(midX+gradDX, midY-gradDY, midX-gradDX, midY+gradDY);
+                            grad.addColorStop(0, color1.base);
+                            grad.addColorStop(0.5, color1.light);
+                            grad.addColorStop(1, color1.base);
+                            context.strokeStyle = grad;
+                            drawLine1();
+                        }
 
-                    ctx.rect(
-                      0,
-                      0,
-                      canvas.width,
-                      canvas.height
-                    );
-                    ctx.fillStyle = colors[0];
-                    ctx.fill();
-                    
-                    ctx.lineWidth = rand1.integer(1, 5);
-                    ctx.strokeStyle = white;
-                    ctx.stroke();
+                        function drawLine1() {
+                            context.lineWidth = stringThickness;
+                            context.beginPath();
+                            context.moveTo(x0+stringSpacing,y0);
+                            context.bezierCurveTo(x0+stringSpacing, y0+rowHeight*controlYFactor, 
+                                                    x0, y0+rowHeight*(1-controlYFactor), 
+                                                    x0, y0+rowHeight);
+                            context.stroke();
+                        }
+
+                        function drawSpacer1() {
+                            context.strokeStyle = bgColor;
+                            context.lineWidth = stringThickness + spacerGap*2;
+                            context.beginPath();
+                            context.moveTo(x0+stringSpacing,y0);
+                            context.bezierCurveTo(x0+stringSpacing, y0+rowHeight*controlYFactor, 
+                                                    x0, y0+rowHeight*(1-controlYFactor), 
+                                                    x0, y0+rowHeight);
+                            context.stroke();
+                        }
+
+                        function drawSpacer2() {
+                            context.strokeStyle = bgColor;
+                            context.lineWidth = stringThickness+2*spacerGap;
+                            context.beginPath();
+                            context.moveTo(x0,y0);
+                            context.bezierCurveTo(x0, y0+rowHeight*controlYFactor, 
+                                                    x0+stringSpacing, y0+rowHeight*(1-controlYFactor), 
+                                                    x0+stringSpacing, y0+rowHeight);
+                            context.stroke();
+                        }
+
+
+                        function drawLine2() {
+                            context.lineWidth = stringThickness;
+                            context.beginPath();
+                            context.moveTo(x0,y0);
+                            context.bezierCurveTo(x0, y0+rowHeight*controlYFactor, 
+                                                    x0+stringSpacing, y0+rowHeight*(1-controlYFactor), 
+                                                    x0+stringSpacing, y0+rowHeight);
+                            context.stroke();
+                        }
+                    }
                 }
                 else if(style == 'triangles')
                 {   
-                    var fill_type = true;
-                    var stroke_width = 0;
-                    
-                    var colour_types = [
-                        'rgb', 'hsv', 'hsl', 'hsi', 'lab', 'hcl'
-                    ];
-                    var colour_type = colour_types[rand1.integer(0, (colour_types.length - 1))];
-                    
-                    if(rand1.integer(0, 1))
+                    if(rand2.integer(0, 1))
                     {
-                        fill_type = false;
-                        stroke_width = rand2.integer(50, 100);
-                        if(rand2.integer(0, 1))
+                        // Mesh
+                        var fill_type = true;
+                        var stroke_width = 0;
+
+                        var colour_types = [
+                            'rgb', 'hsv', 'hsl', 'hsi', 'lab', 'hcl'
+                        ];
+                        var colour_type = colour_types[rand1.integer(0, (colour_types.length - 1))];
+
+                        if(rand1.integer(0, 1))
                         {
-                            stroke_width = rand2.integer(1, 10);
-                        }
-                    }
-                    
-                    const randomizedOptions = {
-                      width: 600,
-                      height: 420,
-                      cellSize: rand2.integer(25, 250),
-                      variance: parseFloat('0.' + rand1.integer(1, 99)),
-                      seed: colour_type+seed,
-                      xColors: 'random',
-                      yColors: 'match',
-                      fill: fill_type,
-                      //palette: trianglify.colorbrewer,
-                      colorSpace: colour_type,
-                      colorFunction: trianglify.colorFunctions.interpolateLinear(parseFloat('0.' + rand2.integer(1, 99))),
-                      strokeWidth: stroke_width,
-                      points: null
-                    };
-                    const pattern = trianglify(randomizedOptions);
-                    jQuery('#' + element_id).parent().attr('id', 'wrapper-' + element_id);
-                    jQuery('#' + element_id).remove();
-                    jQuery('#wrapper-' + element_id).prepend(pattern.toCanvas());
-                    jQuery('#wrapper-' + element_id).find('canvas').attr('id', element_id);
-                    jQuery('#wrapper-' + element_id).find('canvas').attr('class', 'art');
-                }
-                else if(style == 'chips')
-                {   
-                    var WIDTH = canvas.width;
-                    var HEIGHT = canvas.height;
-                    //var size = 30;
-                    var size = rand1.integer(1, 50);
-
-                    var x_sections = WIDTH / size;
-                    var y_sections = HEIGHT / size;
-                    
-                    line_cap = 'round';
-                    if(rand1.integer(0, 1))
-                    {
-                        line_cap = 'square';
-                    }
-                    
-                    line_width_1 = rand1.integer(5, 25);
-                    line_width_2 = rand1.integer(5, 25);
-
-                    function createLine(x, y, n) {
-                        //context.beginPath();
-                        context.beginPath(rand1.integer(0, canvas.width), rand2.integer(0, canvas.height));
-                        //context.lineWidth = 15;
-                        //context.lineWidth = rand1.integer(5, 25);
-                        // context.lineWidth += .015;
-                        context.lineCap = line_cap;
-                        context.strokeStyle = colors[rand1.integer(0, 2)];
-                        if (n >= Math.random() / rand1.integer(1, 4)) {
-                            context.lineWidth = line_width_1;
-                            context.moveTo(x, y);
-                            context.lineTo(x + size, y + size);
-                        }
-                        else {
-                            context.lineWidth = line_width_2;
-                            context.moveTo(x + size, y);
-                            context.lineTo(x, y + size);
+                            fill_type = false;
+                            stroke_width = rand2.integer(50, 100);
                             if(rand2.integer(0, 1))
                             {
-                                context.strokeStyle = colors[rand2.integer(0, 2)];
+                                stroke_width = rand2.integer(1, 10);
                             }
                         }
-                        context.stroke();
+
+                        const randomizedOptions = {
+                          width: 600,
+                          height: 420,
+                          cellSize: rand2.integer(25, 250),
+                          variance: parseFloat('0.' + rand1.integer(1, 99)),
+                          seed: colour_type+seed,
+                          xColors: 'random',
+                          yColors: 'match',
+                          fill: fill_type,
+                          //palette: trianglify.colorbrewer,
+                          colorSpace: colour_type,
+                          colorFunction: trianglify.colorFunctions.interpolateLinear(parseFloat('0.' + rand2.integer(1, 99))),
+                          strokeWidth: stroke_width,
+                          points: null
+                        };
+                        const pattern = trianglify(randomizedOptions);
+                        jQuery('#' + element_id).parent().attr('id', 'wrapper-' + element_id);
+                        jQuery('#' + element_id).remove();
+                        jQuery('#wrapper-' + element_id).prepend(pattern.toCanvas());
+                        jQuery('#wrapper-' + element_id).find('canvas').attr('id', element_id);
+                        jQuery('#wrapper-' + element_id).find('canvas').attr('class', 'art');
                     }
+                    else
+                    {
+                        // Symetrical ...
+                        var c = context
 
-                    function draw() {
-                        context.clearRect(0, 0, WIDTH, HEIGHT);
+                        //var centerX = canvas.width / 2;
+                        var centerX = rand1.integer(0, canvas.width / 2);
 
-                        for (var x = 0; x < x_sections; x++) {
-                            for (var y = 0; y < y_sections; y++) {
-                                createLine(x * size, y * size, rand1.integer(0, 1));
+                        // Custom = bottom left = 0, max | top right = max, 0
+                        var x11 = 0;
+                        var x12 = canvas.width;
+                        var y31 = canvas.height;
+                        var y32 = 0;
+
+                        var y1 = 0;
+
+                        var y11 = 0;
+                        var y12 = canvas.height;
+
+                        var x2 = canvas.width;
+                        var y2 = canvas.height;
+                        var x3 = 0;
+                        var y3 = canvas.height;
+
+                        var ch = canvas.height;
+                        var cw = canvas.width;
+
+                        var depth = 6;
+                        var depth1 = rand1.integer(1, 9);
+                        var depth2 = rand2.integer(1, 9);
+
+                        c.strokeStyle = white;
+                        c.lineWidth = rand1.integer(0, 10);
+
+                        function sierpinski(x1, y1, x2, y2, x3, y3, depth, color, r = false){
+                          if(depth == 0)
+                          {
+                            drawTriangle(x1, y1, x2, y2, x3, y3, color, r);
+                          }
+                          else{
+                            var x12 = (x1 + x2) / 2;
+                            var y12 = (y1 + y2) / 2;
+                            var x13 = (x1 + x3) / 2;
+                            var y13 = (y1 + y3) / 2;
+                            var x23 = (x2 + x3) / 2;
+                            var y23 = (y2 + y3) / 2;
+
+                            sierpinski(x1, y1, x12, y12, x13, y13, depth - 1, color, r);
+                            sierpinski(x12, y12, x2, y2, x23, y23, depth - 1, color, r);
+                            sierpinski(x13, y13, x23, y23, x3, y3, depth - 1, color, r);
+                          }
+                        }
+
+                        function drawTriangle(x1, y1, x2, y2, x3, y3, color){
+                          c.beginPath();
+                          c.moveTo(x1, y1);
+                          c.lineTo(x2, y2);
+                          c.lineTo(x3, y3);
+                          c.closePath();
+                          c.fillStyle = color;
+                          c.fill();
+                        }
+
+                        var tri_types = [
+                            'tlbr-even',
+                            'tlbr-odd',
+                            'trbl-even',
+                            'trbl-odd'
+                        ];
+                        var this_tri_type = tri_types[rand1.integer(0, (tri_types.length -1))];
+
+                        var myImageData, rotating = false;   
+                        var rotate = function () {
+                            if (!rotating) {
+                                rotating = true;            
+                                // store current data to an image
+                                myImageData = new Image();
+                                myImageData.src = canvas.toDataURL();
+
+                               myImageData.onload = function () {
+                                    // reset the canvas with new dimensions
+                                    canvas.width = ch;
+                                    canvas.height = cw;
+                                    cw = canvas.width;
+                                    ch = canvas.height;
+
+                                    context.save();
+                                    // translate and rotate
+                                    context.translate(cw, ch / cw);
+                                    context.rotate(Math.PI / 2);
+                                    // draw the previows image, now rotated
+                                    context.drawImage(myImageData, 0, 0);               
+                                    context.restore();
+
+                                    // clear the temporary image
+                                    myImageData = null;
+
+                                    rotating = false;               
+                                }
                             }
                         }
-                    }
 
-                    draw();
-                }
-                else if(style == 'checkers')
-                {   
-                    initialize_checkers(canvas, context, seed, white, colors, rand1, rand2, dpr);
-                    // Add a little extra colour ...
-                    context.rect(
-                      0,
-                      0,
-                      canvas.width,
-                      canvas.height
-                    );
-                    context.fillStyle = colors[0];
-                    context.fill();
-                    
-                }
-                else if(style == 'mondrian')
-                {
-                    
-                    context.lineWidth = 8;
-                    context.lineWidth = rand1.integer(2, 16);
-                    var step = size / 7;
-                    var step = size / rand2.integer(3, 14);
-
-                    var squares = [{
-                        x: 0,
-                        y: 0,
-                        width: size,
-                        height: size
-                      }];
-
-                    function splitSquaresWith(coordinates) {
-                      const { x, y } = coordinates;
-
-                      for (var i = squares.length - 1; i >= 0; i--) {
-                      const square = squares[i];
-
-                      if (x && x > square.x && x < square.x + square.width) {
-                          if(rand1.integer(0, 1) > 0) {
-                            squares.splice(i, 1);
-                            splitOnX(square, x); 
-                          }
-                      }
-
-                      if (y && y > square.y && y < square.y + square.height) {
-                          if(rand2.integer(0, 1) > 0) {
-                            squares.splice(i, 1);
-                            splitOnY(square, y); 
-                          }
-                      }
-                      }
-                    }
-
-                    function splitOnX(square, splitAt) {
-                      var squareA = {
-                        x: square.x,
-                        y: square.y,
-                        width: square.width - (square.width - splitAt + square.x),
-                        height: square.height
-                      };
-
-                      var squareB = {
-                      x: splitAt,
-                      y: square.y,
-                      width: square.width - splitAt + square.x,
-                      height: square.height
-                      };
-
-                      squares.push(squareA);
-                      squares.push(squareB);
-                    }
-
-                    function splitOnY(square, splitAt) {
-                      var squareA = {
-                        x: square.x,
-                        y: square.y,
-                        width: square.width,
-                        height: square.height - (square.height - splitAt + square.y)
-                      };
-
-                      var squareB = {
-                      x: square.x,
-                      y: splitAt,
-                      width: square.width,
-                      height: square.height - splitAt + square.y
-                      };
-
-                      squares.push(squareA);
-                      squares.push(squareB);
-                    }
-
-                    for (var i = 0; i < size; i += step) {
-                      splitSquaresWith({ y: i });
-                      splitSquaresWith({ x: i });
-                    }
-
-                    function draw() {
-                      for (var i = 0; i < colors.length; i++) {
-                        squares[Math.floor(Math.random() * squares.length)].color = colors[i];
-                      }
-                      for (var i = 0; i < squares.length; i++) {
-                        context.beginPath();
                         context.rect(
-                          squares[i].x,
-                          squares[i].y,
-                          squares[i].width,
-                          squares[i].height
+                          0,
+                          0,
+                          canvas.width,
+                          canvas.height
                         );
-                        if(squares[i].color) {
-                          context.fillStyle = squares[i].color;
-                        } else {
-                          context.fillStyle = white
-                        }
-                        context.fill()
-                        context.stroke();
-                      }
-                    }
+                        context.fillStyle = white;
+                        context.fill();
 
-                    draw();
+                        if(this_tri_type == 'tlbr-even')
+                        {
+                            sierpinski(0, 0, cw, ch, 0, ch, depth1, colors[rand1.integer(0, (colors.length - 1))]);
+                            if(depth1 == 1)
+                            {
+                                sierpinski(cw, 0, cw, ch, 0, 0, depth2, colors[rand1.integer(0, (colors.length - 1))]);
+                            }
+                            else
+                            {
+                                sierpinski(cw, 0, cw, ch, 0, 0, depth1, colors[rand1.integer(0, (colors.length - 1))]);
+                            }
+                        }
+                        else if(this_tri_type == 'tlbr-odd')
+                        {
+                            sierpinski(0, 0, cw, ch, 0, ch, depth1, colors[rand1.integer(0, (colors.length - 1))]);
+                            sierpinski(cw, 0, cw, ch, 0, 0, depth2, colors[rand2.integer(0, (colors.length - 1))]);
+                        }
+                        else if(this_tri_type == 'trbl-even')
+                        {
+                            sierpinski(0, 0, cw, ch, 0, ch, depth1, colors[rand1.integer(0, (colors.length - 1))]);
+                            if(depth1 == 1)
+                            {
+                                sierpinski(cw, 0, cw, ch, 0, 0, depth2, colors[rand2.integer(0, (colors.length - 1))]);
+                            rotate();
+                            }
+                            else
+                            {
+                                sierpinski(cw, 0, cw, ch, 0, 0, depth1, colors[rand2.integer(0, (colors.length - 1))]);
+                            rotate();
+                            }
+                        }
+                        else if(this_tri_type == 'trbl-odd')
+                        {
+                            sierpinski(0, 0, cw, ch, 0, ch, depth1, colors[rand1.integer(0, (colors.length - 1))]);
+                            sierpinski(cw, 0, cw, ch, 0, 0, depth2, colors[rand1.integer(0, (colors.length - 1))]);
+                            rotate();
+                        }
+                    }
                 }
                 else if(style == 'lines')
                 {
-
-                    context.lineCap = 'square';
-                    context.lineWidth = rand1.integer(1, 5);
-                    
-                    var step = rand1.integer(20, 100);
-
-                    function draw(x, y, width, height) 
+                    if(rand1.integer(0, 1) && rand2.integer(0, 1))
                     {
-                      var leftToRight = rand1.integer(0, 1) > 0;
-                      if(leftToRight) {
-                        context.moveTo(x, y);
-                        context.lineTo(x + width, y + height); 
-                        context.strokeStyle = colors[rand1.integer(0, 2)];
-                      } else {
-                        context.moveTo(x + width, y);
-                        context.lineTo(x, y + height);
-                        context.strokeStyle = colors[rand2.integer(0, 2)];
-                      }
-                      context.fillStyle = white;
-                      context.fill();
-                      context.stroke();
-                    }
+                        // Chips
+                        var WIDTH = canvas.width;
+                        var HEIGHT = canvas.height;
+                        //var size = 30;
+                        var size = rand1.integer(1, 50);
 
-                    for(var x = 0; x < size; x += step) {
-                        
-                      for(var y = 0; y < size; y+= step) {
-                        draw(x, y, step, step);    
-                      }
+                        var x_sections = WIDTH / size;
+                        var y_sections = HEIGHT / size;
+
+                        line_cap = 'round';
+                        if(rand1.integer(0, 1))
+                        {
+                            line_cap = 'square';
+                        }
+
+                        line_width_1 = rand1.integer(5, 25);
+                        line_width_2 = rand1.integer(5, 25);
+
+                        function createLine(x, y, n) {
+                            //context.beginPath();
+                            context.beginPath(rand1.integer(0, canvas.width), rand2.integer(0, canvas.height));
+                            //context.lineWidth = 15;
+                            //context.lineWidth = rand1.integer(5, 25);
+                            // context.lineWidth += .015;
+                            context.lineCap = line_cap;
+                            context.strokeStyle = colors[rand1.integer(0, 2)];
+                            if (n >= Math.random() / rand1.integer(1, 4)) {
+                                context.lineWidth = line_width_1;
+                                context.moveTo(x, y);
+                                context.lineTo(x + size, y + size);
+                            }
+                            else {
+                                context.lineWidth = line_width_2;
+                                context.moveTo(x + size, y);
+                                context.lineTo(x, y + size);
+                                if(rand2.integer(0, 1))
+                                {
+                                    context.strokeStyle = colors[rand2.integer(0, 2)];
+                                }
+                            }
+                            context.stroke();
+                        }
+
+                        function draw() {
+                            context.clearRect(0, 0, WIDTH, HEIGHT);
+
+                            for (var x = 0; x < x_sections; x++) {
+                                for (var y = 0; y < y_sections; y++) {
+                                    createLine(x * size, y * size, rand1.integer(0, 1));
+                                }
+                            }
+                        }
+
+                        draw();
+                    }
+                    else
+                    {
+                        // Original lines ...
+
+                        context.lineCap = 'square';
+                        context.lineWidth = rand1.integer(1, 5);
+
+                        var step = rand1.integer(20, 100);
+
+                        function draw(x, y, width, height) 
+                        {
+                          var leftToRight = rand1.integer(0, 1) > 0;
+                          if(leftToRight) {
+                            context.moveTo(x, y);
+                            context.lineTo(x + width, y + height); 
+                            context.strokeStyle = colors[rand1.integer(0, 2)];
+                          } else {
+                            context.moveTo(x + width, y);
+                            context.lineTo(x, y + height);
+                            context.strokeStyle = colors[rand2.integer(0, 2)];
+                          }
+                          context.fillStyle = white;
+                          context.fill();
+                          context.stroke();
+                        }
+
+                        for(var x = 0; x < size; x += step) {
+
+                          for(var y = 0; y < size; y+= step) {
+                            draw(x, y, step, step);    
+                          }
+                        }
                     }
                 }
                 else if(style == 'circles')
                 {
                     
-                    context.lineWidth = rand1.integer(1, 5);
+                    
+                    context.lineWidth = rand1.integer(0, 5);
   
                     var circles = [];
-                    var minRadius = rand2.integer(1, 5);
-                    var maxRadius = rand1.integer(5, 100) + rand2.integer(5, 100);
-                    var totalCircles = rand1.integer(10, 1000);
-                    var createCircleAttempts = rand2.integer(10, 1000);
+                    var minRadius = rand1.integer(1, 50);
+                    var maxRadius = rand2.integer(100, 1000);
+                    var totalCircles = rand1.integer(5, 2000);
+                    var createCircleAttempts = rand2.integer(1, 1000);
 
                     function createAndDrawCircle() {
 
@@ -950,7 +1156,14 @@ var pandora = {
                       context.beginPath();
                       context.arc(newCircle.x, newCircle.y, newCircle.radius, 0, 2*Math.PI);
                       context.fillStyle = colors[rand1.integer(0, (colors.length - 1))];
-                      context.strokeStyle = white;
+                      if(!rand1.integer(0, 1) || !rand2.integer(0, 1))
+                      {
+                          context.strokeStyle = colors[rand1.integer(0, (colors.length - 1))];
+                      }
+                      else
+                      {
+                          //context.strokeStyle = white;
+                      }
                       context.fill(); 
                       context.stroke(); 
                     }
@@ -986,48 +1199,218 @@ var pandora = {
                 }
                 else if(style == 'squares')
                 {
-                    
-                    context.lineWidth = 2;
-                    context.lineWidth = rand1.integer(1, 4);
-                    
-                    var finalSize = 3;
-                    var finalSize = rand1.integer(4, 8);
-                    var startSteps;
-                    var offset = 2;
-                    var tileStep = (size - offset * 2) / 7;
-                    var tileStep = (size - offset * 2) / rand1.integer(3, 14);
-                    var startSize = tileStep;
-                    var directions = [-1, 0, 1];
+                    var rand3 = new XorShift128(stringToSeed('' + seed + seed + ''));
+                    if(rand3.integer(0, 1))
+                    {
+                        context.lineWidth = 8;
+                        context.lineWidth = rand1.integer(2, 16);
+                        var step = size / 7;
+                        var step = size / rand2.integer(3, 14);
 
-                    function draw(x, y, width, height, xMovement, yMovement, steps) {
-                      context.beginPath();
-                      context.rect(x, y, width, height);
-                      context.fillStyle = white;
-                      if(rand1.integer(0, 2))
-                      {
-                          context.fillStyle = colors[rand2.integer(0, 2)];
-                      }
-                      context.strokeStyle = colors[rand1.integer(0, 2)];
-                      context.stroke();
-                      context.fill();
+                        var squares = [{
+                            x: 0,
+                            y: 0,
+                            width: size,
+                            height: size
+                          }];
 
-                      if(steps >= 0) {
-                        var newSize = (startSize) * (steps / startSteps) + finalSize;
-                        var newX = x + (width - newSize) / 2
-                        var newY = y + (height - newSize) / 2
-                        newX = newX - ((x - newX) / (steps + 2)) * xMovement
-                        newY = newY - ((y - newY) / (steps + 2)) * yMovement
-                        draw(newX, newY, newSize, newSize, xMovement, yMovement, steps - 1);
-                      }
+                        function splitSquaresWith(coordinates) {
+                          const { x, y } = coordinates;
+
+                          for (var i = squares.length - 1; i >= 0; i--) {
+                          const square = squares[i];
+
+                          if (x && x > square.x && x < square.x + square.width) {
+                              if(rand1.integer(0, 1) > 0) {
+                                squares.splice(i, 1);
+                                splitOnX(square, x); 
+                              }
+                          }
+
+                          if (y && y > square.y && y < square.y + square.height) {
+                              if(rand2.integer(0, 1) > 0) {
+                                squares.splice(i, 1);
+                                splitOnY(square, y); 
+                              }
+                          }
+                          }
+                        }
+
+                        function splitOnX(square, splitAt) {
+                          var squareA = {
+                            x: square.x,
+                            y: square.y,
+                            width: square.width - (square.width - splitAt + square.x),
+                            height: square.height
+                          };
+
+                          var squareB = {
+                          x: splitAt,
+                          y: square.y,
+                          width: square.width - splitAt + square.x,
+                          height: square.height
+                          };
+
+                          squares.push(squareA);
+                          squares.push(squareB);
+                        }
+
+                        function splitOnY(square, splitAt) {
+                          var squareA = {
+                            x: square.x,
+                            y: square.y,
+                            width: square.width,
+                            height: square.height - (square.height - splitAt + square.y)
+                          };
+
+                          var squareB = {
+                          x: square.x,
+                          y: splitAt,
+                          width: square.width,
+                          height: square.height - splitAt + square.y
+                          };
+
+                          squares.push(squareA);
+                          squares.push(squareB);
+                        }
+
+                        for (var i = 0; i < size; i += step) {
+                          splitSquaresWith({ y: i });
+                          splitSquaresWith({ x: i });
+                        }
+
+                        function draw() {
+                          for (var i = 0; i < colors.length; i++) {
+                            squares[Math.floor(Math.random() * squares.length)].color = colors[i];
+                          }
+                          for (var i = 0; i < squares.length; i++) {
+                            context.beginPath();
+                            context.rect(
+                              squares[i].x,
+                              squares[i].y,
+                              squares[i].width,
+                              squares[i].height
+                            );
+                            if(squares[i].color) {
+                              context.fillStyle = squares[i].color;
+                            } else {
+                              context.fillStyle = white
+                            }
+                            context.fill()
+                            context.stroke();
+                          }
+                        }
+
+                        draw();
                     }
+                    else if(rand2.integer(0, 1))
+                    {
+                        var c = context;
+                        var sideLength = canvas.width / 2;
+                        var depth = rand2.integer(1, 5);
 
-                    for( var x = offset; x < size - offset; x += tileStep) {
-                      for( var y = offset; y < size - offset; y += tileStep) {
-                        startSteps = 2 + Math.ceil(rand1.integer(0, 3))
-                        var xDirection = directions[Math.floor(rand1.integer(0, (directions.length -1)))]
-                        var yDirection = directions[Math.floor(rand1.integer(0, (directions.length -1)))]
-                        draw(x, y, startSize, startSize, xDirection, yDirection, startSteps - 1);
-                      }
+                        var rand3 = new XorShift128(stringToSeed('' + seed + seed + ''));
+
+                        if(rand3.integer(0, 1))
+                        {
+                            context.rect(
+                              0,
+                              0,
+                              canvas.width,
+                              canvas.height
+                            );
+                            context.fillStyle = colors[rand3.integer(0, (colors.length - 1))];
+                            context.fill();
+                        }
+
+                        function sierpinskiCarpet(x1, y1, sideLength, depth){
+                          if (depth === 0){
+                            drawSquare(x1, y1, sideLength);}
+                          else{
+                            sideLength *= (1/3);
+                            var x2 = x1 + sideLength;
+                            var y2 = y1 + sideLength;
+                            var x3 = x1 + sideLength * 2;
+                            var y3 = y1 + sideLength * 2;
+
+                            sierpinskiCarpet(x1, y1, sideLength, depth - 1);
+                            sierpinskiCarpet(x1, y2, sideLength, depth - 1);
+                            sierpinskiCarpet(x1, y3, sideLength, depth - 1);
+                            sierpinskiCarpet(x2, y1, sideLength, depth - 1);
+                            sierpinskiCarpet(x2, y3, sideLength, depth - 1);
+                            sierpinskiCarpet(x3, y1, sideLength, depth - 1);
+                            sierpinskiCarpet(x3, y2, sideLength, depth - 1);
+                            sierpinskiCarpet(x3, y3, sideLength, depth - 1);
+                          }
+                        }
+
+                        function drawSquare(x1, y1, sideLength){
+                          c.beginPath();
+                          c.moveTo(x1, y1);
+
+
+                          c.lineWidth = rand3.integer(0, 5);
+                          c.strokeStyle = colors[rand2.integer(0, (colors.length - 1))];
+
+                          c.lineTo(x1 + sideLength, y1);
+                          c.lineTo(x1 + sideLength, y1 + sideLength);
+                          c.lineTo(x1, y1 + sideLength);
+                          c.closePath();
+                          c.fillStyle = white;
+
+
+                          c.fill();
+                        }
+
+                        sierpinskiCarpet(0, 0, sideLength, depth);
+                    }
+                    else
+                    {
+                        // Hypno squares
+
+                        context.lineWidth = 2;
+                        context.lineWidth = rand1.integer(1, 4);
+
+                        var finalSize = 3;
+                        var finalSize = rand1.integer(4, 8);
+                        var startSteps;
+                        var offset = 2;
+                        var offset = rand2.integer(1, 4);
+                        var tileStep = (size - offset * 2) / 7;
+                        var tileStep = (size - offset * 2) / rand1.integer(1, 20);
+                        var startSize = tileStep;
+                        var directions = [-1, 0, 1];
+
+                        function draw(x, y, width, height, xMovement, yMovement, steps) {
+                          context.beginPath();
+                          context.rect(x, y, width, height);
+                          context.fillStyle = white;
+                          if(rand1.integer(0, 2))
+                          {
+                              context.fillStyle = colors[rand2.integer(0, 2)];
+                          }
+                          context.strokeStyle = colors[rand1.integer(0, 2)];
+                          context.stroke();
+                          context.fill();
+
+                          if(steps >= 0) {
+                            var newSize = (startSize) * (steps / startSteps) + finalSize;
+                            var newX = x + (width - newSize) / 2
+                            var newY = y + (height - newSize) / 2
+                            newX = newX - ((x - newX) / (steps + 2)) * xMovement
+                            newY = newY - ((y - newY) / (steps + 2)) * yMovement
+                            draw(newX, newY, newSize, newSize, xMovement, yMovement, steps - 1);
+                          }
+                        }
+
+                        for( var x = offset; x < size - offset; x += tileStep) {
+                          for( var y = offset; y < size - offset; y += tileStep) {
+                            startSteps = 2 + Math.ceil(rand1.integer(0, 3))
+                            var xDirection = directions[Math.floor(rand1.integer(0, (directions.length -1)))]
+                            var yDirection = directions[Math.floor(rand1.integer(0, (directions.length -1)))]
+                            draw(x, y, startSize, startSize, xDirection, yDirection, startSteps - 1);
+                          }
+                        }
                     }
                 }
             }
@@ -1635,15 +2018,12 @@ var pandora = {
                 
                 var temp_seed = stringToSeed(name);
                 var styles = [
-                    'mondrian',
                     'lines',
                     'circles',
                     'squares',
-                    'checkers',
-                    'chips',
                     'triangles',
-                    'spirals',
-                    'vee'
+                    'wired',
+                    'crosses'
                 ];
                 var random = new XorShift128(temp_seed);
                 var style = styles[random.integer(0, (styles.length - 1))];
@@ -1709,15 +2089,12 @@ var pandora = {
                 var ts = new Date().getTime();
                 var style = params.style;
                 if(
-                    params.style != 'mondrian'
-                    && params.style != 'lines'
+                    params.style != 'lines'
                     && params.style != 'circles'
                     && params.style != 'squares'
-                    && params.style != 'checkers'
-                    && params.style != 'chips'
                     && params.style != 'triangles'
-                    && params.style != 'spirals'
-                    && params.style != 'vee'
+                    && params.style != 'wired'
+                    && params.style != 'crosses'
                 ){
                     ts = params.style;
                 }
@@ -1739,26 +2116,20 @@ var pandora = {
                     var seed = stringToSeed(params.style + ts + a);
                     
                     if(
-                        params.style != 'mondrian'
-                        && params.style != 'lines'
+                        params.style != 'lines'
                         && params.style != 'circles'
                         && params.style != 'squares'
-                        && params.style != 'checkers'
-                        && params.style != 'chips'
                         && params.style != 'triangles'
-                        && params.style != 'spirals'
-                        && params.style != 'vee'
+                        && params.style != 'wired'
+                        && params.style != 'crosses'
                     ){
                         var styles = [
-                            'mondrian',
                             'lines',
                             'circles',
                             'squares',
-                            'checkers',
-                            'chips',
                             'triangles',
-                            'spirals',
-                            'vee'
+                            'wired',
+                            'crosses'
                         ];
                         var random = new XorShift128(seed);
                         style = styles[random.integer(0, (styles.length - 1))];
