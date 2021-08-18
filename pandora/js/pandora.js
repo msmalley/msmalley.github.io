@@ -324,8 +324,8 @@ var pandora = {
         {
             if(seed && seed > 0 && jQuery('#' + element_id).length == 1)
             {
-                var rand1 = new XorShift128(seed);
-                var rand2 = new XorShift128(parseInt(pandora.strings.rev('' + seed + '')));
+                var rand1 = new XorShift128(stringToSeed(element_id + seed));
+                var rand2 = new XorShift128(stringToSeed(pandora.strings.rev('' + seed + '') + element_id));
                 var styles = [
                     'lines',
                     'circles',
