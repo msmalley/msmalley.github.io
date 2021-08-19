@@ -2493,10 +2493,10 @@ var pandora = {
                             {
                             
                             // Draw sun / moon
-                            const margin = canvas.width / 10;
-                            const centerX = margin + rand1.integer(0, canvas.width - (margin * 2));
-                            const centerY = rand2.integer(margin, canvas.height / 2);
                             const radius = rand1.integer(50, 100);
+                            const margin = canvas.width / 10;
+                            const centerX = rand1.integer(0 - (radius / 2), canvas.width + (radius / 2));
+                            const centerY = rand2.integer(0 - (radius / 2), canvas.height / 2);
 
                             // Plain version
                             context.globalAlpha = 0.95;
