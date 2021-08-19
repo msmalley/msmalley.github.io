@@ -4,7 +4,7 @@
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-        <title>Pandora | Gallery</title>
+        <title>Pandora | Landscapes</title>
         <link rel="stylesheet" href="../css/bootstrap.css">
         <link rel="stylesheet" href="../css/pandora.css">
         <script type="text/javascript" src="../js/jquery.js"></script>
@@ -19,7 +19,7 @@
         <script type="text/javascript" src="../js/checkers.js"></script>
         <script type="text/javascript" src="../js/ethereum-tx.js"></script>
     </head>
-    <body id="body-gallery" data-robohash="../img/robohash/set1.png">
+    <body id="body-landscapes" data-robohash="../img/robohash/set1.png">
         <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top" id="navigation">
             <div class="container">
                 <a class="navbar-brand orb" href="../">the <b>pandora</b> initiative</a>
@@ -29,8 +29,8 @@
                 <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
                     <div class="navbar-nav ms-auto orb">
                         <a class="nav-link" href="../">about</a>
-                        <a class="nav-link active" aria-current="page" href="../gallery/">gallery</a>
-                        <a class="nav-link" href="../landscapes/">landscapes</a>
+                        <a class="nav-link" href="../gallery/">gallery</a>
+                        <a class="nav-link active" aria-current="page" href="../landscapes/">landscapes</a>
                         <a class="nav-link" href="../studio/">studio</a>
                         <a class="nav-link" href="../artists/">artists</a>
                     </div>
@@ -39,7 +39,7 @@
         </nav>
         <div class="section sub-header">
             <div class="container">
-                <h2 class="amatic">Search For Specific Art</h2>
+                <h2 class="amatic">Search For Specific Landscapes</h2>
                 <h4 class="orb">
                     <p>&nbsp;</p>
                     <form action="" method="get">
@@ -60,63 +60,24 @@
         </div>
         <div class="section">
             <div class="container">
-                <alert class="alert text-center alert-filter">
-                    <p>&nbsp;</p>
-                    <h6 class="pstart" style="line-height: 2rem;">Browse Styles</h6>
-                    <div class="btn-group btn-block art-filters" role="group" style="display: flex;">
-                        <a href="../gallery/?style=lines" class="btn btn-sm btn-outline-dark btn-lines" style="flex: 1">
-                            LINES
-                        </a>
-                        <a href="../gallery/?style=circles" class="btn btn-sm btn-outline-dark btn-circles" style="flex: 1">
-                            CIRCLES
-                        </a>
-                        <a href="../gallery/?style=squares" class="btn btn-sm btn-outline-dark btn-squares" style="flex: 1">
-                            SQUARES
-                        </a>
-                        <a href="../gallery/?style=triangles" class="btn btn-sm btn-outline-dark btn-triangles" style="flex: 1">
-                            TRIANGLES
-                        </a>
-                        <a href="../gallery/?style=wired" class="btn btn-sm btn-outline-dark btn-wired" style="flex: 1">
-                            WIRED
-                        </a>
-                        <a href="../gallery/?style=crosses" class="btn btn-sm btn-outline-dark btn-crosses" style="flex: 1">
-                            CROSSES
-                        </a>
-                    </div>
-                    <p>&nbsp;</p>
-                </alert>
                 <div class="artist-info">
+                    <img src="../img/mountains2.jpg" style="display: none;" id="rock-texture" width="100" height="100" />
+                    <img src="../img/mountains3.jpg" style="display: none;" id="rock-texture2" width="100" height="100" />
                     <div class="row frames">
-                        <div class="col-md-4 artistic loading relative">
-                            <canvas id="artist-art-0" class="art" width="300" height="300"></canvas>
-                        </div>
-                        <div class="col-md-4 artistic loading relative">
-                            <canvas id="artist-art-1" class="art" width="300" height="300"></canvas>
-                        </div>
-                        <div class="col-md-4 artistic loading relative">
-                            <canvas id="artist-art-2" class="art" width="300" height="300"></canvas>
+                        <div class="col-md-12 artistic loading relative">
+                            <canvas id="artist-art-0" class="art" width="600" height="400"></canvas>
                         </div>
                     </div>
+                    <p>&nbsp;</p><p>&nbsp;</p>
                     <div class="row frames">
-                        <div class="col-md-4 artistic loading relative">
-                            <canvas id="artist-art-3" class="art" width="300" height="300"></canvas>
-                        </div>
-                        <div class="col-md-4 artistic loading relative">
-                            <canvas id="artist-art-4" class="art" width="300" height="300"></canvas>
-                        </div>
-                        <div class="col-md-4 artistic loading relative">
-                            <canvas id="artist-art-5" class="art" width="300" height="300"></canvas>
+                        <div class="col-md-12 artistic loading relative">
+                            <canvas id="artist-art-1" class="art" width="600" height="400"></canvas>
                         </div>
                     </div>
+                    <p>&nbsp;</p><p>&nbsp;</p>
                     <div class="row frames">
-                        <div class="col-md-4 artistic loading relative">
-                            <canvas id="artist-art-6" class="art" width="300" height="300"></canvas>
-                        </div>
-                        <div class="col-md-4 artistic loading relative">
-                            <canvas id="artist-art-7" class="art" width="300" height="300"></canvas>
-                        </div>
-                        <div class="col-md-4 artistic loading relative">
-                            <canvas id="artist-art-8" class="art" width="300" height="300"></canvas>
+                        <div class="col-md-12 artistic loading relative">
+                            <canvas id="artist-art-2" class="art" width="600" height="400"></canvas>
                         </div>
                     </div>
                 </div>

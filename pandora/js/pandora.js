@@ -381,7 +381,6 @@ var pandora = {
                 }
                 
                 //style = 'crosses';
-                //console.log('style', style);
                 
                 if(style == 'crosses')
                 {
@@ -1890,8 +1889,6 @@ var pandora = {
                             turningAngle: rand1.integer(3, 9)
                         };
 
-                        //console.log('defaults', defaults);
-
                         var chromata = false;
 
                         try
@@ -2153,6 +2150,57 @@ var pandora = {
             pandora.images.fetch();
             pandora.artists.home();
         },
+        landscapes: function()
+        {
+            pandora.images.fetch();
+            if(
+                typeof params == 'object'
+                && typeof params.style != 'undefined'
+                && params.style
+            ){
+                var ts = new Date().getTime();
+                var style = params.style;
+                if(
+                    params.style != 'sky'
+                ){
+                    ts = params.style;
+                }
+                
+                var arts = [
+                    'R'+ts,
+                    'G'+ts,
+                    'B'+ts
+                ];
+                jQuery.each(arts, function(a)
+                {
+                    
+                    var seed = stringToSeed(params.style + ts + a);
+                    
+                    if(
+                        params.style != 'sky'
+                    ){
+                        var styles = [
+                            'sky'
+                        ];
+                        var random = new XorShift128(seed);
+                        style = styles[random.integer(0, (styles.length - 1))];
+                        ts = params.style;
+                    }
+                    pandora.landscapes.draw(seed, 'artist-art-' + a, style);
+                });
+                setTimeout(function()
+                {
+                    pandora.images.convert(params.style, arts[0]);
+                    jQuery('.art-filters .btn.active').removeClass('active');
+                    jQuery('.btn-' + params.style).addClass('active');
+                }, 600);
+            }
+            else
+            {
+                jQuery('.artist-info').hide();
+                //jQuery('.alert-filter').html('<p>&nbsp;</p><h6 class="pstart" style="line-height: 2rem;">Our latest artwork can be seen below!</h6><p>&nbsp;</p>');
+            }
+        },
         studio: function()
         {
             pandora.images.fetch();
@@ -2175,6 +2223,562 @@ var pandora = {
                     console.log('Error: ', error);
                 };
             });
+        }
+    },
+    landscapes: {
+        draw: function(seed, element_id, style = false)
+        {
+            if(seed && seed > 0 && jQuery('#' + element_id).length == 1)
+            {
+                var rand1 = new XorShift128(stringToSeed(element_id + seed));
+                var rand2 = new XorShift128(stringToSeed(pandora.strings.rev('' + seed + '') + element_id));
+                var styles = [
+                    'sky'
+                ];
+                if(
+                    !style
+                    || 
+                    (
+                        style
+                        &&
+                        (
+                            style != 'sky'
+                        )
+                    )
+                ){
+                    style = styles[rand1.integer(0, (styles.length - 1))];
+                }
+                var canvas = document.getElementById(element_id);
+                var context = canvas.getContext('2d');
+                
+                var white = '#' + ntc.randomColour(stringToSeed('FFF' + seed));
+                var white2 = '#' + ntc.randomColour(stringToSeed('EEE' + seed));
+                var colors = [
+                    '#' + ntc.randomColour(stringToSeed('C' + seed)),
+                    '#' + ntc.randomColour(stringToSeed('M' + seed)),
+                    '#' + ntc.randomColour(stringToSeed('Y' + seed)),
+                    '#' + ntc.randomColour(stringToSeed('K' + seed)),
+                    white
+                ];
+                var colors2 = [
+                    '#' + ntc.randomColour(stringToSeed('C2' + seed)),
+                    '#' + ntc.randomColour(stringToSeed('M2' + seed)),
+                    '#' + ntc.randomColour(stringToSeed('Y2' + seed)),
+                    '#' + ntc.randomColour(stringToSeed('K2' + seed)),
+                    white2
+                ];
+                
+                if(style == 'sky')
+                {   
+                    var img = new Image();
+                    
+                    img.onload = function() {
+                    
+                    var img2 = new Image();
+                        
+                    img2.onload = function() {
+                        
+                    img2.width = canvas.width + (rand2.integer(0, 10) * canvas.width);
+                    img2.height = canvas.height + (rand1.integer(0, 10) * canvas.height);
+                    
+                    var tree = {
+                        canvas:     canvas,
+                        ctx:        context,
+                        height:     canvas.height,
+                        width:      canvas.width,
+                        spread:     parseFloat('0.' + rand1.integer(3, 99)),
+                        drawLeaves: true,
+                        leavesColor: white,
+                        leaveType:  rand1.integer(1, 999),
+
+                        //MAX_BRANCH_WIDTH:   20,
+                        MAX_BRANCH_WIDTH:   rand2.integer(5, 10),
+                        SMALL_LEAVES:       10,
+                        MEDIUM_LEAVES:      200,
+                        BIG_LEAVES:         500,
+                        THIN_LEAVES:        900,
+
+                        /**
+                         * @member draw
+                         *
+                         * @param {object} ctx      the canvas context
+                         * @param {integer} h       height of the canvas
+                         * @param {integer} w       width of the canvas
+                         * @param {float} spread    how much the tree branches are spread
+                         *                          Ranges from 0.3 - 1.
+                         * @param {boolean} leaves  draw leaves if set to true    
+                         *
+                         */
+                        draw : function(ctx, h, w, spread, leaves, leaveType, index = 0) {
+                            // Set how much the tree branches are spread
+                            if(spread >= 0.3 && spread <= 1) {
+                                this.spread = spread;
+                            }
+
+                            if(leaves === true || leaves === false) {
+                                this.drawLeaves = leaves;
+                            }
+
+                            if(leaveType == this.SMALL_LEAVES || 
+                               leaveType == this.MEDIUM_LEAVES || 
+                               leaveType == this.BIG_LEAVES || 
+                               leaveType == this.THIN_LEAVES) {
+                                this.leaveType = leaveType;
+                            }
+
+                            this.ctx = ctx;
+                            this.height = h;
+                            this.width = w;
+                            //this.ctx.clearRect(0,0,this.width,this.height);
+                            // Center the tree in the window
+                            var tree_width = (this.width / 10) + rand1.integer(0, this.width - (this.width / 20));
+                            
+                            if(index > 0)
+                            {
+                                var tree_width = (this.width / 10) + rand2.integer(0, this.width - (this.width / 20));
+                            }
+                            this.ctx.translate(tree_width,this.height);
+                            // Set the leaves to a random color
+                            this.leavesColor = '#'+(0x1000000+(Math.random())*0xffffff).toString(16).substr(1,6);
+                            // Set branch thickness
+                            this.ctx.lineWidth = 1 + (Math.random() * this.MAX_BRANCH_WIDTH);
+                            this.ctx.lineJoin = 'round';
+
+                            this.branch(0);
+                        },
+
+                        /**
+                         * @member branch
+                         * tree.branch() main tree drawing function
+                         *
+                         * @param {String} depth the maimum depth the tree can branch,
+                         *        Keep this value near 12, larger value take linger to render.
+                         *
+                         */
+                        branch : function(depth) {
+                            if (depth < 12) 
+                            {
+                                this.ctx.beginPath();
+                                this.ctx.moveTo(0,0);
+                                this.ctx.lineTo(0,-(this.height)/10);
+                                this.ctx.stroke();
+
+                                this.ctx.translate(0,-this.height/10);
+                                // Random integer from -0.1 to 0.1
+                                var randomN = -(Math.random() * 0.2) + 0.1;
+
+                                this.ctx.rotate(randomN); 
+
+                                if ((Math.random() * 1) < this.spread)
+                                {
+                                    // Draw the left branches
+                                    this.ctx.rotate(-0.3);
+                                    this.ctx.scale(0.7,0.7);
+                                    this.ctx.save();
+                                    this.branch(depth + 1);
+                                    // Draw the right branches
+                                    this.ctx.restore();  
+                                    this.ctx.rotate(0.6);
+                                    this.ctx.save();
+                                    this.branch(depth + 1);   
+                                    this.ctx.restore();        
+                                }
+                                else 
+                                { 
+                                    this.branch(depth);
+                                }
+
+                            }
+                            else
+                            {   
+                                // Now that we have done drawing branches, draw the leaves
+                                if(this.drawLeaves) {
+                                    var lengthFactor = 200;
+                                    var lengthFactor = rand1.integer(1, 99);
+                                    if(this.leaveType >= this.THIN_LEAVES) {
+                                        lengthFactor = 10;
+                                    }
+                                    this.ctx.fillStyle = this.leavesColor;
+                                    this.ctx.fillRect(0, 0, this.leaveType, lengthFactor);
+                                    this.ctx.stroke();
+                                }
+                            }
+                        }
+                    };
+                    
+                    function setBackgroundLayer(can)
+                    {
+                        var displayCanvas = can;
+                        var displayWidth = displayCanvas.width;
+                        var displayHeight = displayCanvas.height;
+
+                        function initB() {
+                            generateB();
+                        }
+
+                        function generateB() 
+                        {
+                            var x0, y0, w, h;
+                            var numRects = 12;
+                            var alphaVariation;
+                            var angleVariation = Math.PI/32;
+                            var r,g,b,baseAlpha;
+                            var gradRad;
+                            var xMid,yMid;
+                            var gradIterates;
+
+                            bgColor = "#ffffff";
+
+                            //rectangle to fill:
+                            x0 = 0;
+                            y0 = 0;
+                            w = displayWidth;
+                            h = displayHeight;
+
+                            xMid = x0 + w/2;
+                            yMid = y0 + h/2;
+
+                            for (var i = 0; i < numRects; i++) 
+                            {
+
+                                //random color
+                                r = Math.floor(Math.random()*255);
+                                g = Math.floor(Math.random()*255);
+                                b = Math.floor(Math.random()*255);			
+                                baseAlpha = 0;
+                                alphaVariation = 2/numRects;
+
+                                context.globalCompositeOperation = "lighter";
+
+                                gradRad = 1.1*h/2;
+                                gradIterates = 8;
+                                context.fillStyle = createLinearFractalGradient(
+                                    context,
+                                    xMid, 
+                                    yMid - gradRad, 
+                                    xMid, 
+                                    yMid + gradRad,                                             
+                                    angleVariation,
+                                    r,
+                                    g,
+                                    b,
+                                    baseAlpha,
+                                    alphaVariation,
+                                    gradIterates
+                                );
+
+                                //draw
+                                context.fillRect(x0,y0,w,h);
+                            }
+
+                            //background color
+                            context.globalCompositeOperation = "destination-over";
+                            context.fillStyle = bgColor;
+                            context.fillRect(x0,y0,w,h);
+                            context.globalCompositeOperation = "source-over";
+                            context.fill();
+                            
+                            // Mountains ...
+                            generateMountains(canvas, context);
+                        };
+                        
+                        // Background ...
+                        initB();
+                    };
+                        
+                    function generateMountains(can, con) 
+                    {
+                        var canvas = can,
+                        ctx = con,
+                        dWidth = document.body.clientWidth,
+                        dHeight = Math.max(document.documentElement["clientHeight"], document.body["scrollHeight"], document.documentElement["scrollHeight"], document.body["offsetHeight"], document.documentElement["offsetHeight"]),
+                        config = {
+                          roughness: parseFloat('0.' + rand1.integer(3, 9)),
+                          segments: rand1.integer(8, 12),
+                          height: rand2.integer(1, 5) * 10,
+                          instant: true
+                        },
+                        roughness = config.roughness,
+                        points = [],
+                        stepCounter = 0,
+                        scroll = 0,
+                        generated = false,
+                        generating = false,
+                        offscreen = 0
+
+                        function init() 
+                        {
+                            offscreen = (canvas.width / Math.pow(2, config.segments)) * 1.25 | 0
+                            points.push({x: -offscreen, y: (canvas.height/1.25 | 0)})
+                            points.push({x: canvas.width + offscreen, y: (canvas.height/1.25 | 0)})
+                            requestAnimationFrame(step);
+                        }
+
+                        function step() 
+                        {
+                            if(!generated && stepCounter < config.segments) 
+                            {
+                                stepCounter++
+                                requestAnimationFrame(step);
+                            } 
+                            else 
+                            {
+                                generated = true;
+                                if(!generating && generated)
+                                {
+                                    tree.draw(
+                                        context,
+                                        canvas.height,
+                                        canvas.width,
+                                        parseFloat('0.' + rand1.integer(3, 8)),
+                                        rand2.integer(0, 1)
+                                    );
+                                }
+                            }
+                            update();
+                            draw();
+                        }
+
+                        function update() 
+                        {
+                          if(!generated) {
+                          var newpoints = []
+                          _.each(points, function(p, i) {
+                            newpoints.push(p)
+                              if((i + 1) < points.length) {
+                                var np = points[i+1],
+                                    heightrange = (config.height * canvas.height)/100
+
+                                newpoints.push({
+                                  x: (((p.x + np.x)/2) | 0),
+                                  y: (((p.y + np.y)/2) + ((Math.random() * ((heightrange * 2) + 1) - heightrange)) * roughness | 0)
+                                })
+                              }
+                            })
+                            roughness *= roughness
+                            points = newpoints
+                          } else {
+                            if(!generating) {
+                              _.each(points, function(p, i) {
+                                  p.x -= scroll
+                                  if(p.x < -offscreen) {
+                                      var point = points.shift()
+                                      point.x = canvas.width + offscreen
+                                      points.push(point)
+                                  }
+                              })
+                            }
+                          }
+                        }
+
+                        function draw() 
+                        {
+                            
+                            // Add rock texture
+                            ctx.globalAlpha = 0.25;
+                            
+                            if(rand1.integer(0, 1))
+                            {
+                                ctx.translate(canvas.width, 0);
+                                ctx.scale(-1, 1);
+                            }
+                            
+                            var pFill = ctx.createPattern(img, "repeat");
+                            ctx.fillStyle = pFill;
+                            ctx.beginPath()
+                            ctx.moveTo(-offscreen, canvas.height)
+                            _.each(points, function(p, i) {
+                                ctx.lineTo(p.x, p.y)
+                            })
+                            ctx.lineTo(canvas.width + offscreen, canvas.height)
+                            ctx.closePath()
+                            ctx.fill();
+                            
+                            // Draw solid color
+                            ctx.globalAlpha = 0.65;
+                            var grd = ctx.createLinearGradient(0,canvas.height / 2,0,canvas.height);
+                            grd.addColorStop(0,"black");
+                            grd.addColorStop(1,white);
+                            ctx.fillStyle = white;
+                            ctx.fillStyle = grd;
+                            ctx.beginPath()
+                            ctx.moveTo(-offscreen, canvas.height)
+                            _.each(points, function(p, i) {
+                                ctx.lineTo(p.x, p.y)
+                            })
+                            ctx.lineTo(canvas.width + offscreen, canvas.height)
+                            ctx.closePath()
+                            ctx.fill()    
+                            
+                            // Add darker spots
+                            ctx.globalAlpha = 0.4;
+                            var pFill2 = ctx.createPattern(img2, "repeat");
+                            ctx.fillStyle = pFill2;
+                            ctx.beginPath()
+                            ctx.moveTo(-offscreen, canvas.height)
+                            _.each(points, function(p, i) {
+                                ctx.lineTo(p.x, p.y)
+                            })
+                            ctx.lineTo(canvas.width + offscreen, canvas.height)
+                            ctx.closePath()
+                            ctx.fill()    ;
+                            
+                            // Reset alpha
+                            ctx.globalAlpha = 1;
+                        }
+
+                        function reset() {
+                          if(!generating) {
+                            generating = true
+                            points = []
+
+                            offscreen = (canvas.width / Math.pow(2, config.segments)) * 2 | 0
+
+                            points.push({x: -offscreen, y: (canvas.height/2 | 0)})
+                            points.push({x: canvas.width + offscreen, y: (canvas.height/2 | 0)})
+
+                            roughness = config.roughness
+
+                            generating = false
+                            stepCounter = 0
+                            generated = false
+                          }
+                        }
+                        init();
+                    };
+
+                    function createLinearFractalGradient(whichContext,x0,y0,x1,y1,angleVariation,r,g,b,a,alphaVariation,gradIterates) {
+                        //gradient - constant rgb values, but changes alpha according to subdivision control points.
+                        var numGradSteps = Math.pow(2,gradIterates);
+                        var stopNumber = 0;
+                        var gradRGB = "rgba(" + r + "," + g + "," + b + ","; //must complete with alpha
+                        var alpha;
+                        var zeroAlpha = 0.5/255;		
+                        var angle = (1 - 2*Math.random())*angleVariation;
+                        var xm = 0.5*(x0 + x1);
+                        var ym = 0.5*(y0 + y1);
+                        var ux = x0 - xm;
+                        var uy = y0 - ym;
+                        var sinAngle = Math.sin(angle);
+                        var cosAngle = Math.cos(angle);
+                        var vx = cosAngle*ux - sinAngle*uy;
+                        var vy = sinAngle*ux + cosAngle*uy;
+                        var driftX0 = xm + vx;
+                        var driftY0 = ym + vy;
+                        var driftX1 = xm - vx;
+                        var driftY1 = ym - vy;
+
+                        var grad = whichContext.createLinearGradient(driftX0, driftY0, driftX1, driftY1);
+
+                        var gradPoints = createRandomData(gradIterates);
+                        var gradFunctionPoint = gradPoints.first;
+                        while (gradFunctionPoint != null) {
+                            alpha = a + gradFunctionPoint.y*alphaVariation;
+
+                            //avoids scientific notation for small numbers screwing up rgba string:
+                            if (alpha < zeroAlpha) {
+                                alpha = 0;
+                            }
+                            else if (alpha > 1) {
+                                alpha = 1;
+                            }
+
+                            grad.addColorStop(stopNumber/numGradSteps,gradRGB+alpha+")");
+
+                            stopNumber++;
+                            gradFunctionPoint = gradFunctionPoint.next;
+                        }
+
+                        return grad;
+                    }
+
+                    //The following function uses a subdivision process to create a random variation without abrupt changes.
+                    //The "pointList" which is returned contains a linked list of data points with x value increasing from 0 to 1 through
+                    //the beginning to the end of the list, and the y value of each point defined by the noisy function.
+                    function createRandomData(iterations) {
+                        var pointList = {};
+                        pointList.first = {x:0, y:1};
+                        var lastPoint = {x:1, y:1}
+                        var minY = 1;
+                        var maxY = 1;
+                        var point;
+                        var nextPoint;
+                        var dx, newX, newY;
+                        var ratio;
+
+                        var minRatio = 0.33;
+
+                        pointList.first.next = lastPoint;
+                        for (var i = 0; i < iterations; i++) {
+                            point = pointList.first;
+                            while (point.next != null) {
+                                nextPoint = point.next;
+
+                                ratio = minRatio + Math.random()*(1 - 2*minRatio);
+                                newX = point.x + ratio*(nextPoint.x - point.x);
+
+                                //find the smaller interval
+                                if (ratio < 0.5) {
+                                    dx = newX - point.x;
+                                }
+                                else {
+                                    dx = nextPoint.x - newX;
+                                }
+
+                                newY = point.y + ratio*(nextPoint.y - point.y);
+                                newY += dx*(Math.random()*2 - 1);
+
+                                var newPoint = {x:newX, y:newY};
+
+                                //min, max
+                                if (newY < minY) {
+                                    minY = newY;
+                                }
+                                else if (newY > maxY) {
+                                    maxY = newY;
+                                }
+
+                                //put between points
+                                newPoint.next = nextPoint;
+                                point.next = newPoint;
+
+                                point = nextPoint;
+                            }
+                        }
+
+                        //normalize to values between 0 and 1
+                        if (maxY != minY) {
+                            var normalizeRate = 1/(maxY - minY);
+                            point = pointList.first;
+                            while (point != null) {
+                                point.y = normalizeRate*(point.y - minY);
+                                point = point.next;
+                            }
+                        }
+
+                        //unlikely that max = min, but could happen if using zero iterations. In this case, set all points equal to 1.
+                        else {
+                            point = pointList.first;
+                            while (point != null) {
+                                point.y = 1;
+                                point = point.next;
+                            }
+                        }
+
+                        return pointList;		
+                    };
+                    
+                    setBackgroundLayer(canvas);
+                    };
+                    img2.src = jQuery('#rock-texture2').attr('src');  
+                    };
+                    img.src = jQuery('#rock-texture').attr('src');
+                }
+            }
+            else
+            {
+                
+            }
         }
     },
     resizes: {
@@ -2239,6 +2843,10 @@ jQuery(document).ready(function()
     else if(id == 'body-artists')
     {
         pandora.init.artists();
+    }
+    else if(id == 'body-landscapes')
+    {
+        pandora.init.landscapes();
     }
     
     // Random (ish) member count ...
