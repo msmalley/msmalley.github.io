@@ -211,6 +211,10 @@ var pandora = {
                             jQuery(canvas).css({'border-right-color': frame_colour});
                             jQuery(canvas).css({'border-top-color': frame_colour_darker});
                             jQuery(canvas).css({'border-bottom-color': frame_colour_darker});
+                            
+                            jQuery('.section.section-art-' + i).css({'background-image': 'linear-gradient('+gradient_top+', '+gradient_bottom+')'});
+                            jQuery('.section.section-art-' + i).css({borderBottom: '3px double #757575'})
+                            
                             jQuery(wrapper).removeClass('loading');
                         }, 300);
                     });
@@ -2169,7 +2173,13 @@ var pandora = {
                 var arts = [
                     'R'+ts,
                     'G'+ts,
-                    'B'+ts
+                    'B'+ts,
+                    'C'+ts,
+                    'M'+ts,
+                    'Y'+ts,
+                    'K'+ts,
+                    'T'+ts,
+                    'S'+ts
                 ];
                 jQuery.each(arts, function(a)
                 {
@@ -2287,7 +2297,7 @@ var pandora = {
                         height:     canvas.height,
                         width:      canvas.width,
                         spread:     parseFloat('0.' + rand1.integer(3, 99)),
-                        drawLeaves: true,
+                        drawLeaves: rand2.integer(0, 1),
                         leavesColor: white,
                         leaveType:  rand1.integer(1, 999),
 
@@ -2399,6 +2409,7 @@ var pandora = {
                                         lengthFactor = 10;
                                     }
                                     this.ctx.fillStyle = this.leavesColor;
+                                    this.ctx.fillStyle = colors[0];
                                     this.ctx.fillRect(0, 0, this.leaveType, lengthFactor);
                                     this.ctx.stroke();
                                 }
@@ -2531,7 +2542,7 @@ var pandora = {
                                         canvas.height,
                                         canvas.width,
                                         parseFloat('0.' + rand1.integer(3, 8)),
-                                        rand2.integer(0, 1)
+                                        rand1.integer(0, 1)
                                     );
                                 }
                             }
