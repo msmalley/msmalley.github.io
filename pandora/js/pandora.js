@@ -2481,13 +2481,61 @@ var pandora = {
                                 //draw
                                 context.fillRect(x0,y0,w,h);
                             }
-
+                            
                             //background color
                             context.globalCompositeOperation = "destination-over";
                             context.fillStyle = bgColor;
                             context.fillRect(x0,y0,w,h);
                             context.globalCompositeOperation = "source-over";
                             context.fill();
+                            
+                            if(rand1.integer(1, 99) > 33)
+                            {
+                            
+                            // Draw sun / moon
+                            const margin = canvas.width / 10;
+                            const centerX = margin + rand1.integer(0, canvas.width - (margin * 2));
+                            const centerY = rand2.integer(margin, canvas.height / 2);
+                            const radius = rand1.integer(50, 100);
+
+                            // Plain version
+                            context.globalAlpha = 0.95;
+                            context.beginPath();
+                            context.arc(centerX, centerY, radius, 0, 2 * Math.PI, false);
+                            context.shadowBlur = rand2.integer(radius / 1.5, radius * rand1.integer(1, 3));
+                            context.shadowColor = white2;
+                            context.shadowOffsetX = 0;
+                            context.shadowOffsetY = 0;
+                            context.lineWidth = rand2.integer(1, 3);
+                            context.strokeStyle = white2;
+                            context.stroke();                                    
+                            context.fillStyle = colors2[0];
+                            context.fill();
+
+                            // Texture
+                            context.globalAlpha = 0.3;
+                            context.beginPath();
+                            context.arc(centerX, centerY, radius, 0, 2 * Math.PI, false);
+                            var pFill3 = context.createPattern(img2, "repeat");
+                            context.fillStyle = pFill3;
+                            context.fill();
+
+                            // Gradient version
+                            context.globalAlpha = 0.3;
+                            context.beginPath();
+                            context.arc(centerX, centerY, radius, 0, 2 * Math.PI, false);
+                            var rad = context.createRadialGradient(centerX, centerY, 1, centerX, centerY, radius);
+                            rad.addColorStop(0, colors2[0]);
+                            rad.addColorStop(1, 'transparent');
+                            context.fillStyle = rad;
+                            context.fill();
+
+                            // Resets
+                            context.shadowBlur = 0;
+                            context.globalAlpha = 1;
+                            context.strokeStyle = colors2[2];
+                                
+                            }
                             
                             // Mountains ...
                             generateMountains(canvas, context);
@@ -2536,14 +2584,17 @@ var pandora = {
                             {
                                 generated = true;
                                 if(!generating && generated)
-                                {
-                                    tree.draw(
-                                        context,
-                                        canvas.height,
-                                        canvas.width,
-                                        parseFloat('0.' + rand1.integer(3, 8)),
-                                        rand1.integer(0, 1)
-                                    );
+                                {   
+                                    if(rand2.integer(1, 99) > 33)
+                                    {
+                                        tree.draw(
+                                            context,
+                                            canvas.height,
+                                            canvas.width,
+                                            parseFloat('0.' + rand1.integer(3, 8)),
+                                            rand1.integer(0, 1)
+                                        );
+                                    }
                                 }
                             }
                             update();
