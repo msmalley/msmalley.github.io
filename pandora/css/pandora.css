@@ -484,6 +484,13 @@ ANIMATION
 
 */
 
+.body-landscapes .carousel,
+.body-landscapes .carousel-item,
+.body-landscapes .carousel-item .section {
+    animation-duration: 59s !important;
+}
+
+
 @keyframes gradient {
 	0% {
 		background-position: 0% 50%;
