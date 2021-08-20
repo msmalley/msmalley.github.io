@@ -428,11 +428,11 @@ var pandora = {
                     var this_substance = substance1.split(' ')[0];
                     if(got_object && got_tree && story_params.tree_leaves.got)
                     {
-                        landscape_name = ntc.name(story_params.colors2[4])[1].split(' ')[0] + ' Landscape with ' + colours[4].name.split(' ')[0] + ' ' + this_substance[0].toUpperCase() + this_substance.substring(1);
+                        landscape_name = ntc.name(story_params.colors2[4])[1].split(' ')[0] + ' Landscape with ' + colours[3].name.split(' ')[0] + ' ' + this_substance[0].toUpperCase() + this_substance.substring(1);
                     }
                     else
                     {
-                        landscape_name+= ' &amp; ' + colours[4].name.split(' ')[0] + ' ' + this_substance[0].toUpperCase() + this_substance.substring(1);
+                        landscape_name+= ' &amp; ' + colours[3].name.split(' ')[0] + ' ' + this_substance[0].toUpperCase() + this_substance.substring(1);
                     }
                     
                     if(got_object)
@@ -516,7 +516,7 @@ var pandora = {
                         }
                         else
                         {
-                            intro+= ' is now filled by the solitude of the ' + colour2 + ' sky at dawn during ' + time2 + '.';
+                            intro+= ' is now filled by the solitude of the ' + colour2 + ' sky during ' + time2 + '.';
                         }
                     }
                     
