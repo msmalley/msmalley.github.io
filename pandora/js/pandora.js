@@ -367,8 +367,7 @@ var pandora = {
                     var object_intro = 'rising';
                     var mountain_type = 'hills are';
                     
-                    var nation = getRelevantRandomWord('adj', 'nationality', false, seed3).split('/')[0];
-                    var landscape_name = nation + ' ' + ntc.name(story_params.colors2[4])[1].split(' ')[0];
+                    var landscape_name = ntc.name(story_params.colors2[4])[1].split(' ')[0];
                     
                     if(story_params.mountains.height > 20 && story_params.mountains.roughness > 0.5)
                     {   
@@ -428,7 +427,7 @@ var pandora = {
                     }
                     if(got_object && got_tree && story_params.tree_leaves.got)
                     {
-                        landscape_name = nation + ' ' + ntc.name(story_params.colors2[4])[1].split(' ')[0] + ' Landscape';
+                        landscape_name = ntc.name(story_params.colors2[4])[1].split(' ')[0] + ' Landscape';
                     }
                     
                     if(got_object)
