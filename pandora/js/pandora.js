@@ -377,24 +377,24 @@ var pandora = {
                             mountain_type = 'mountains are';
                             if(got_tree && !got_object && story_params.tree_leaves.got)
                             {
-                                landscape_name+= ' Foliage';
+                                landscape_name+= ' Flowering';
                             }
                             else
                             {
-                                if(got_tree && !got_object) landscape_name+= ' Branches';
-                                else landscape_name+= ' Mountains';
+                                if(got_tree && !got_object) landscape_name+= ' Wooded';
+                                else landscape_name+= ' Mountainous';
                             }
                         }
                         else
                         {
                             if(got_tree && !got_object && story_params.tree_leaves.got)
                             {
-                                landscape_name+= ' Tree';
+                                landscape_name+= ' Treated';
                             }
                             else
                             {
-                                if(got_tree && !got_object) landscape_name+= ' Wood';
-                                else landscape_name+= ' Hills';
+                                if(got_tree && !got_object) landscape_name+= ' Woodland';
+                                else landscape_name+= ' Hilltop';
                             }
                         }
                     }
@@ -404,35 +404,36 @@ var pandora = {
                         {
                             if(got_tree && !got_object && story_params.tree_leaves.got)
                             {
-                                landscape_name+= ' Treehouse';
+                                landscape_name+= ' Treetop';
                             }
                             else
                             {
-                                if(got_tree && !got_object) landscape_name+= ' Branches';
-                                else landscape_name+= ' Hilltops';
+                                if(got_tree && !got_object) landscape_name+= ' Branched';
+                                else landscape_name+= ' Hilly';
                             }
                         }
                         else
                         {
                             if(got_tree && !got_object && story_params.tree_leaves.got)
                             {
-                                landscape_name+= ' Shrubbery';
+                                landscape_name+= ' Shrubbed';
                             }
                             else
                             {
-                                if(got_tree && !got_object) landscape_name+= ' Bark';
-                                else landscape_name+= ' Tundra';
+                                if(got_tree && !got_object) landscape_name+= ' Barked';
+                                else landscape_name+= ' Plain';
                             }
                         }
                     }
                     var this_substance = substance1.split(' ')[0];
+                    var sub1 = this_substance.split('-')[0];
                     if(got_object && got_tree && story_params.tree_leaves.got)
                     {
-                        landscape_name = ntc.name(story_params.colors2[4])[1].split(' ')[0] + ' Landscape with ' + colours[3].name.split(' ')[0] + ' ' + this_substance[0].toUpperCase() + this_substance.substring(1);
+                        landscape_name = 'Scenic ' + ntc.name(story_params.colors2[4])[1].split(' ')[0] + ' ' + sub1[0].toUpperCase() + sub1.substring(1);
                     }
                     else
                     {
-                        landscape_name+= ' &amp; ' + colours[3].name.split(' ')[0] + ' ' + this_substance[0].toUpperCase() + this_substance.substring(1);
+                        landscape_name+= ' ' + sub1[0].toUpperCase() + sub1.substring(1);
                     }
                     
                     if(got_object)
