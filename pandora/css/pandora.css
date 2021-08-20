@@ -427,6 +427,20 @@ CARD
     height: 46vh;
 
 }
+.mounded {
+    align-items: center;
+    background: linear-gradient(-45deg, rgba(0,0,0,0.2), rgba(255,255,255,0.2));
+    box-shadow: 6px 6px 8px 0 rgba(0, 0, 0, 0.25),
+   -4px -4px 6px 0 rgba(255, 255, 255, 0.3);
+    border-radius: 6px;
+    padding: 3px;
+    opacity: 0.85;
+    display: block;
+    position: relative;
+    margin: 60px auto 5px;
+    height: auto;
+    width: 70%;
+}
 .paper {
     font-family: monospace;
     display: block;
@@ -441,6 +455,23 @@ CARD
     padding: 40px;
     background: radial-gradient(rgba(255,255,255,0.4), rgba(255,255,255,0.6));
     overflow: auto;
+}
+.description-art {
+    text-align: center;
+    font-family: monospace;
+    display: block;
+    position: relative;
+    line-height: 25px;
+    font-size: 14px;
+    margin: 3px;
+    border-radius: 6px;
+    border: 3px double #757575;
+    padding: 30px 20px 20px;
+    background: radial-gradient(rgba(255,255,255,0.4), rgba(255,255,255,0.6));
+    overflow: auto;
+}
+.description-art h4.inline {
+    font-size: 20px;
 }
 .fullsize {
     display: block;

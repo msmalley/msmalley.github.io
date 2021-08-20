@@ -161,7 +161,7 @@ var pandora = {
             });
             return colours;
         },
-        convert: function(title_of_artist = false, surname_of_artist = false)
+        convert: function(title_of_artist = false, surname_of_artist = false, generate_artist = false)
         {
             if(title_of_artist && surname_of_artist)
             {
@@ -169,6 +169,7 @@ var pandora = {
                 {
                     jQuery(this).attr('id', 'new-art-' + i);
                     var wrapper = jQuery(this).parent();
+                    var big_wrapper = jQuery(this).parent().parent().parent();
                     var canvas = document.getElementById('new-art-' + i);
                     var data = canvas.toDataURL();
                     var img = new Image();
@@ -202,6 +203,18 @@ var pandora = {
                         var insert_colour = jQuery.xcolor.opacity('#eee', acolours[2].hex, 0.15);
                         var gradient_top = jQuery.xcolor.opacity('#eee', acolours[3].hex, 0.15);
                         var gradient_bottom = jQuery.xcolor.opacity('#aaa', acolours[4].hex, 0.15);
+                        
+                        if(generate_artist)
+                        {
+                            pandora.images.description(acolours, function(description, avatar, acolours)
+                            {
+                                jQuery(big_wrapper).find('.description-art-' + i).html(description);
+                                setTimeout(function()
+                                {
+                                    jQuery(big_wrapper).find('.description-art-' + i + ' h6.inline b').prepend(avatar);
+                                }, 50);
+                            });
+                        }
 
                         setTimeout(function()
                         {
@@ -1597,8 +1610,8 @@ var pandora = {
                     pandora.images.description(acolours, function(description, avatar, acolours)
                     {
 
-                        jQuery('.paper').html(description);
-                        jQuery('h6.inline b').prepend(avatar);
+                        jQuery('.section.iframe .paper').html(description);
+                        jQuery('.section.iframe h6.inline b').prepend(avatar);
 
                         var squares = [{
                             x: 0,
@@ -1766,8 +1779,8 @@ var pandora = {
                     pandora.images.description(acolours, function(description, avatar)
                     {
 
-                        jQuery('.paper').html(description);
-                        jQuery('h6.inline b').prepend(avatar);
+                        jQuery('.section.iframe .paper').html(description);
+                        jQuery('.section.iframe h6.inline b').prepend(avatar);
 
                         var matt_colour = jQuery.xcolor.opacity('#eee', acolours[1].hex, 0.15);
                         var frame_colour = jQuery.xcolor.opacity('#eee', acolours[0].hex, 0.15);
@@ -2200,7 +2213,7 @@ var pandora = {
                 });
                 setTimeout(function()
                 {
-                    pandora.images.convert(params.style, arts[0]);
+                    pandora.images.convert(params.style, arts[0], true);
                     jQuery('.art-filters .btn.active').removeClass('active');
                     jQuery('.btn-' + params.style).addClass('active');
                 }, 600);
@@ -2496,7 +2509,7 @@ var pandora = {
                             const radius = rand1.integer(50, 100);
                             const margin = canvas.width / 10;
                             const centerX = rand1.integer(0 - (radius / 2), canvas.width + (radius / 2));
-                            const centerY = rand2.integer(0 - (radius / 2), canvas.height / 2);
+                            const centerY = rand2.integer(0 - (radius / 2), canvas.height + (radius / 2));
 
                             // Plain version
                             context.globalAlpha = 0.95;
@@ -2554,7 +2567,7 @@ var pandora = {
                         config = {
                           roughness: parseFloat('0.' + rand1.integer(3, 9)),
                           segments: rand1.integer(8, 12),
-                          height: rand2.integer(1, 5) * 10,
+                          height: rand2.integer(2, 10) * 6,
                           instant: true
                         },
                         roughness = config.roughness,
