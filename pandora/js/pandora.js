@@ -206,14 +206,18 @@ var pandora = {
                         
                         if(generate_artist)
                         {
+                            var story_params = jQuery('canvas#new-art-' + i).attr('data-story');
+                            if(story_params) story_params = JSON.parse(story_params);
+                            
                             pandora.images.description(acolours, function(description, avatar, acolours)
                             {
                                 jQuery(big_wrapper).find('.description-art-' + i).html(description);
                                 setTimeout(function()
                                 {
                                     jQuery(big_wrapper).find('.description-art-' + i + ' h6.inline b').prepend(avatar);
+                                    jQuery('.section-art-' + i).find('.mounded').show();
                                 }, 50);
-                            });
+                            }, false, false, false, story_params);
                         }
 
                         setTimeout(function()
@@ -250,7 +254,7 @@ var pandora = {
                 });
             }
         },
-        description: function(colours, callback, homepage = true, title_of_artist = false, surname_of_artist = false)
+        description: function(colours, callback, homepage = true, title_of_artist = false, surname_of_artist = false, story_params = false)
         {
             var words = en_US();
     
@@ -269,6 +273,7 @@ var pandora = {
             var colour5 = colours[4].name.toLowerCase();
             var verb1 = getRelevantRandomWord('verb', 'all', true, seed2);
             var place1 = getRelevantRandomWord('place', 'all', true, seed3);
+            var place2 = getRelevantRandomWord('place', 'all', false, seed3);
 
             var noun1 = getRelevantRandomWord('noun', 'all', true, seed4);
             var this_noun = noun1[0].toUpperCase() + noun1.substring(1);
@@ -333,6 +338,186 @@ var pandora = {
                 actions+= '</div>';
 
                 var html = '<h4 class="inline">' + name_of_image + '</h4> <h6 class="inline">by <b><a href="' + url + '">' + name_of_artist + '</a></b></h6><hr class="card-line">' + intro + actions;
+                
+                if(story_params && typeof story_params == 'object')
+                {
+                    var got_tree = false;
+                    var got_object = false;
+                    var got_objects = false;
+                    if(typeof story_params.sun == 'object')
+                    {
+                        got_object = true;
+                        got_objects = true;
+                    }
+                    if(typeof story_params.tree_leaves == 'object' && typeof story_params.tree_branch == 'object')
+                    {
+                        got_tree = true;
+                        got_objects = true;
+                    }
+                    
+                    var tree = false;
+                    var sun_color = false;
+                    var sun_glow = false;
+                    var tree_colour = false;
+                    
+                    var white = ntc.name(story_params.colors1[4])[1].toLowerCase();
+                    var base_colour = ntc.name(story_params.colors1[0])[1].toLowerCase();
+                    var mountain_color = ntc.name(story_params.mountains.color)[1].toLowerCase();
+                    var object_type = 'sun';
+                    var object_intro = 'rising';
+                    var mountain_type = 'hills are';
+                    
+                    var nation = getRelevantRandomWord('adj', 'nationality', false, seed3).split('/')[0];
+                    var landscape_name = nation + ' ' + ntc.name(story_params.colors2[4])[1].split(' ')[0];
+                    
+                    if(story_params.mountains.height > 20 && story_params.mountains.roughness > 0.5)
+                    {   
+                        mountain_type = 'landscape is';
+                        if(story_params.mountains.height > 40 || story_params.mountains.roughness > 0.6)
+                        {
+                            mountain_type = 'mountains are';
+                            if(got_tree && !got_object && story_params.tree_leaves.got)
+                            {
+                                landscape_name+= ' Foliage';
+                            }
+                            else
+                            {
+                                if(got_tree && !got_object) landscape_name+= ' Branches';
+                                else landscape_name+= ' Mountains';
+                            }
+                        }
+                        else
+                        {
+                            if(got_tree && !got_object && story_params.tree_leaves.got)
+                            {
+                                landscape_name+= ' Tree';
+                            }
+                            else
+                            {
+                                if(got_tree && !got_object) landscape_name+= ' Wood';
+                                else landscape_name+= ' Hills';
+                            }
+                        }
+                    }
+                    else
+                    {
+                        if(story_params.mountains.height > 40 || story_params.mountains.roughness > 0.6)
+                        {
+                            if(got_tree && !got_object && story_params.tree_leaves.got)
+                            {
+                                landscape_name+= ' Treehouse';
+                            }
+                            else
+                            {
+                                if(got_tree && !got_object) landscape_name+= ' Branches';
+                                else landscape_name+= ' Hilltops';
+                            }
+                        }
+                        else
+                        {
+                            if(got_tree && !got_object && story_params.tree_leaves.got)
+                            {
+                                landscape_name+= ' Shrubbery';
+                            }
+                            else
+                            {
+                                if(got_tree && !got_object) landscape_name+= ' Bark';
+                                else landscape_name+= ' Tundra';
+                            }
+                        }
+                    }
+                    if(got_object && got_tree && story_params.tree_leaves.got)
+                    {
+                        landscape_name = nation + ' ' + ntc.name(story_params.colors2[4])[1].split(' ')[0] + ' Landscape';
+                    }
+                    
+                    if(got_object)
+                    {
+                        sun_color = ntc.name(story_params.sun.color)[1].toLowerCase();
+                        sun_glow = ntc.name(story_params.sun.glow)[1].toLowerCase();
+                        if(story_params.sun.y > (story_params.canvas.height /2))
+                        {
+                            object_type = 'sun';
+                            object_intro = 'setting';
+                        }
+                        if(story_params.sun.radius > 70) 
+                        {
+                            object_type = 'moon';
+                            object_intro = 'small';
+                        }
+                        if(story_params.sun.radius > 85) object_intro = 'large';
+                        
+                        if(story_params.sun.y > story_params.canvas.height)
+                        {
+                            object_intro = 'hidden';
+                        }
+                    }
+                    
+                    if(got_tree)
+                    {
+                        var leaves = ntc.name(story_params.tree_leaves.color)[1].toLowerCase();
+                        tree_colour = ntc.name(story_params.tree_branch.color)[1].toLowerCase();
+                        
+                        tree = 'dead tree';
+                        if(story_params.tree_leaves.got)
+                        {
+                            tree = tree_colour + ' tree';
+                        }
+                        
+                        if(got_tree && got_object)
+                        {
+                            tree = tree_colour + ' tree whiltering away';
+                            if(story_params.tree_leaves.got)
+                            {
+                                tree = tree_colour + ' tree with ' + leaves + ' leaves';
+                            }
+                        }
+                    }
+                    
+                    intro = 'An empty ' + mountain_color + ' wasteland once inhabited by ' + colour5 + ' ' + job1;
+                    if(story_params.mountains.height > 40 || story_params.mountains.roughness > 0.6)
+                    {
+                        intro = 'A desolate ' + mountain_color + ' mountain range home to several ' + colour5 + ' ' + job1;
+                    }
+                    
+                    if(got_tree && !got_object)
+                    {
+                        intro = 'The dark ' + mountain_color + ' ' + mountain_type + ' decorated by a single ' + tree + ' that sits in solitude under the ' + colour1 + ' sky at dusk during ' + time2 + '.';
+                    }
+                    else if(!got_tree && got_object)
+                    {
+                        intro = 'The ' + mountain_color + ' ' + mountain_type + ' illuminated by the ' + sun_glow + ' glow of the ' + object_intro + ' ' + object_type + ' seen behind the ' + job1 + ' ' + place2 + ' during ' + time2 + '.';
+                    }
+                    else if(got_tree && got_object)
+                    {
+                        var shine = 'mid-day haze';
+                        var this_part = 'behind the';
+                        if(story_params.sun.radius > 70)
+                        {
+                            shine = 'moonlight';
+                            this_part = 'beneath the';
+                        }
+                        intro = 'The picturesque ' + mountain_color + ' ' + mountain_type + ' framed by the ' + sun_color + ' ' + object_type + ' and a single ' + tree + ' ' + this_part + ' ' + sun_glow + ' ' + shine + '.';
+                    }
+                    else
+                    {
+                        if(got_object)
+                        {
+                            var shine = 'mid-day haze';
+                            if(story_params.sun.radius > 70)
+                            {
+                                shine = 'moonlight';
+                            }
+                            intro+= ' is now illuminated by the ' + sun_glow + ' ' + shine + '.';
+                        }
+                        else
+                        {
+                            intro+= ' is now filled by the solitude of the ' + colour2 + ' sky at dawn during ' + time2 + '.';
+                        }
+                    }
+                    
+                    html = '<h4 class="inline">' + landscape_name + '</h4> <h6 class="inline">by <b><a href="' + url + '">' + name_of_artist + '</a></b></h6><hr class="card-line">' + intro + actions;
+                }
 
                 callback(html, avatar, colours);
             });
@@ -2216,7 +2401,7 @@ var pandora = {
                     pandora.images.convert(params.style, arts[0], true);
                     jQuery('.art-filters .btn.active').removeClass('active');
                     jQuery('.btn-' + params.style).addClass('active');
-                }, 600);
+                }, 1200);
             }
             else
             {
@@ -2253,6 +2438,7 @@ var pandora = {
         {
             if(seed && seed > 0 && jQuery('#' + element_id).length == 1)
             {
+                var story_params = {};
                 var rand1 = new XorShift128(stringToSeed(element_id + seed));
                 var rand2 = new XorShift128(stringToSeed(pandora.strings.rev('' + seed + '') + element_id));
                 var styles = [
@@ -2290,6 +2476,14 @@ var pandora = {
                     '#' + ntc.randomColour(stringToSeed('K2' + seed)),
                     white2
                 ];
+                
+                story_params.colors1 = colors;
+                story_params.colors2 = colors2;
+                story_params.style = style;
+                story_params.canvas = {
+                    width: canvas.width,
+                    height: canvas.height
+                }
                 
                 if(style == 'sky')
                 {   
@@ -2367,6 +2561,18 @@ var pandora = {
                             this.ctx.lineWidth = 1 + (Math.random() * this.MAX_BRANCH_WIDTH);
                             this.ctx.lineJoin = 'round';
 
+                            story_params.tree_leaves = {
+                                got: this.drawLeaves,
+                                color: this.leavesColor
+                            };
+                            
+                            story_params.tree_branch = {
+                                color: this.ctx.strokeStyle,
+                                width: this.ctx.lineWidth
+                            };
+                            
+                            jQuery('#' + element_id).attr('data-story', JSON.stringify(story_params));
+                            
                             this.branch(0);
                         },
 
@@ -2524,6 +2730,16 @@ var pandora = {
                             context.stroke();                                    
                             context.fillStyle = colors2[0];
                             context.fill();
+                                
+                            story_params.sun = {
+                                radius: radius,
+                                color: colors2[0],
+                                glow: white2,
+                                x: centerX,
+                                y: centerY
+                            };
+                                
+                            jQuery('#' + element_id).attr('data-story', JSON.stringify(story_params));
 
                             // Texture
                             context.globalAlpha = 0.3;
@@ -2683,7 +2899,15 @@ var pandora = {
                             })
                             ctx.lineTo(canvas.width + offscreen, canvas.height)
                             ctx.closePath()
-                            ctx.fill()    
+                            ctx.fill();
+                            
+                            story_params.mountains = {
+                                color: white,
+                                height: config.height,
+                                roughness: config.roughness
+                            };
+                            
+                            jQuery('#' + element_id).attr('data-story', JSON.stringify(story_params));
                             
                             // Add darker spots
                             ctx.globalAlpha = 0.4;
