@@ -2436,6 +2436,10 @@ var pandora = {
                     console.log('Error: ', error);
                 };
             });
+        },
+        about: function()
+        {
+            pandora.images.fetch();
         }
     },
     landscapes: {
@@ -3135,6 +3139,10 @@ jQuery(document).ready(function()
     if(id == 'body-index')
     {
         pandora.init.home();
+    }
+    else if(id == 'body-about')
+    {
+        pandora.init.about();
     }
     else if(id == 'body-gallery')
     {

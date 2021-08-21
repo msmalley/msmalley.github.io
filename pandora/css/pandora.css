@@ -136,6 +136,17 @@ div.section.sub-header h4 {
     color: #555;
     z-index: 999;
 }
+div.section.sub-header h2.atruth {
+    font-size: 3.6rem;
+}
+div.section.sub-header h4.truth {
+    font-size: 1.4rem;
+    opacity: 0.65;
+    margin-top: 5px;
+}
+div.section.sub-header h4.truth.whole {
+    font-size: 1.08rem;
+}
 div.section.sub-header.altered h2,
 div.section.sub-header.altered h4 {
     position: relative;
@@ -196,6 +207,10 @@ div.section.sub-header h4.orbed {
     opacity: 0.65;
     font-size: 1.4rem;
     padding-right: 550px;
+}
+
+div.section .pstart.smaller {
+    font-size: 1.2rem;
 }
 
 /*
