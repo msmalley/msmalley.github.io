@@ -291,6 +291,11 @@ var pandora = {
             var title1 = getRelevantRandomWord('title', 'all', false, seed2);
             var name1 = getRelevantRandomWord('surname', 'all', false, seed3);
             
+            var abstract1 = getRelevantRandomWord('abstract', 'all', false, seed1);
+            var abstract1p = getRelevantRandomWord('abstract', 'all', true, seed1);
+            var name2 = getRelevantRandomWord('firstname', 'all', false, seed2);
+            var profession2 = getRelevantRandomWord('noun', 'job', false, seed3);
+            
             if(title_of_artist && surname_of_artist)
             {
                 title1 = title_of_artist;
@@ -367,7 +372,7 @@ var pandora = {
                     var object_intro = 'rising';
                     var mountain_type = 'hills are';
                     
-                    var landscape_name = ntc.name(story_params.colors2[4])[1].split(' ')[0];
+                    var landscape_type = 'Planet';
                     
                     if(story_params.mountains.height > 20 && story_params.mountains.roughness > 0.5)
                     {   
@@ -377,24 +382,24 @@ var pandora = {
                             mountain_type = 'mountains are';
                             if(got_tree && !got_object && story_params.tree_leaves.got)
                             {
-                                landscape_name+= ' Flowering';
+                                landscape_type = 'Flower';
                             }
                             else
                             {
-                                if(got_tree && !got_object) landscape_name+= ' Wooded';
-                                else landscape_name+= ' Mountainous';
+                                if(got_tree && !got_object) landscape_type = 'Forest';
+                                else landscape_type = 'Mountain';
                             }
                         }
                         else
                         {
                             if(got_tree && !got_object && story_params.tree_leaves.got)
                             {
-                                landscape_name+= ' Treated';
+                                landscape_type = 'Tree';
                             }
                             else
                             {
-                                if(got_tree && !got_object) landscape_name+= ' Woodland';
-                                else landscape_name+= ' Hilltop';
+                                if(got_tree && !got_object) landscape_type = 'Wood';
+                                else landscape_type = 'Hill';
                             }
                         }
                     }
@@ -404,24 +409,24 @@ var pandora = {
                         {
                             if(got_tree && !got_object && story_params.tree_leaves.got)
                             {
-                                landscape_name+= ' Treetop';
+                                landscape_type = 'Swamp';
                             }
                             else
                             {
-                                if(got_tree && !got_object) landscape_name+= ' Branched';
-                                else landscape_name+= ' Hilly';
+                                if(got_tree && !got_object) landscape_type = 'Park';
+                                else landscape_type = ' Ridge';
                             }
                         }
                         else
                         {
                             if(got_tree && !got_object && story_params.tree_leaves.got)
                             {
-                                landscape_name+= ' Shrubbed';
+                                landscape_type = 'Garden';
                             }
                             else
                             {
-                                if(got_tree && !got_object) landscape_name+= ' Barked';
-                                else landscape_name+= ' Plain';
+                                if(got_tree && !got_object) landscape_type = 'Timberland';
+                                else landscape_type = 'Dune';
                             }
                         }
                     }
@@ -429,11 +434,31 @@ var pandora = {
                     var sub1 = this_substance.split('-')[0];
                     if(got_object && got_tree && story_params.tree_leaves.got)
                     {
-                        landscape_name = 'Scenic ' + ntc.name(story_params.colors2[4])[1].split(' ')[0] + ' ' + sub1[0].toUpperCase() + sub1.substring(1);
+                        //landscape_name = 'Scenic ' + ntc.name(story_params.colors2[4])[1].split(' ')[0] + ' ' + sub1[0].toUpperCase() + sub1.substring(1);
+                        landscape_type = 'Planet';
                     }
                     else
                     {
-                        landscape_name+= ' ' + sub1[0].toUpperCase() + sub1.substring(1);
+                        //landscape_name+= ' ' + sub1[0].toUpperCase() + sub1.substring(1);
+                    }
+                    
+                    abstract1 = abstract1.split(' ')[0];
+                    abstract1p = abstract1p.split(' ')[0];
+                    abstract1 = abstract1[0].toUpperCase() + abstract1.substring(1);
+                    abstract1p = abstract1p[0].toUpperCase() + abstract1p.substring(1);
+                    profession2 = profession2.split(' ')[0];
+                    profession2 = profession2[0].toUpperCase() + profession2.substring(1);
+                    
+                    // Default is the best - PLANET
+                    var landscape_name = 'Planet of ' + name_of_colour + ' ' + abstract1;
+                    
+                    if(landscape_type == 'Flower' || landscape_type == 'Tree' || landscape_type == 'Garden')
+                    {
+                        landscape_name = name2 + '\'s ' + landscape_type + ' of ' + abstract1;
+                    }
+                    else if(landscape_type != 'Planet')
+                    {
+                        landscape_name = landscape_type + ' of ' + profession2 + ' ' + abstract1p;
                     }
                     
                     if(got_object)
@@ -2752,7 +2777,7 @@ var pandora = {
                             jQuery('#' + element_id).attr('data-story', JSON.stringify(story_params));
 
                             // Texture
-                            context.globalAlpha = 0.3;
+                            context.globalAlpha = 0.5;
                             context.beginPath();
                             context.arc(centerX, centerY, radius, 0, 2 * Math.PI, false);
                             var pFill3 = context.createPattern(img2, "repeat");
@@ -2760,10 +2785,17 @@ var pandora = {
                             context.fill();
 
                             // Gradient version
-                            context.globalAlpha = 0.3;
+                            context.globalAlpha = 0.4;
                             context.beginPath();
                             context.arc(centerX, centerY, radius, 0, 2 * Math.PI, false);
-                            var rad = context.createRadialGradient(centerX, centerY, 1, centerX, centerY, radius);
+                            var rad = context.createRadialGradient(
+                                rand1.integer(- (centerX * 2), centerX * 2), 
+                                rand2.integer(- (centerY * 2), centerY * 2), 
+                                1, 
+                                centerX, 
+                                centerY, 
+                                radius
+                            );
                             rad.addColorStop(0, colors2[0]);
                             rad.addColorStop(1, 'transparent');
                             context.fillStyle = rad;
