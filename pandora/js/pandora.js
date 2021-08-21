@@ -354,7 +354,7 @@ var pandora = {
                         got_object = true;
                         got_objects = true;
                     }
-                    if(typeof story_params.tree_leaves == 'object' && typeof story_params.tree_branch == 'object')
+                    if(typeof story_params.tree_leaves == 'object' && typeof story_params.tree_branch == 'object' && story_params.tree_leaves.got)
                     {
                         got_tree = true;
                         got_objects = true;
