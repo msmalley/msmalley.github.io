@@ -2406,6 +2406,7 @@ var pandora = {
                     pandora.images.convert(params.style, arts[0], true);
                     jQuery('.art-filters .btn.active').removeClass('active');
                     jQuery('.btn-' + params.style).addClass('active');
+                    jQuery('#alt-text-footer').css({marginTop: 60});
                 }, 1200);
             }
             else
