@@ -449,30 +449,6 @@ var pandora = {
                     profession2 = profession2.split(' ')[0];
                     profession2 = profession2[0].toUpperCase() + profession2.substring(1);
                     
-                    // Default is the best - PLANET
-                    var this_rand = new XorShift128(stringToSeed(name_of_colour + abstract1));
-                    var planet_wording = [
-                        'Planet',
-                        'Thoughts',
-                        'Dreams',
-                        'Moon',
-                        'Sun',
-                        'Night',
-                        'Day'
-                    ];
-                    var planet_selection = planet_wording[this_rand.integer(0, (planet_wording.length - 1))];
-                    
-                    var landscape_name = planet_selection + ' of ' + name_of_colour + ' ' + abstract1;
-                    
-                    if(landscape_type == 'Flower' || landscape_type == 'Tree' || landscape_type == 'Garden')
-                    {
-                        landscape_name = name2 + '\'s ' + landscape_type + ' of ' + abstract1;
-                    }
-                    else if(landscape_type != 'Planet')
-                    {
-                        landscape_name = landscape_type + ' of ' + profession2 + ' ' + abstract1p;
-                    }
-                    
                     if(got_object)
                     {
                         sun_color = ntc.name(story_params.sun.color)[1].toLowerCase();
@@ -514,6 +490,27 @@ var pandora = {
                                 tree = tree_colour + ' tree with ' + leaves + ' leaves';
                             }
                         }
+                    }
+                    
+                    // Default is the best - PLANET
+                    var this_rand = new XorShift128(stringToSeed(name_of_colour + abstract1));
+                    var planet_wording = [
+                        'Planet',
+                        'Thoughts',
+                        'Dreams',
+                        object_type.toUpperCase()[0] + object_type.substring(1)
+                    ];
+                    var planet_selection = planet_wording[this_rand.integer(0, (planet_wording.length - 1))];
+                    
+                    var landscape_name = planet_selection + ' of ' + name_of_colour + ' ' + abstract1;
+                    
+                    if(landscape_type == 'Flower' || landscape_type == 'Tree' || landscape_type == 'Garden')
+                    {
+                        landscape_name = name2 + '\'s ' + landscape_type + ' of ' + abstract1;
+                    }
+                    else if(landscape_type != 'Planet')
+                    {
+                        landscape_name = landscape_type + ' of ' + profession2 + ' ' + abstract1p;
                     }
                     
                     intro = 'An empty ' + mountain_color + ' wasteland once inhabited by ' + colour5 + ' ' + job1;
