@@ -450,6 +450,7 @@ var pandora = {
                     profession2 = profession2[0].toUpperCase() + profession2.substring(1);
                     
                     // Default is the best - PLANET
+                    var this_rand = new XorShift128(stringToSeed(name_of_colour + abstract1));
                     var planet_wording = [
                         'Planet',
                         'Thoughts',
@@ -459,9 +460,9 @@ var pandora = {
                         'Night',
                         'Day'
                     ];
-                    var planet_selction = planet_wording[rand2.integer(0, (planet_wording.length - 1))];
+                    var planet_selection = planet_wording[this_rand.integer(0, (planet_wording.length - 1))];
                     
-                    var landscape_name = planet_selction + ' of ' + name_of_colour + ' ' + abstract1;
+                    var landscape_name = planet_selection + ' of ' + name_of_colour + ' ' + abstract1;
                     
                     if(landscape_type == 'Flower' || landscape_type == 'Tree' || landscape_type == 'Garden')
                     {
