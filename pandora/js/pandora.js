@@ -459,7 +459,7 @@ var pandora = {
                         'Night',
                         'Day'
                     ];
-                    var planet_selction = planet_wording[rand4.integer(0, (planet_wording.length - 1))];
+                    var planet_selction = planet_wording[rand2.integer(0, (planet_wording.length - 1))];
                     
                     var landscape_name = planet_selction + ' of ' + name_of_colour + ' ' + abstract1;
                     
