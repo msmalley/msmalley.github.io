@@ -295,6 +295,7 @@ var pandora = {
             var abstract1p = getRelevantRandomWord('abstract', 'all', true, seed1);
             var name2 = getRelevantRandomWord('firstname', 'all', false, seed2);
             var profession2 = getRelevantRandomWord('noun', 'job', false, seed3);
+            var profession2p = getRelevantRandomWord('noun', 'job', true, seed3);
             
             if(title_of_artist && surname_of_artist)
             {
@@ -387,7 +388,7 @@ var pandora = {
                             else
                             {
                                 if(got_tree && !got_object) landscape_type = 'Forest';
-                                else landscape_type = 'Mountain';
+                                else landscape_type = 'Mountains';
                             }
                         }
                         else
@@ -399,7 +400,7 @@ var pandora = {
                             else
                             {
                                 if(got_tree && !got_object) landscape_type = 'Wood';
-                                else landscape_type = 'Hill';
+                                else landscape_type = 'Hills';
                             }
                         }
                     }
@@ -414,7 +415,7 @@ var pandora = {
                             else
                             {
                                 if(got_tree && !got_object) landscape_type = 'Park';
-                                else landscape_type = ' Ridge';
+                                else landscape_type = 'Ridge';
                             }
                         }
                         else
@@ -426,7 +427,7 @@ var pandora = {
                             else
                             {
                                 if(got_tree && !got_object) landscape_type = 'Timberland';
-                                else landscape_type = 'Dune';
+                                else landscape_type = 'Dunes';
                             }
                         }
                     }
@@ -447,7 +448,9 @@ var pandora = {
                     abstract1 = abstract1[0].toUpperCase() + abstract1.substring(1);
                     abstract1p = abstract1p[0].toUpperCase() + abstract1p.substring(1);
                     profession2 = profession2.split(' ')[0];
+                    profession2p = profession2p.split(' ')[0];
                     profession2 = profession2[0].toUpperCase() + profession2.substring(1);
+                    profession2p = profession2p[0].toUpperCase() + profession2p.substring(1);
                     
                     if(got_object)
                     {
@@ -502,15 +505,23 @@ var pandora = {
                     ];
                     var planet_selection = planet_wording[this_rand.integer(0, (planet_wording.length - 1))];
                     
-                    var landscape_name = planet_selection + ' of ' + name_of_colour + ' ' + abstract1;
+                    var landscape_name = planet_selection + ' of ' + name_of_colour + ' ' + abstract1p;
                     
                     if(landscape_type == 'Flower' || landscape_type == 'Tree' || landscape_type == 'Garden')
                     {
-                        landscape_name = name2 + '\'s ' + landscape_type + ' of ' + abstract1;
+                        landscape_name = name2 + '\'s ' + landscape_type + ' of ' + abstract1p;
+                    }
+                    else if(landscape_type == 'Ridge')
+                    {
+                        landscape_name = name2 + ' ' + abstract1 + ' ' + landscape_type;
+                    }
+                    else if(landscape_type == 'Hills' || landscape_type == 'Dunes' || landscape_type == 'Mountains')
+                    {
+                        landscape_name = profession2 + ' ' + abstract1 + ' ' + landscape_type;
                     }
                     else if(landscape_type != 'Planet')
                     {
-                        landscape_name = landscape_type + ' of ' + profession2 + ' ' + abstract1p;
+                        landscape_name = profession2 + ' ' + landscape_type + ' of ' + abstract1p;
                     }
                     
                     intro = 'An empty ' + mountain_color + ' wasteland once inhabited by ' + colour5 + ' ' + job1;
@@ -2539,8 +2550,15 @@ var pandora = {
                         
                     img2.onload = function() {
                         
+                    var img3 = new Image();
+                        
+                    img3.onload = function() {
+                        
                     img2.width = canvas.width + (rand2.integer(0, 10) * canvas.width);
                     img2.height = canvas.height + (rand1.integer(0, 10) * canvas.height);
+                        
+                    img3.width = canvas.width + (rand2.integer(0, 10) * canvas.width);
+                    img3.height = canvas.height + (rand1.integer(0, 10) * canvas.height);
                     
                     var tree = {
                         canvas:     canvas,
@@ -2785,16 +2803,30 @@ var pandora = {
                                 
                             jQuery('#' + element_id).attr('data-story', JSON.stringify(story_params));
 
-                            // Texture
-                            context.globalAlpha = 0.5;
+                            // Sun Texture
+                            context.globalAlpha = 0.4;
                             context.beginPath();
                             context.arc(centerX, centerY, radius, 0, 2 * Math.PI, false);
                             var pFill3 = context.createPattern(img2, "repeat");
+                            
+                            // Moon Texture
+                            if(story_params.sun.radius > 70) 
+                            {
+                                context.globalAlpha = 0.2;
+                                pFill3 = context.createPattern(img3, "repeat");
+                            }
+                                
                             context.fillStyle = pFill3;
                             context.fill();
 
                             // Gradient version
                             context.globalAlpha = 0.4;
+                                
+                            if(story_params.sun.radius > 70) 
+                            {
+                                context.globalAlpha = 0.6;
+                            }
+                                
                             context.beginPath();
                             context.arc(centerX, centerY, radius, 0, 2 * Math.PI, false);
                             var rad = context.createRadialGradient(
@@ -3119,8 +3151,13 @@ var pandora = {
                     };
                     
                     setBackgroundLayer(canvas);
+                    
+                    };
+                    img3.src = jQuery('#moon-texture1').attr('src');  
+                        
                     };
                     img2.src = jQuery('#rock-texture2').attr('src');  
+                        
                     };
                     img.src = jQuery('#rock-texture').attr('src');
                 }
