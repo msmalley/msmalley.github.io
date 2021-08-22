@@ -30,10 +30,11 @@
                     <div class="navbar-nav ms-auto orb">
                         <a class="nav-link" href="../">home</a>
                         <a class="nav-link" href="../about/">about</a>
-                        <a class="nav-link" href="../gallery/">gallery</a>
-                        <a class="nav-link active" aria-current="page" href="../landscapes/">landscapes</a>
-                        <a class="nav-link" href="../studio/">studio</a>
+                        <a class="nav-link active" aria-current="page" href="../gallery/">gallery</a>
                         <a class="nav-link" href="../artists/">artists</a>
+                        <a class="nav-link" href="../collectors/">collectors</a>
+                        <a class="nav-link" href="../creators/">creators</a>
+                        <a class="nav-link" href="../developers/">developers</a>
                     </div>
                 </div>
             </div>
@@ -356,12 +357,46 @@
             <span class="visually-hidden">Next</span>
           </button>
         </div>
-                    
-        <alert class="alert text-center" style="margin-top: -60px; display: block;" id="alt-text-footer">
-            <h6 class="pstart" style="line-height: 2rem;">Alternatively...</h6>
-            <h6 class="pstart" style="line-height: 2rem;">You may enjoy our experiemental artwork, as seen below!</h6>
-            <p>&nbsp;</p>
-        </alert>
+        
+        <div class="container">
+            
+            <alert class="alert text-center alert-filter">
+                <p>&nbsp;</p>
+                <h6 class="pstart" style="line-height: 2rem;">Browse other styles available from the smart contract powering this gallery</h6>
+                <hr>
+                <div class="btn-group btn-block arts-filters" role="group" style="display: flex;">
+                    <a href="../gallery/?style=lines" class="btn btn-sm btn-outline-dark btn-lines" style="flex: 1">
+                        LINES
+                    </a>
+                    <a href="../gallery/?style=circles" class="btn btn-sm btn-outline-dark btn-circles" style="flex: 1">
+                        CIRCLES
+                    </a>
+                    <a href="../gallery/?style=squares" class="btn btn-sm btn-outline-dark btn-squares" style="flex: 1">
+                        SQUARES
+                    </a>
+                    <a href="../gallery/?style=triangles" class="btn btn-sm btn-outline-dark btn-triangles" style="flex: 1">
+                        TRIANGLES
+                    </a>
+                    <a href="../gallery/?style=wired" class="btn btn-sm btn-outline-dark btn-wired" style="flex: 1">
+                        WIRED
+                    </a>
+                    <a href="../gallery/?style=crosses" class="btn btn-sm btn-outline-dark btn-crosses" style="flex: 1">
+                        CROSSES
+                    </a>
+                    <a href="../landscapes/?style=sky" class="btn btn-sm btn-outline-dark btn-landscapes active" style="flex: 1">
+                        LANDSCAPES
+                    </a>
+                </div>
+                <hr>
+            </alert>
+
+            <alert class="alert text-center" style="margin-top: -60px; display: block;" id="alt-text-footer">
+                <h6 class="pstart" style="line-height: 2rem;">Alternatively...</h6>
+                <h6 class="pstart" style="line-height: 2rem;">You may enjoy our experiemental artwork, as seen below!</h6>
+                <p>&nbsp;</p>
+            </alert>
+            
+        </div>
             
         <div class="section iframe loading">
             <div class="frame">

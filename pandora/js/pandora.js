@@ -134,9 +134,10 @@ var pandora = {
                     if(avatar)
                     {
                         var link = '<a href="' + url + '">' + name + '</a>';
+                        var btn = '<hr><a href="' + url + '" class="btn btn-outline-dark btn-sm">VIEW PROFILE</a>';
                         jQuery('.card-artist-' + a).prepend(avatar);
                         jQuery('.card-artist-' + a).find('.artist-name').html(link);
-                        jQuery('.card-artist-' + a).find('.artist-description').text(description);
+                        jQuery('.card-artist-' + a).find('.artist-description').html(description + btn);
                     }
                 });
             });
@@ -2313,9 +2314,10 @@ var pandora = {
                         if(avatar)
                         {
                             var link = '<a href="' + url + '">' + name + '</a>';
+                            var btn = '<hr><a href="' + url + '" class="btn btn-outline-dark btn-sm">VIEW PROFILE</a>';
                             jQuery('.card-artist-' + a).prepend(avatar);
                             jQuery('.card-artist-' + a).find('.artist-name').html(link);
-                            jQuery('.card-artist-' + a).find('.artist-description').text(description);
+                            jQuery('.card-artist-' + a).find('.artist-description').html(description + btn);
                         }
                     });
                 });
@@ -2405,6 +2407,17 @@ var pandora = {
         landscapes: function()
         {
             pandora.images.fetch();
+            
+            // Temporary - until got more styles ...
+            if(
+                typeof params != 'object'
+                || typeof params.style == 'undefined'
+            ){
+                params = {
+                    style: 'sky'
+                };
+            }
+            
             if(
                 typeof params == 'object'
                 && typeof params.style != 'undefined'
