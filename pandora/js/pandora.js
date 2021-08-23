@@ -543,10 +543,13 @@ var pandora = {
                     {
                         var shine = 'mid-day haze';
                         var this_part = 'behind the';
+                        if(got_object)
+                        {
+                            this_part = 'beneath the';
+                        }
                         if(story_params.sun.radius > 70)
                         {
                             shine = 'moonlight';
-                            this_part = 'beneath the';
                         }
                         intro = 'The picturesque ' + mountain_color + ' ' + mountain_type + ' framed by the ' + sun_color + ' ' + object_type + ' and a single ' + tree + ' ' + this_part + ' ' + sun_glow.split(' ')[0] + ' ' + shine + '.';
                     }
