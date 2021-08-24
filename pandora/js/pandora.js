@@ -376,7 +376,7 @@ var pandora = {
                     
                     var landscape_type = 'Planet';
                     
-                    if(story_params.mountains.height > 20 && story_params.mountains.roughness > 0.5)
+                    if(typeof story_params.mountains == 'object' && story_params.mountains.height > 20 && story_params.mountains.roughness > 0.5)
                     {   
                         mountain_type = 'landscape is';
                         if(story_params.mountains.height > 40 || story_params.mountains.roughness > 0.6)
