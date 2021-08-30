@@ -369,7 +369,11 @@ var pandora = {
                     
                     var white = ntc.name(story_params.colors1[4])[1].toLowerCase();
                     var base_colour = ntc.name(story_params.colors1[0])[1].toLowerCase();
-                    var mountain_color = ntc.name(story_params.mountains.color)[1].toLowerCase();
+                    var mountain_color = ntc.name(story_params.colors1[0])[1].toLowerCase();
+                    if(typeof story_params.mountains == 'object')
+                    {
+                        mountain_color = ntc.name(story_params.mountains.color)[1].toLowerCase();
+                    }
                     var object_type = 'sun';
                     var object_intro = 'rising';
                     var mountain_type = 'hills are';
