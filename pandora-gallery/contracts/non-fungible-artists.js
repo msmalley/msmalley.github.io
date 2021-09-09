@@ -1,9 +1,7 @@
 // SPDX-License-Identifier: MIT
 
-// 24451 of 24977
-// 0xbd9bd1ebd3e19bf9dfa977e03cdce644f2a93032
-// 0x34e9654b0677b6bf174b780e5d78fdad34409827
-// 0x94a229e98f66e2bb44c67cad21d93ec6dc8ef62b
+// 24411 of 24977
+// 0xeb1666e84e700e516a36c8e833685123fc7b0aad
 
 // v3
 
@@ -1600,9 +1598,9 @@ contract NonFungibleArtists is ERC721Pausable
         }
         else
         {
-            uint blockNumber = block.number.sub(max);
-            if(specificBlock > 0) blockNumber = specificBlock.sub(max);
-            return uint256(keccak256(abi.encodePacked(seed, uint(blockhash(blockNumber))))) % max + 1;
+            uint blockNumber = block.number;
+            if(specificBlock > 0) blockNumber = specificBlock;
+            return uint256(keccak256(abi.encodePacked(seed, specificBlock))) % max + 1;
         }
     }
         
