@@ -695,5 +695,7 @@ RESPONSIVE
     }
 }
 @media(max-width:767px){
-    
+    .description-art .row .col-md-6 {
+        text-align: center !important;
+    }
 }
