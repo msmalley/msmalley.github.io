@@ -377,6 +377,7 @@ img {
     right: -2.5vmin;
     top: -2.5vmin;
 }
+img.pandora-image,
 canvas.art {
     background-color: #ddc;
     border: solid 2vmin #eee;
@@ -395,6 +396,10 @@ canvas.art {
     text-align: center;
     margin-bottom: 15px;
 }
+img.pandora-image {
+    height: auto;
+}
+img.pandora-image:before,
 canvas.art:before {
     border-radius: 2px;
     bottom: -1vmin;
@@ -405,6 +410,7 @@ canvas.art:before {
     right: -1vmin;
     top: -1vmin;
 }
+img.pandora-image:after,
 canvas.art:after {
     border-radius: 2px;
     bottom: -1.5vmin;
@@ -415,7 +421,14 @@ canvas.art:after {
     right: -1.5vmin;
     top: -1.5vmin;
 }
+#random-gallery div.section {
+    border-top: 3px double #757575;
+    padding: 120px 0;
+}
 
+.pandora-avatar canvas {
+    max-width: 100%;
+}
 /*
 
 CARD
@@ -539,6 +552,25 @@ CONTENT
     box-shadow: none;
 }
 
+.artist-info .actions {
+    text-align: center;
+}
+.artist-info .actions .btn {
+    margin: 15px auto;
+    display: inline-block;
+    position: relative;
+}
+
+.art-cost small,
+.artist-cost small {
+    font-size: 0.9rem;
+    opacity: 0.65;
+}
+.art-cost b,
+.artist-cost b {
+    font-size: 2rem;
+}
+
 /*
 
 RE-RESETS
@@ -657,6 +689,9 @@ RESPONSIVE
     .btn-group .btn-outline-dark {
         flex: none !important;
         margin: 5px;
+    }
+    #random-gallery .section .container .row.frames > div {
+        width: 100%;
     }
 }
 @media(max-width:767px){

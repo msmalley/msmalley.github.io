@@ -1,0 +1,672 @@
+<!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+        <title>Pandora | Random Styles</title>
+        <style>
+            canvas {
+                width: 600px !important;
+                height: 600px !important;
+            }
+        </style>
+    </head>
+    <body>
+
+        <script>
+
+        // XOR
+        function XS(x, y, z, w)
+        {
+            this.x = (x ? x >>> 0 : 123456789);
+            this.y = (y ? y >>> 0 : 362436069);
+            this.z = (z ? z >>> 0 : 521288629);
+            this.w = (w ? w >>> 0 : 88675123);
+        }
+
+        XS.prototype.next = function XS_next()
+        {
+            var t = this.x ^ (this.x << 11) & 0x7FFFFFFF;
+            this.x = this.y;
+            this.y = this.z;
+            this.z = this.w;
+            this.w = (this.w ^ (this.w >> 19)) ^ (t ^ (t >> 8));
+            return this.w;
+        };
+
+        XS.prototype.unit = function XS_unit()
+        {
+            return this.next() / 0x80000000;
+        };
+
+        XS.prototype.unitInclusive = function XS_unitInclusive()
+        {
+            return this.next() / 0x7FFFFFFF;
+        };
+
+        XS.prototype.integer = function XS_integer(min, max)
+        {
+            return this.integerExclusive(min, max + 1);
+        };
+
+        XS.prototype.integerExclusive = function XS_integerExclusive(min, max)
+        {
+            min = Math.floor(min);
+            max = Math.floor(max);
+            return Math.floor(this.unit() * (max - min)) + min;
+        };
+
+        XS.prototype.real = function XS_real(min, max)
+        {
+            return this.unit() * (max - min) + min;
+        };
+
+        XS.prototype.realInclusive = function XS_realInclusive(min, max)
+        {
+            return this.unitInclusive() * (max - min) + min;
+        };
+
+        XS.prototype.reseed = function XS_reseed(x, y, z, w)
+        {
+            this.x = (x ? x >>> 0 : 123456789);
+            this.y = (y ? y >>> 0 : 362436069);
+            this.z = (z ? z >>> 0 : 521288629);
+            this.w = (w ? w >>> 0 : 88675123);
+        };
+            
+        // UTILS
+        var s2s = function(str)
+        {
+            var num = '';
+            for(x = 0; x < str.length; x++)
+            {
+                var c = str.charAt(x);
+                var n = c.charCodeAt(0);
+                num+= n;
+            }
+            return parseInt(num);
+        }
+        var gc = function(s)
+        {
+            var h = ['A', 'B', 'C', 'D', 'E', 'F', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
+            var r1 = new XS(parseInt(s2s('R') * s));
+            var r2 = new XS(parseInt(s2s('G') * s));
+            var r3 = new XS(parseInt(s2s('B') * s));
+            var r4 = new XS(parseInt(s2s('C') * s));
+            var r5 = new XS(parseInt(s2s('M') * s));
+            var r6 = new XS(parseInt(s2s('Y') * s));
+            var c = h[r1.integer(0, (h.length - 1))];
+            c+= h[r2.integer(0, (h.length - 1))];
+            c+= h[r3.integer(0, (h.length - 1))];
+            c+= h[r4.integer(0, (h.length - 1))];
+            c+= h[r5.integer(0, (h.length - 1))];
+            c+= h[r6.integer(0, (h.length - 1))];
+            return '#' + c;
+        }
+
+        // General Config
+        var n = '' + (new Date().getTime() * 123456789) + '';
+        var nft = n.substring(0, 16);
+            
+        var s1 = parseInt(nft * s2s('R'));
+        var s2 = parseInt(nft * s2s('G'));
+        var s3 = parseInt(nft * s2s('B'));
+        var r1 = new XS(s1);
+        var r2 = new XS(s2);
+        var r3 = new XS(s3);
+        var r4 = new XS(s1 + s2);
+        var r5 = new XS(s2 + s3);
+        var r6 = new XS(s1 + s3);
+        var colors = [
+            gc(s1),
+            gc(s2), 
+            gc(s3),
+            gc(s1 + s2),
+            gc(s2 + s3)
+        ];
+        var white = colors[0];
+
+        // Setup Canvas
+        var div = document.createElement("DIV");
+        var can = document.createElement("CANVAS");
+        var ctx = can.getContext('2d');
+        can.id = 'pandora-square-' + nft;
+        div.id = "pandora-wrapper-" + nft;
+        div.classList.add("pandora-square");
+        document.body.appendChild(div);
+        var wrapper = document.querySelector('#pandora-wrapper-' + nft);
+        wrapper.appendChild(can);
+        var size = 300;
+        var dpr = 2;
+        can.width = size * dpr;
+        can.height = size * dpr;
+        ctx.scale(dpr, dpr);
+            
+        // Hypno Squares
+        var style1 = function()
+        {
+            var line_width = r1.integer(0, 5);
+            var this_offset = r2.integer(0, 5);
+            var total_steps = r3.integer(1, 10) + r5.integer(1, 10);
+            var finalSize = r4.integer(0, 5) + r6.integer(0, 5);
+            var startSteps;
+            var offset = this_offset;
+            var tileStep = (size - offset * 2) / total_steps;
+            var startSize = tileStep;
+            var directions = [-1, 0, 1];
+            ctx.lineWidth = line_width;
+            function draw(x, y, width, height, xMovement, yMovement, steps) 
+            {
+                ctx.beginPath();
+                ctx.rect(x, y, width, height);
+                ctx.fillStyle = white;
+                var R = new XS(parseInt(x + y + steps));
+                ctx.strokeStyle = colors[r6.integer(0, (colors.length - 1))];
+                ctx.fillStyle = colors[R.integer(0, (colors.length - 1))];
+                ctx.stroke();
+                ctx.fill();
+                if(steps >= 0) {
+                    var newSize = (startSize) * (steps / startSteps) + finalSize;
+                    var newX = x + (width - newSize) / 2
+                    var newY = y + (height - newSize) / 2
+                    newX = newX - ((x - newX) / (steps + 2)) * xMovement
+                    newY = newY - ((y - newY) / (steps + 2)) * yMovement
+                    draw(newX, newY, newSize, newSize, xMovement, yMovement, steps - 1);
+                }
+            }  
+            var direction = r5.integer(1, 4);
+            var grd = ctx.createLinearGradient(0,0,0,can.height);
+            if(direction == 2) grd = ctx.createLinearGradient(0,0,can.width,can.height);
+            if(direction == 3) grd = ctx.createLinearGradient(0,can.height,can.width,0);
+            if(direction == 4) grd = ctx.createRadialGradient(150,150,0,150,150,300);
+            var c1 = colors[r2.integer(0, colors.length - 1)];
+            var c2 = colors[r4.integer(0, colors.length - 1)];
+            grd.addColorStop(0,c1);
+            grd.addColorStop(1,c2);
+            ctx.fillStyle = grd;
+            ctx.rect(0, 0, can.width, can.height);
+            ctx.fill();
+            var this_alpha = parseFloat('0.' + r5.integer(11, 44));
+            ctx.globalAlpha = this_alpha;
+            for( var x = offset; x < size - offset; x += tileStep) 
+            {
+                for( var y = offset; y < size - offset; y += tileStep) 
+                {
+                    startSteps = 2 + Math.ceil(r1.integer(0, 3))
+                    var xDirection = directions[Math.floor(r2.integer(0, (directions.length -1)))]
+                    var yDirection = directions[Math.floor(r3.integer(0, (directions.length -1)))]
+                    draw(x, y, startSize, startSize, xDirection, yDirection, startSteps - 1);
+                }
+            }
+        }
+        
+        // Rectangles
+        var style2 = function()
+        {
+            ctx.lineWidth = r1.integer(2, 4) * 2;
+            var step = size / r2.integer(8, 20) * 2;
+            var squares = [{x: 0, y: 0, width: size, height: size}];
+            var direction = r5.integer(1, 4);
+            var grd = ctx.createLinearGradient(0,0,0,can.height);
+            if(direction == 2) grd = ctx.createLinearGradient(0,0,can.width,can.height);
+            if(direction == 3) grd = ctx.createLinearGradient(0,can.height,can.width,0);
+            if(direction == 4) grd = ctx.createRadialGradient(150,150,0,150,150,300);
+            var c1 = colors[r2.integer(0, colors.length - 1)];
+            var c2 = colors[r4.integer(0, colors.length - 1)];
+            grd.addColorStop(0,c1);
+            grd.addColorStop(1,c2);
+            ctx.fillStyle = grd;
+            ctx.rect(0, 0, can.width, can.height);
+            ctx.fill();
+            var this_alpha = parseFloat('0.' + r5.integer(33, 66));
+            ctx.globalAlpha = this_alpha;
+            function splitSquaresWith(coordinates) {
+              const { x, y } = coordinates;
+              for (var i = squares.length - 1; i >= 0; i--) {
+              const square = squares[i];
+              if (x && x > square.x && x < square.x + square.width) {
+                  if(r1.integer(0, 1) > 0) {
+                    squares.splice(i, 1);
+                    splitOnX(square, x); 
+                  }
+              }
+              if (y && y > square.y && y < square.y + square.height) {
+                  if(r2.integer(0, 1) > 0) {
+                    squares.splice(i, 1);
+                    splitOnY(square, y); 
+                  }
+              }
+              }
+            }
+            function splitOnX(square, splitAt) {
+              var squareA = {
+                x: square.x,
+                y: square.y,
+                width: square.width - (square.width - splitAt + square.x),
+                height: square.height
+              };
+              var squareB = {
+              x: splitAt,
+              y: square.y,
+              width: square.width - splitAt + square.x,
+              height: square.height
+              };
+              squares.push(squareA);
+              squares.push(squareB);
+            }
+            function splitOnY(square, splitAt) {
+              var squareA = {
+                x: square.x,
+                y: square.y,
+                width: square.width,
+                height: square.height - (square.height - splitAt + square.y)
+              };
+              var squareB = {
+              x: square.x,
+              y: splitAt,
+              width: square.width,
+              height: square.height - splitAt + square.y
+              };
+              squares.push(squareA);
+              squares.push(squareB);
+            }
+            for (var i = 0; i < size; i += step) {
+              splitSquaresWith({ y: i });
+              splitSquaresWith({ x: i });
+            }
+            function draw() {
+              for (var i = 0; i < colors.length; i++) {
+                var R = new XS(parseInt(i));
+                squares[R.integer(0, (squares.length - 1))].color = colors[R.integer(1, (colors.length - 1))];
+              }
+              for (var i = 0; i < squares.length; i++) {
+                ctx.beginPath();
+                ctx.rect(
+                  squares[i].x,
+                  squares[i].y,
+                  squares[i].width,
+                  squares[i].height
+                );
+                if(squares[i].color) {
+                    ctx.fillStyle = squares[i].color;
+                } else {
+                    var direction = r6.integer(1, 4);
+                    var grd = ctx.createLinearGradient(0,0,0,can.height);
+                    if(direction == 2) grd = ctx.createLinearGradient(0,0,can.width,can.height);
+                    if(direction == 3) grd = ctx.createLinearGradient(0,can.height,can.width,0);
+                    if(direction == 4) grd = ctx.createRadialGradient(150,150,0,150,150,300);
+                    var c1 = white;
+                    var c2 = colors[r4.integer(0, colors.length - 1)];
+                    grd.addColorStop(0,c1);
+                    grd.addColorStop(1,c2);
+                    ctx.fillStyle = grd;
+                }
+                ctx.fill()
+                ctx.stroke();
+              }
+            }
+            draw();
+        };
+        
+        // Lines
+        var style3 = function()
+        {
+            var WIDTH = can.width;
+            var HEIGHT = can.height;
+            var sizes = r1.integer(1, 50);
+            var x_sections = WIDTH / sizes;
+            var y_sections = HEIGHT / sizes;
+            var this_alpha = parseFloat('0.' + r5.integer(20, 80));
+            ctx.globalAlpha = this_alpha;
+            line_cap = 'round';
+            if(r2.integer(0, 1))
+            {
+                line_cap = 'square';
+            }
+            line_width_1 = r3.integer(1, 5);
+            line_width_2 = r4.integer(5, 25);
+            function createLine(x, y, n) {
+                ctx.beginPath(r5.integer(0, can.width), r6.integer(0, can.height));
+                ctx.lineCap = line_cap;
+                ctx.strokeStyle = colors[r1.integer(0, (colors.length - 1))];
+                if (n >= this_alpha / r2.integer(1, 4)) {
+                    ctx.lineWidth = line_width_1;
+                    ctx.moveTo(x, y);
+                    ctx.lineTo(x + sizes, y + sizes);
+                }
+                else {
+                    ctx.lineWidth = line_width_2;
+                    ctx.moveTo(x + sizes, y);
+                    ctx.lineTo(x, y + sizes);
+                    if(r3.integer(0, 1))
+                    {
+                        ctx.strokeStyle = colors[r4.integer(0, (colors.length - 1))];
+                    }
+                }
+                ctx.stroke();
+            }
+            function draw() {
+                ctx.clearRect(0, 0, WIDTH, HEIGHT);
+                for (var x = 0; x < x_sections; x++) {
+                    for (var y = 0; y < y_sections; y++) {
+                        createLine(x * sizes, y * sizes, r5.integer(0, 1));
+                    }
+                }
+            }
+            draw();
+            var direction = r5.integer(1, 4);
+            var grd = ctx.createLinearGradient(0,0,0,can.height);
+            if(direction == 2) grd = ctx.createLinearGradient(0,0,can.width,can.height);
+            if(direction == 3) grd = ctx.createLinearGradient(0,can.height,can.width,0);
+            if(direction == 4) grd = ctx.createRadialGradient(150,150,0,150,150,300);
+            var c1 = colors[r2.integer(0, colors.length - 1)];
+            var c2 = colors[r4.integer(0, colors.length - 1)];
+            grd.addColorStop(0,c1);
+            grd.addColorStop(1,c2);
+            ctx.fillStyle = grd;
+            ctx.rect(0, 0, can.width, can.height);
+            ctx.fill();
+        };
+            
+        var style4 = function()
+        {
+            ctx.lineWidth = r6.integer(0, 5);
+            
+            var this_alpha = parseFloat('0.' + r5.integer(20, 80));
+            ctx.globalAlpha = this_alpha;
+            
+            var is_clean = r6.integer(0, 1);
+  
+            var circles = [];
+            var minRadius = r1.integer(1, 50);
+            var maxRadius = r2.integer(100, 1000);
+            var totalCircles = r3.integer(5, 2000);
+            var createCircleAttempts = r4.integer(1, 1000);
+
+            function createAndDrawCircle() {
+
+              var newCircle;
+              var circleSafeToDraw = false;
+              for(var tries = 0; tries < createCircleAttempts; tries++) {
+                newCircle = {
+                  x: Math.floor(r5.integer(0, size)),
+                  y: Math.floor(r6.integer(0, size)),
+                  radius: minRadius
+                }
+
+                if(is_clean)
+                {
+                    if(doesCircleHaveACollision(newCircle)) {
+                      continue;
+                    } else {
+                      circleSafeToDraw = true;
+                      break;
+                    }
+                }
+                else
+                {
+                    if(!doesCircleHaveACollision(newCircle)) {
+                      continue;
+                    } else {
+                      circleSafeToDraw = true;
+                      break;
+                    }
+                }
+              }
+
+              if(!circleSafeToDraw) {
+                return;
+              }
+
+              for(var radiusSize = minRadius; radiusSize < maxRadius; radiusSize++) {
+                newCircle.radius = radiusSize;
+                if(doesCircleHaveACollision(newCircle)){
+                  newCircle.radius--;
+                  break;
+                } 
+              }
+
+              circles.push(newCircle);
+              ctx.beginPath();
+              ctx.arc(newCircle.x, newCircle.y, newCircle.radius, 0, 2*Math.PI);
+              ctx.fillStyle = colors[r1.integer(0, (colors.length - 1))];
+              if(!r2.integer(0, 1) || !r3.integer(0, 1))
+              {
+                  ctx.strokeStyle = colors[r4.integer(0, (colors.length - 1))];
+              }
+              else
+              {
+                  //context.strokeStyle = white;
+              }
+              ctx.fill(); 
+              ctx.stroke(); 
+            }
+
+            function doesCircleHaveACollision(circle) {
+              for(var i = 0; i < circles.length; i++) {
+                var otherCircle = circles[i];
+                var a = circle.radius + otherCircle.radius;
+                var x = circle.x - otherCircle.x;
+                var y = circle.y - otherCircle.y;
+
+                if (a >= Math.sqrt((x*x) + (y*y))) {
+                  return true;
+                }
+              }
+
+              if(circle.x + circle.radius >= size ||
+                 circle.x - circle.radius <= 0) {
+                return true;
+              }
+
+              if(circle.y + circle.radius >= size ||
+                  circle.y - circle.radius <= 0) {
+                return true;
+              }
+
+              return false;
+            }
+
+            for( var i = 0; i < totalCircles; i++ ) {  
+              createAndDrawCircle();
+            }
+            
+            var direction = r5.integer(1, 4);
+            var grd = ctx.createLinearGradient(0,0,0,can.height);
+            if(direction == 2) grd = ctx.createLinearGradient(0,0,can.width,can.height);
+            if(direction == 3) grd = ctx.createLinearGradient(0,can.height,can.width,0);
+            if(direction == 4) grd = ctx.createRadialGradient(150,150,0,150,150,300);
+            var c1 = colors[r2.integer(0, colors.length - 1)];
+            var c2 = colors[r4.integer(0, colors.length - 1)];
+            grd.addColorStop(0,c1);
+            grd.addColorStop(1,c2);
+            ctx.fillStyle = grd;
+            ctx.rect(0, 0, can.width, can.height);
+            ctx.fill();
+        }
+        
+        // Crosses
+        var style5 = function()
+        {
+            var rare = false;
+            if(r1.integer(0, 1) && r3.integer(0, 1)) rare = true;
+            function dg(dl = false)
+            {
+                var ta = parseFloat('0.' + r5.integer(33, 66));
+                if(dl)
+                {
+                    ta = parseFloat('0.' + r5.integer(22, 44));
+                    ctx.globalAlpha = ta;
+                }
+                if(rare)
+                {
+                    ta = parseFloat('0.' + r5.integer(8, 88));
+                    ctx.globalAlpha = ta;
+                }
+                var d = r5.integer(1, 4);
+                var g = ctx.createLinearGradient(0,0,0,can.height);
+                if(d == 2) grd = ctx.createLinearGradient(0,0,can.width,can.height);
+                if(d == 3) grd = ctx.createLinearGradient(0,can.height,can.width,0);
+                if(d == 4) grd = ctx.createRadialGradient(150,150,0,150,150,300);
+                var c1 = colors[r2.integer(0, colors.length - 1)];
+                var c2 = colors[r4.integer(0, colors.length - 1)];
+                g.addColorStop(0,c1);
+                g.addColorStop(1,c2);
+                ctx.fillStyle = g;
+                ctx.rect(0, 0, can.width, can.height);
+                ctx.fill();
+                ctx.globalAlpha = ta;
+            }
+            
+            var df = false;
+            if(r6.integer(0, 1) && r4.integer(0, 1))
+            {
+                df = true;
+            }
+            if(df) dg();
+            
+            class po {
+              constructor (x, y) {
+                this.x = x;
+                this.y = y;
+              }
+            }
+
+            class sq {
+              constructor (origin, length, colour) {
+                this.origin = origin;
+                this.length = length;
+                this.colour = colour;
+              }
+
+              draw (ctx) {
+                ctx.beginPath();
+                ctx.moveTo(this.origin.x, this.origin.y);
+                ctx.lineTo(this.origin.x + this.length, this.origin.y);
+                ctx.lineTo(this.origin.x + this.length, this.origin.y + this.length);
+                ctx.lineTo(this.origin.x, this.origin.y + this.length);
+                ctx.lineTo(this.origin.x, this.origin.y);
+                ctx.strokeStyle = this.colour;
+                ctx.lineWidth = 0;
+                if(rare)
+                {
+                    ctx.strokeStyle = colors[r2.integer(0, (colors.length - 1))];
+                    ctx.lineWidth = r6.integer(10, 100)
+                }
+                ctx.fillStyle = this.colour;
+                  
+                // Color the border and the body
+                ctx.stroke();
+                ctx.fill();
+                ctx.closePath();
+              }
+            }
+
+            class Cross {
+              constructor (left, top, right, bottom, center) {
+                this.left = left;
+                this.top = top;
+                this.right = right;
+                this.bottom = bottom;
+                this.center = center;
+              }
+
+              draw (ctx) {
+                this.left.draw(ctx);
+                this.top.draw(ctx);
+                this.right.draw(ctx);
+                this.bottom.draw(ctx);
+                this.center.draw(ctx);
+              }
+            }
+
+            function mk(center, squareLength, co) {
+              var l = squareLength;
+              var x = center.x;
+              var y = center.y;
+              var left   = new sq(new po(x - 1.5 * l, y - 0.5 * l), l, co);
+              var top    = new sq(new po(x - 0.5 * l, y - 1.5 * l), l, co);
+              var right  = new sq(new po(x + 0.5 * l, y - 0.5 * l), l, co);
+              var bottom = new sq(new po(x - 0.5 * l, y + 0.5 * l), l, co);
+              var center = new sq(new po(x - 0.5 * l, y - 0.5 * l), l, co);
+              return new Cross(left, top, right, bottom, center);
+            }
+
+            function dr(start, sl, c1, c2, ctx) {
+              var x = start.x
+              var y = start.y
+              var i = 0
+              while (true) {
+                var c = [c1, c2][i % 2]
+                mk(new po(x, y), sl, c).draw(ctx)
+                if (x > 800) { break }
+                x = x + 5 * sl
+                i = i + 1
+              }
+            }
+
+            var sl = (r1.integer(8, 88) * 10) / (r2.integer(1, 11) * 8);
+
+            var x = 1.5 * sl
+            var y = -0.5 * sl
+            var i = 0
+            var j = 5
+            var rc = 0
+            var col = [colors[3], colors[0], colors[5], colors[2], colors[1], colors[4]]
+            var mirror = [colors[2], colors[1], colors[4], colors[3], colors[0], colors[5]]
+
+            while (true) {
+              if (rc % 2 == 0) {
+                var idx = i
+                i = (i + 1) % 6
+              } else {
+                var idx = j
+                j = (j + 1) % 6
+              }
+              var c1 = col[idx]
+              var c2 = mirror[idx]
+              dr(new po(x, y), sl, c1, c2, ctx)
+              // Stop if we've gone past the bottom of the canvas
+              if (y > 800) { break }
+              // Update the first cross coordinates and the row counter
+              if (rc % 2 == 0) {
+                x = x - 3 * sl
+              } else {
+                x = x + 2 * sl
+              }
+              y = y + 1 * sl
+              rc = rc + 1
+            }
+            if(!df) dg(true);
+        }
+        
+        // Random style ...
+        // Do this on-chain...?
+        var s = [];
+        s.push(style1);
+        s.push(style2);
+        s.push(style3);
+        s.push(style4);
+        s.push(style5);
+        console.log('s', s);
+        var random_index = r1.integer(0, (s.length - 1));
+        random_index = 4;
+        console.log('random_index', random_index);
+        var st = s[random_index];
+        st();
+            
+        // Convert canvas to PNG
+        var w = document.querySelector('#pandora-wrapper-' + nft);
+        img = new Image();
+        img.onload = function () 
+        {
+            var el = document.querySelector('#pandora-square-' + nft);
+            w.removeChild(el);
+        }
+        img.src = can.toDataURL();
+        w.appendChild(img);
+            
+        </script>
+    </body>
+</html>

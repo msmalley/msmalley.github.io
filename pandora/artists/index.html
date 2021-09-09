@@ -6,23 +6,20 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
         <title>Pandora | Artists</title>
         <link rel="stylesheet" href="../css/bootstrap.css">
+        <link rel="stylesheet" href="../fontawesome/css/all.css">
         <link rel="stylesheet" href="../css/pandora.css">
         <script type="text/javascript" src="../js/jquery.js"></script>
         <script type="text/javascript" src="../js/bootstrap.js"></script>
         <script type="text/javascript" src="../js/robohash.js"></script>
         <script type="text/javascript" src="../js/xor.js"></script>
-        <script type="text/javascript" src="../js/rant_en_US.js"></script>
         <script type="text/javascript" src="../js/colorthief.js"></script>
         <script type="text/javascript" src="../js/xcolor.js"></script>
-        <script type="text/javascript" src="../js/draw.js"></script>
-        <script type="text/javascript" src="../js/triangles.js"></script>
-        <script type="text/javascript" src="../js/checkers.js"></script>
-        <script type="text/javascript" src="../js/ethereum-tx.js"></script>
+        <script type="text/javascript" src="../js/web3.js"></script>
     </head>
-    <body id="body-artists" data-robohash="../img/robohash/set1.png">
+    <body id="body-index" data-robohash="../img/robohash/set1.png">
         <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top" id="navigation">
             <div class="container">
-                <a class="navbar-brand orb" href="../"><b>pandora</b>.gallery</a>
+                <a class="navbar-brand orb" href=""><b>pandora</b>.gallery</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
@@ -30,224 +27,34 @@
                     <div class="navbar-nav ms-auto orb">
                         <a class="nav-link" href="../">home</a>
                         <a class="nav-link" href="../about/">about</a>
-                        <a class="nav-link" href="../gallery/">gallery</a>
+                        <a class="nav-link" href="../art/">art</a>
                         <a class="nav-link active" aria-current="page" href="../artists/">artists</a>
-                        <a class="nav-link" href="../collectors/">collectors</a>
-                        <a class="nav-link" href="../creators/">creators</a>
-                        <a class="nav-link" href="../developers/">developers</a>
-                        <a class="nav-link" href="../economics/">economics</a>
+                        <a class="nav-link" href="../owners/">owners</a>
                     </div>
                 </div>
             </div>
         </nav>
-        <div class="section sub-header loading">
-            <div class="container relative">
-                <h2 class="amatic">Search For a Specific Artist</h2>
-                <h4 class="orb">
-                    <p>&nbsp;</p>
-                    <form action="" method="get">
-                        <div class="row">
-                            <div class="col-md-8">
-                                <input type="text" class="form-control" placeholder="Pick a name, any name ..." style="opacity: 0.75;" id="name" name="name" />
-                                <p>&nbsp;</p>
-                            </div>
-                            <div class="col-md-4">
-                                <button type="submit" class="btn btn-blocks btn-outline-dark">SEARCH</button>
-                                <p>&nbsp;</p>
-                            </div>
-                        </div>
-                    </form>
-                </h4>
+        <div class="section sub-header">
+            <div class="container">
+                <h2 class="amatic atruth">Search Artist Directory</h2>
+                <h4 class="truth">Or browse examples below ...</h4>
                 <div class="artist"></div>
             </div>
         </div>
         <div class="section">
             <div class="container">
-                <p>&nbsp;</p>
                 <alert class="alert text-center">
                     <p>&nbsp;</p>
-                    <h4 class="pstart" style="line-height:3rem;"><b class="artist-intro-intro">I am one of</b> exactly <b class="members-count">1,000,001</b> artists who collectively form the Paranoid Android Foundation.</h4>
+                    <h4 class="pstart smaller" style="line-height:3rem;">Each artist must have two initials that may only range from A to Z, which only allows for up-to 676 unique <a href="#">NFAs</a> - Non-Fungible Artists</h4>
+                    <p>&nbsp;</p>
+                    <hr>
+                    <p>&nbsp;</p>
+                    <h4 class="pstart smaller" style="line-height:3rem;">examples of our minted artwork can be seen below</h4>
                     <p>&nbsp;</p>
                 </alert>
-                <div class="artist-info">
-                    <alert class="alert text-center">
-                        <h6 class="pstart" style="line-height: 2rem;">My signature style can be seen below ...</h6>
-                        <p>&nbsp;</p>
-                    </alert>
-                    <div class="row frames">
-                        <div class="col-md-4 artistic loading relative">
-                            <canvas id="artist-art-0" class="art" width="300" height="300"></canvas>
-                        </div>
-                        <div class="col-md-4 artistic loading relative">
-                            <canvas id="artist-art-1" class="art" width="300" height="300"></canvas>
-                        </div>
-                        <div class="col-md-4 artistic loading relative">
-                            <canvas id="artist-art-2" class="art" width="300" height="300"></canvas>
-                        </div>
-                    </div>
-                    <div class="row frames">
-                        <div class="col-md-4 artistic loading relative">
-                            <canvas id="artist-art-3" class="art" width="300" height="300"></canvas>
-                        </div>
-                        <div class="col-md-4 artistic loading relative">
-                            <canvas id="artist-art-4" class="art" width="300" height="300"></canvas>
-                        </div>
-                        <div class="col-md-4 artistic loading relative">
-                            <canvas id="artist-art-5" class="art" width="300" height="300"></canvas>
-                        </div>
-                    </div>
-                    <div class="row frames">
-                        <div class="col-md-4 artistic loading relative">
-                            <canvas id="artist-art-6" class="art" width="300" height="300"></canvas>
-                        </div>
-                        <div class="col-md-4 artistic loading relative">
-                            <canvas id="artist-art-7" class="art" width="300" height="300"></canvas>
-                        </div>
-                        <div class="col-md-4 artistic loading relative">
-                            <canvas id="artist-art-8" class="art" width="300" height="300"></canvas>
-                        </div>
-                    </div>
-                    <alert class="alert text-center">
-                        <p>&nbsp;</p>
-                        <div class="row">
-                            <div class="col-md-3"></div>
-                            <div class="col-md-6">
-                                <div class="btn-group btn-block art-actions" role="group" style="display: flex;">
-                                    <a href="#" class="btn btn-xl btn-outline-dark" style="flex: 1">
-                                        INFO
-                                    </a>
-                                    <a href="#" class="btn btn-xl btn-outline-dark" style="flex: 1">
-                                        GENERATE
-                                    </a>
-                                    <a href="#" class="btn btn-xl btn-outline-dark" style="flex: 1">
-                                        SPAWN
-                                    </a>
-                                </div>
-                            </div>
-                            <div class="col-md-3"></div>
-                        </div>
-                        <p>&nbsp;</p>
-                    </alert>
-                    <alert class="alert text-center">
-                        <p>&nbsp;</p>
-                        <h6 class="pstart" style="line-height: 2rem;">Alternatively...</h6>
-                        <h6 class="pstart" style="line-height: 2rem;">You may enjoy my experiemental artwork, as seen below!</h6>
-                        <p>&nbsp;</p>
-                    </alert>
-                </div>
-                <div class="artists-placeholder text-center" style="display: none;">
-                    <h6 class="pstart" style="line-height: 2rem;">Our most recently active artists can be seen below ...</h6>
-                    <p>&nbsp;</p>
-                    <p>&nbsp;</p>
-                    <div class="row">
-                        <div class="col-md-4">
-                            <div class="card text-center card-artist-0">
-                                <div class="card-body">
-                                    <hr>
-                                    <h1 class="card-title artist-name amatic">???</h1>
-                                    <p class="card-text artist-description">???</p>
-                                </div>
-                            </div>
-                            <p>&nbsp;</p>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="card text-center card-artist-1">
-                                <div class="card-body">
-                                    <hr>
-                                    <h1 class="card-title artist-name amatic">???</h1>
-                                    <p class="card-text artist-description">???</p>
-                                </div>
-                            </div>
-                            <p>&nbsp;</p>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="card text-center card-artist-2">
-                                <div class="card-body">
-                                    <hr>
-                                    <h1 class="card-title artist-name amatic">???</h1>
-                                    <p class="card-text artist-description">???</p>
-                                </div>
-                            </div>
-                            <p>&nbsp;</p>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-4">
-                            <div class="card text-center card-artist-3">
-                                <div class="card-body">
-                                    <hr>
-                                    <h1 class="card-title artist-name amatic">???</h1>
-                                    <p class="card-text artist-description">???</p>
-                                </div>
-                            </div>
-                            <p>&nbsp;</p>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="card text-center card-artist-4">
-                                <div class="card-body">
-                                    <hr>
-                                    <h1 class="card-title artist-name amatic">???</h1>
-                                    <p class="card-text artist-description">???</p>
-                                </div>
-                            </div>
-                            <p>&nbsp;</p>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="card text-center card-artist-5">
-                                <div class="card-body">
-                                    <hr>
-                                    <h1 class="card-title artist-name amatic">???</h1>
-                                    <p class="card-text artist-description">???</p>
-                                </div>
-                            </div>
-                            <p>&nbsp;</p>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-4">
-                            <div class="card text-center card-artist-6">
-                                <div class="card-body">
-                                    <hr>
-                                    <h1 class="card-title artist-name amatic">???</h1>
-                                    <p class="card-text artist-description">???</p>
-                                </div>
-                            </div>
-                            <p>&nbsp;</p>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="card text-center card-artist-7">
-                                <div class="card-body">
-                                    <hr>
-                                    <h1 class="card-title artist-name amatic">???</h1>
-                                    <p class="card-text artist-description">???</p>
-                                </div>
-                            </div>
-                            <p>&nbsp;</p>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="card text-center card-artist-8">
-                                <div class="card-body">
-                                    <hr>
-                                    <h1 class="card-title artist-name amatic">???</h1>
-                                    <p class="card-text artist-description">???</p>
-                                </div>
-                            </div>
-                            <p>&nbsp;</p>
-                        </div>
-                    </div>
-                </div>
             </div>
         </div>
-        <div class="section iframe loading" style="display: none;">
-            <div class="frame">
-                <img class="nft-image" id="this-nft-image" />
-            </div>
-            <div class="mound">
-                <div class="paper">And then?</div>
-            </div>
-            <canvas id="this-nft-canvas"></canvas>
-        </div>
+        <div id="random-nfts"></div>
     </body>
-    <script type="text/javascript" src="../js/checkers.js"></script>
     <script type="text/javascript" src="../js/pandora.js"></script>
 </html>

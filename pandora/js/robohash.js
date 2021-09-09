@@ -54,6 +54,11 @@
 	function render(input, callback) {
 	  renderHash(md5(input || ''), callback);
 	}
+                                                          
+    function renderArtist(these_buckets, callback) {
+        console.log('artist.buckets', these_buckets);
+        renderBuckets(these_buckets, callback);
+	}
 
 	function renderHash(hash, callback) {
 	  if(!hash && hash.length < 32) {
@@ -61,7 +66,9 @@
 	  }
 	  //strip uuid dashes
 	  hash = hash.replace(/\-/g, '');
-	  renderBuckets(getBuckets(hash), callback);
+      var these_buckets = getBuckets(hash);
+      console.log('these_buckets', these_buckets);
+	  renderBuckets(these_buckets, callback);
 	}
 
 	function getBuckets(hash) {
@@ -79,6 +86,21 @@
 	}
 
 	function renderBuckets(buckets, callback) {
+        
+        // COLOURS
+        
+        // 0 - BLUE
+        // 1 - BROWN
+        // 2 - GREEN
+        // 3 - GREY
+        // 4 - ORANGE
+        // 5 - PINK
+        // 6 - PURPLE
+        // 7 - RED
+        // 8 - WHITE
+        // 9 - YELLOW
+        
+        console.log('renderBuckets.buckets', buckets);
 
 	  var bodyStyle = buckets[0];
 	  var headStyle = buckets[1];
@@ -119,6 +141,7 @@
 
 
 	global.render = render;
+	global.renderArtist = renderArtist;
 	global.renderHash = renderHash;
     
 
