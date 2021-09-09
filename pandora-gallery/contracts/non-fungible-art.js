@@ -3,6 +3,7 @@
 // 23159 of 24977
 // 0x0e29a3d9dca3df6426463af77bd916cdb4f05686
 // 0xf8467ccbf112929cd7de9a548fd6967da26340ae
+// 0x2f6ba67c58913811f31c444a7ce3e3c81202c06b
 
 // ABC (SQUARES) = 94205699822451333113128196630514675934246267212697860626635805911484442300603
 // ABD (SQUARES) = 24896609405935375194686464106580803410536231185002612372733023314821754720325
@@ -1477,7 +1478,7 @@ contract NonFungibleArt is ERC721Pausable
         return _arts[nft_id].artist;
     }
     
-    function getArtistMintCount(uint256 artist) public view returs(uint256)
+    function getArtistMintCount(uint256 artist) public view returns(uint256)
     {
         return _mints[artist];
     }

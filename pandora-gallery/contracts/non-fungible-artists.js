@@ -3,6 +3,7 @@
 // 24451 of 24977
 // 0xbd9bd1ebd3e19bf9dfa977e03cdce644f2a93032
 // 0x34e9654b0677b6bf174b780e5d78fdad34409827
+// 0x94a229e98f66e2bb44c67cad21d93ec6dc8ef62b
 
 // v3
 
@@ -1590,7 +1591,7 @@ contract NonFungibleArtists is ERC721Pausable
         }
     }
     
-    function random(string memory seed, uint max, uint specificBlock, uint256 id) internal view returns(uint)
+    function random(string memory seed, uint max, uint specificBlock, uint id) internal view returns(uint)
     {
         if(max < 1) max = 100;
         if(id > 0)

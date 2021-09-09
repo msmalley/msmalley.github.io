@@ -4,6 +4,21 @@ UTILS
 
 */
 
+var minting_costs = {
+    initial: {
+        artist: 1000000000000000,
+        art: 100000000000000
+    },
+    increase: {
+        artist: 1000000000000000,
+        art: 500000000000000
+    }
+};
+var total_mints = {
+    artist: 6,
+    art: 16
+};
+
 const colorThief = new ColorThief();
 
 var get_current_params = function()
@@ -53,7 +68,7 @@ var pandora_options =
         },
         artists: {
             abi: '[{"inputs":[{"internalType":"string","name":"assetName","type":"string"},{"internalType":"string","name":"assetSymbol","type":"string"},{"internalType":"string","name":"metaBase","type":"string"}],"stateMutability":"nonpayable","type":"constructor"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"owner","type":"address"},{"indexed":true,"internalType":"address","name":"approved","type":"address"},{"indexed":true,"internalType":"uint256","name":"tokenId","type":"uint256"}],"name":"Approval","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"owner","type":"address"},{"indexed":true,"internalType":"address","name":"operator","type":"address"},{"indexed":false,"internalType":"bool","name":"approved","type":"bool"}],"name":"ApprovalForAll","type":"event"},{"anonymous":false,"inputs":[{"indexed":false,"internalType":"address","name":"account","type":"address"}],"name":"Paused","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"from","type":"address"},{"indexed":true,"internalType":"address","name":"to","type":"address"},{"indexed":true,"internalType":"uint256","name":"tokenId","type":"uint256"}],"name":"Transfer","type":"event"},{"anonymous":false,"inputs":[{"indexed":false,"internalType":"address","name":"account","type":"address"}],"name":"Unpaused","type":"event"},{"inputs":[],"name":"_paused","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"to","type":"address"},{"internalType":"uint256","name":"tokenId","type":"uint256"}],"name":"approve","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"artistBase","outputs":[{"internalType":"string","name":"","type":"string"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"artistAddress","type":"address"},{"internalType":"string","name":"firstInitial","type":"string"},{"internalType":"string","name":"secondInitial","type":"string"}],"name":"artistId","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"owner","type":"address"}],"name":"balanceOf","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"tokenId","type":"uint256"}],"name":"burn","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"string","name":"firstInitial","type":"string"},{"internalType":"string","name":"secondInitial","type":"string"}],"name":"generateArtist","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"uint256","name":"tokenId","type":"uint256"}],"name":"getApproved","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"artist","type":"uint256"}],"name":"getArtist","outputs":[{"internalType":"string","name":"firstInitial","type":"string"},{"internalType":"string","name":"secondInitial","type":"string"},{"internalType":"string","name":"style","type":"string"},{"internalType":"uint256","name":"blockNumber","type":"uint256"},{"internalType":"address","name":"creator","type":"address"},{"internalType":"address","name":"owner","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"artist","type":"uint256"}],"name":"getArtistBlock","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"artist","type":"uint256"}],"name":"getArtisticStyle","outputs":[{"internalType":"string","name":"","type":"string"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"artist","type":"uint256"}],"name":"getArtisticStyleBytes","outputs":[{"internalType":"bytes","name":"","type":"bytes"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"artist","type":"uint256"}],"name":"getAttributes","outputs":[{"internalType":"uint256","name":"bodyStyle","type":"uint256"},{"internalType":"uint256","name":"headStyle","type":"uint256"},{"internalType":"uint256","name":"eyeStyle","type":"uint256"},{"internalType":"uint256","name":"mouthStyle","type":"uint256"},{"internalType":"uint256","name":"accessoriesStyle","type":"uint256"},{"internalType":"uint256","name":"bodyAndHeadColour","type":"uint256"},{"internalType":"uint256","name":"eyeAndMouthColour","type":"uint256"},{"internalType":"uint256","name":"accessoriesColour","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"owner","type":"address"},{"internalType":"address","name":"operator","type":"address"}],"name":"isApprovedForAll","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"name","outputs":[{"internalType":"string","name":"","type":"string"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"tokenId","type":"uint256"}],"name":"ownerOf","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"paused","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"from","type":"address"},{"internalType":"address","name":"to","type":"address"},{"internalType":"uint256","name":"tokenId","type":"uint256"}],"name":"safeTransferFrom","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address","name":"from","type":"address"},{"internalType":"address","name":"to","type":"address"},{"internalType":"uint256","name":"tokenId","type":"uint256"},{"internalType":"bytes","name":"_data","type":"bytes"}],"name":"safeTransferFrom","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address","name":"operator","type":"address"},{"internalType":"bool","name":"approved","type":"bool"}],"name":"setApprovalForAll","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"bytes4","name":"interfaceId","type":"bytes4"}],"name":"supportsInterface","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"symbol","outputs":[{"internalType":"string","name":"","type":"string"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"symbolBytes","outputs":[{"internalType":"bytes32","name":"","type":"bytes32"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"index","type":"uint256"}],"name":"tokenByIndex","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"owner","type":"address"},{"internalType":"uint256","name":"index","type":"uint256"}],"name":"tokenOfOwnerByIndex","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"tokenId","type":"uint256"}],"name":"tokenURI","outputs":[{"internalType":"string","name":"","type":"string"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"totalSupply","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"from","type":"address"},{"internalType":"address","name":"to","type":"address"},{"internalType":"uint256","name":"tokenId","type":"uint256"}],"name":"transferFrom","outputs":[],"stateMutability":"nonpayable","type":"function"}]',
-            address: '0x34e9654b0677b6bf174b780e5d78fdad34409827'
+            address: ''
         }
     },
     terms: get_current_params(),
@@ -95,6 +110,27 @@ PANDORA
 var pandora = 
 {
     config: pandora_options,
+    costs: function()
+    {
+        var available_art = 17576;
+        var available_artists = 676;
+        var costs = minting_costs;
+        var mints = total_mints;
+        var cost_to_mint = {
+            artist: (minting_costs.initial.artist * total_mints.artist) + (minting_costs.increase.artist * (total_mints.artist - 1)),
+            art: (minting_costs.initial.art * total_mints.art) + (minting_costs.increase.art * (total_mints.art - 1))
+        };
+        var remaining_art = available_art - mints.art;
+        var remaining_artists = available_artists - mints.artist;
+        jQuery('.total-art').text(available_art);
+        jQuery('.total-artists').text(available_artists);
+        jQuery('.art-remain').text(remaining_art);
+        jQuery('.artists-remain').text(remaining_artists);
+        jQuery('.art-cost b').text(parseFloat((cost_to_mint.art / 1000000000000000000)));
+        jQuery('.artist-cost b').text(parseFloat((cost_to_mint.artist / 1000000000000000000)));
+        return cost_to_mint;
+        
+    },
     init: function()
     {
         var nfts = [];
@@ -139,7 +175,10 @@ var pandora =
         );
         
         var filter_count = 0;
+        var loaded_count = 0;
         var filtered_nfts = [];
+        
+        // Get and apply current costs
         
         jQuery.each(selected_nfts, function(sn)
         {
@@ -165,6 +204,7 @@ var pandora =
                             var this_img = jQuery(this);
                             jQuery(this).load(function()
                             {
+                                loaded_count++;
                                 var img = new Image();
                                 img.addEventListener('load', function() 
                                 {
@@ -197,18 +237,23 @@ var pandora =
                                     var gradient_top = jQuery.xcolor.opacity('#eee', acolours[3].hex, 0.15);
                                     var gradient_bottom = jQuery.xcolor.opacity('#aaa', acolours[4].hex, 0.15);
 
-                                    jQuery(this_img).parent().removeClass('loading');
-
                                     jQuery(this_img).css({background: matt_colour});
                                     jQuery(this_img).css({'border-color': insert_colour});
-
                                     jQuery(this_img).css({'border-left-color': frame_colour});
                                     jQuery(this_img).css({'border-right-color': frame_colour});
                                     jQuery(this_img).css({'border-top-color': frame_colour_darker});
                                     jQuery(this_img).css({'border-bottom-color': frame_colour_darker});
-
-                                    jQuery(this_img).parent().parent().parent().parent().parent().css({'background-image': 'linear-gradient('+gradient_top+', '+gradient_bottom+')'});
-
+                                    jQuery(this_img).parent().parent().parent().parent().parent().css(
+                                    {
+                                        'background-image': 'linear-gradient('+gradient_top+', '+gradient_bottom+')'
+                                    });
+                                    
+                                    jQuery(this_img).parent().removeClass('loading');
+                                    
+                                    if(loaded_count == filtered_nfts.length)
+                                    {
+                                        var costs = pandora.costs();
+                                    }
                                 });
                                 img.crossOrigin = 'Anonymous';
                                 img.src = jQuery(this).attr('src');
@@ -292,11 +337,11 @@ var pandora =
                                                         html+= '</div>';
                                                     html+= '</div>';
                                                     html+= '<div class="actions">';
-                                                        html+= '<a href="#" class="btn btn-outline-dark">';
+                                                        html+= '<a href="https://blockscout.cokeeps.com/address/0x2f6ba67c58913811f31c444a7ce3e3c81202c06b/write-contract" target="_blank" class="btn btn-outline-dark">';
                                                             html+= 'MINT NEW ARTWORK';
                                                         html+= '</a>';
                                                         html+= '<br />';
-                                                        html+= '<a href="#" class="btn btn-outline-dark">';
+                                                        html+= '<a href="https://blockscout.cokeeps.com/address/0x94a229e98f66e2bb44c67cad21d93ec6dc8ef62b/write-contract" target="_blank" class="btn btn-outline-dark">';
                                                             html+= 'GENERATE ARTIST';
                                                         html+= '</a>';
                                                     html+= '</div>';

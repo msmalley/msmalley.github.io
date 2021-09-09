@@ -56,7 +56,6 @@
 	}
                                                           
     function renderArtist(these_buckets, callback) {
-        console.log('artist.buckets', these_buckets);
         renderBuckets(these_buckets, callback);
 	}
 
@@ -67,7 +66,6 @@
 	  //strip uuid dashes
 	  hash = hash.replace(/\-/g, '');
       var these_buckets = getBuckets(hash);
-      console.log('these_buckets', these_buckets);
 	  renderBuckets(these_buckets, callback);
 	}
 
@@ -99,8 +97,6 @@
         // 7 - RED
         // 8 - WHITE
         // 9 - YELLOW
-        
-        console.log('renderBuckets.buckets', buckets);
 
 	  var bodyStyle = buckets[0];
 	  var headStyle = buckets[1];
