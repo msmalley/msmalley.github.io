@@ -3,6 +3,9 @@
 // 24411 of 24977
 // 0xeb1666e84e700e516a36c8e833685123fc7b0aad
 
+// 24757 of 24977 = Payable
+// 0xbfec653ee2c292388576c2a02e9dd4413ea9f17f
+
 // v3
 
 // AB (SQUARES) = 22554817242550951589683779519483171728956163425953892629337548065792938045018
@@ -1372,6 +1375,10 @@ contract NonFungibleArtists is ERC721Pausable
     using Strings for uint256;
     
     string public artistBase;
+    address payable public contractOwner;
+    
+    uint256 public artistCost = 1000000000000000;
+    uint256 public artistIncrease = 1000000000000000;
     
     struct _artist 
     {
@@ -1383,18 +1390,15 @@ contract NonFungibleArtists is ERC721Pausable
     }
     
     mapping(uint256 => _artist) internal _artists;
+    mapping(string => uint256[]) internal _alpha;
     
-    constructor
-    (
-        string memory assetName,
-        string memory assetSymbol,
-        string memory metaBase
-    ) 
+    constructor() payable
     {
-        _name = assetName;
-        _symbol = assetSymbol;
+        _symbol = 'NFA';
         _paused = false;
-        artistBase = metaBase;
+        _name = 'Non-Fungible Artists';
+        artistBase = 'https://nfa.cokeeps.com/';
+        contractOwner = payable(msg.sender);
     }
     
     function _baseURI() internal view virtual override returns (string memory) 
@@ -1408,18 +1412,28 @@ contract NonFungibleArtists is ERC721Pausable
     
     */
     
-    function generateArtist(string memory firstInitial, string memory secondInitial) public returns(uint256)
+    function generateArtist(string memory firstInitial, string memory secondInitial) public payable returns(uint256)
     {
         uint256 id = artistId(tx.origin, firstInitial, secondInitial);
+        
         require(id > 0);
+        require(msg.value >= artistCost);
         require(_owners[id] == address(0));
+        
         _artists[id].block = block.number;
         _artists[id].first = firstInitial;
         _artists[id].second = secondInitial;
         _artists[id].creator = tx.origin;
+        
         _setArtisticStyle(id);
         _safeMint(tx.origin, id);
         _setTokenURI(id, _artistURI(id));
+        
+        _alpha[firstInitial].push(id);
+        _alpha[secondInitial].push(id);
+        
+        artistCost = artistCost.add(artistIncrease);
+        
         return id;
     }
     
@@ -1442,14 +1456,14 @@ contract NonFungibleArtists is ERC721Pausable
         );
     }
     
-    function getArtisticStyleBytes(uint256 artist) public view returns(bytes memory)
+    function searchArtists(string memory initial) public view returns(uint256[] memory)
     {
-        return bytes(getArtisticStyle(artist));
+        return _alpha[initial];
     }
     
-    function getArtisticStyle(uint256 artist) public view returns(string memory)
+    function getArtisticStyleBytes(uint256 artist) public view returns(bytes memory)
     {
-        return _artists[artist].style;
+        return bytes(_artists[artist].style);
     }
     
     function artistId
@@ -1481,20 +1495,34 @@ contract NonFungibleArtists is ERC721Pausable
     ){
         uint b = getArtistBlock(artist);
         return(
-            random('bod', 10, b, 0).sub(1),
-            random('hea', 10, b, 0).sub(1),
-            random('eye', 10, b, 0).sub(1),
-            random('mou', 10, b, 0).sub(1),
-            random('acc', 10, b, 0).sub(1),
-            random('bhc', 10, b, 0).sub(1),
-            random('emc', 10, b, 0).sub(1),
-            random('hat', 10, b, 0).sub(1)
+            random('bo', 10, b, 0).sub(1),
+            random('he', 10, b, 0).sub(1),
+            random('ey', 10, b, 0).sub(1),
+            random('mo', 10, b, 0).sub(1),
+            random('ac', 10, b, 0).sub(1),
+            random('bh', 10, b, 0).sub(1),
+            random('em', 10, b, 0).sub(1),
+            random('ha', 10, b, 0).sub(1)
         );
     }
     
     function getArtistBlock(uint256 artist) public view returns(uint)
     {
         return _artists[artist].block;
+    }
+    
+    function withdraw() public 
+    {
+        require(msg.sender == contractOwner);
+        (bool success, ) = contractOwner.call{value: address(this).balance}("");
+        require(success);
+    }
+
+    function transfer(address payable _to, uint _amount) public 
+    {
+        require(msg.sender == contractOwner);
+        (bool success, ) = _to.call{value: _amount}("");
+        require(success);
     }
     
     /*
@@ -1534,52 +1562,38 @@ contract NonFungibleArtists is ERC721Pausable
     )
     internal view returns(string memory)
     {
-        address artistAddress = _artists[artist].creator;
-        string memory firstInitial = _artists[artist].first;
-        string memory secondInitial = _artists[artist].second;
-        return string(
-            abi.encodePacked(
-                "?contract=", 
-                address(this).toString(), 
-                "&address=",
-                artistAddress.toString(),
-                "&first=",
-                firstInitial,
-                "&second=",
-                secondInitial
-            )
-        );
+        return artist.toString();
     }
     
     function isCapital(string memory str) internal pure returns(bool)
     {
         if(
-            stringToBytes32(str) == stringToBytes32('A')
-            || stringToBytes32(str) == stringToBytes32('B')
-            || stringToBytes32(str) == stringToBytes32('C')
-            || stringToBytes32(str) == stringToBytes32('D')
-            || stringToBytes32(str) == stringToBytes32('E')
-            || stringToBytes32(str) == stringToBytes32('F')
-            || stringToBytes32(str) == stringToBytes32('G')
-            || stringToBytes32(str) == stringToBytes32('H')
-            || stringToBytes32(str) == stringToBytes32('I')
-            || stringToBytes32(str) == stringToBytes32('J')
-            || stringToBytes32(str) == stringToBytes32('K')
-            || stringToBytes32(str) == stringToBytes32('L')
-            || stringToBytes32(str) == stringToBytes32('M')
-            || stringToBytes32(str) == stringToBytes32('N')
-            || stringToBytes32(str) == stringToBytes32('O')
-            || stringToBytes32(str) == stringToBytes32('P')
-            || stringToBytes32(str) == stringToBytes32('Q')
-            || stringToBytes32(str) == stringToBytes32('R')
-            || stringToBytes32(str) == stringToBytes32('S')
-            || stringToBytes32(str) == stringToBytes32('T')
-            || stringToBytes32(str) == stringToBytes32('U')
-            || stringToBytes32(str) == stringToBytes32('V')
-            || stringToBytes32(str) == stringToBytes32('W')
-            || stringToBytes32(str) == stringToBytes32('X')
-            || stringToBytes32(str) == stringToBytes32('Y')
-            || stringToBytes32(str) == stringToBytes32('Z')
+            _ToBytes32(str) == _ToBytes32('A')
+            || _ToBytes32(str) == _ToBytes32('B')
+            || _ToBytes32(str) == _ToBytes32('C')
+            || _ToBytes32(str) == _ToBytes32('D')
+            || _ToBytes32(str) == _ToBytes32('E')
+            || _ToBytes32(str) == _ToBytes32('F')
+            || _ToBytes32(str) == _ToBytes32('G')
+            || _ToBytes32(str) == _ToBytes32('H')
+            || _ToBytes32(str) == _ToBytes32('I')
+            || _ToBytes32(str) == _ToBytes32('J')
+            || _ToBytes32(str) == _ToBytes32('K')
+            || _ToBytes32(str) == _ToBytes32('L')
+            || _ToBytes32(str) == _ToBytes32('M')
+            || _ToBytes32(str) == _ToBytes32('N')
+            || _ToBytes32(str) == _ToBytes32('O')
+            || _ToBytes32(str) == _ToBytes32('P')
+            || _ToBytes32(str) == _ToBytes32('Q')
+            || _ToBytes32(str) == _ToBytes32('R')
+            || _ToBytes32(str) == _ToBytes32('S')
+            || _ToBytes32(str) == _ToBytes32('T')
+            || _ToBytes32(str) == _ToBytes32('U')
+            || _ToBytes32(str) == _ToBytes32('V')
+            || _ToBytes32(str) == _ToBytes32('W')
+            || _ToBytes32(str) == _ToBytes32('X')
+            || _ToBytes32(str) == _ToBytes32('Y')
+            || _ToBytes32(str) == _ToBytes32('Z')
         ){
             return true;
         }
@@ -1601,19 +1615,6 @@ contract NonFungibleArtists is ERC721Pausable
             uint blockNumber = block.number;
             if(specificBlock > 0) blockNumber = specificBlock;
             return uint256(keccak256(abi.encodePacked(seed, specificBlock))) % max + 1;
-        }
-    }
-        
-    function stringToBytes32(string memory source) internal pure returns (bytes32 result) 
-    {
-        bytes memory tempEmptyStringTest = bytes(source);
-        if (tempEmptyStringTest.length == 0) 
-        {
-            return 0x0;
-        }
-        assembly 
-        {
-            result := mload(add(source, 32))
         }
     }
 }

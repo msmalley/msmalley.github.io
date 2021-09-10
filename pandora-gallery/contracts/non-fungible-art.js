@@ -1,7 +1,10 @@
 // SPDX-License-Identifier: MIT
 
-// 23127 of 24977
+// 23140 of 24977
 // 0xd54d5731d59ef22cbc9ad825afe16d963126c570
+
+// 23719 of 24977 = PAYABLE
+// 0x579db546e77033b05760c6a3c0825b17f5fd68ed
 
 // ABC (SQUARES) = 94205699822451333113128196630514675934246267212697860626635805911484442300603
 // ABD (SQUARES) = 24896609405935375194686464106580803410536231185002612372733023314821754720325
@@ -1400,6 +1403,11 @@ contract NonFungibleArt is ERC721Pausable
     address public artistsAddress;
     address public stylesAddress;
     
+    address payable public contractOwner;
+    
+    uint256 public artCost = 100000000000000;
+    uint256 public artIncrease = 500000000000000;
+    
     struct _art 
     {
         string initial;
@@ -1412,20 +1420,21 @@ contract NonFungibleArt is ERC721Pausable
     mapping(uint256 => _art) internal _arts;
     mapping(uint256 => uint256) internal _mints;
     
+    mapping(string => uint256[]) internal _alpha;
+    
     constructor
     (
-        string memory assetName,
-        string memory assetSymbol,
-        string memory metaBase,
         address artistAddress
     ) 
+    payable
     {
-        _name = assetName;
-        _symbol = assetSymbol;
+        _name = 'Non-Fungible Art';
+        _symbol = 'NFTX1';
         _paused = false;
-        artBase = metaBase;
+        artBase = 'https://nftx1.cokeeps.com/';
         artists = NonFungibleArtists(artistAddress);
         artistsAddress = artistAddress;
+        contractOwner = payable(msg.sender);
     }
     
     function setStyles(address styleAddress) public
@@ -1447,23 +1456,35 @@ contract NonFungibleArt is ERC721Pausable
     
     */
     
-    function generateArt(uint256 artist, string memory initial) public returns(uint256)
+    function generateArt(uint256 artist, string memory initial) public payable returns(uint256)
     {
         uint256 nft_id = artID(tx.origin, artist, initial);
         
         require(nft_id > 0);
         require(_owners[nft_id] == address(0));
         require(artists.ownerOf(artist) == tx.origin);
+        require(msg.value >= artCost);
         
         _arts[nft_id].block = block.number;
         _arts[nft_id].initial = initial;
         _arts[nft_id].creator = tx.origin;
         _arts[nft_id].artist = artist;
         _arts[nft_id].style = string(artists.getArtisticStyleBytes(artist));
+        
+        _alpha[initial].push(nft_id);
+        
         _safeMint(tx.origin, nft_id);
         _setTokenURI(nft_id, nft_id.toString());
         _mints[artist] = _mints[artist].add(1);
+        
+        artCost = artCost.add(artIncrease);
+        
         return nft_id;
+    }
+    
+    function searchArt(string memory initial) public view returns(uint256[] memory)
+    {
+        return _alpha[initial];
     }
     
     function displayArt(uint256 nft_id) public view returns(string memory)
@@ -1507,48 +1528,35 @@ contract NonFungibleArt is ERC721Pausable
     
     */
     
-    function stringToBytes32(string memory source) internal pure returns (bytes32 result) 
-    {
-        bytes memory tempEmptyStringTest = bytes(source);
-        if (tempEmptyStringTest.length == 0) 
-        {
-            return 0x0;
-        }
-        assembly 
-        {
-            result := mload(add(source, 32))
-        }
-    }
-    
     function isCapital(string memory str) internal pure returns(bool)
     {
         if(
-            stringToBytes32(str) == stringToBytes32('A')
-            || stringToBytes32(str) == stringToBytes32('B')
-            || stringToBytes32(str) == stringToBytes32('C')
-            || stringToBytes32(str) == stringToBytes32('D')
-            || stringToBytes32(str) == stringToBytes32('E')
-            || stringToBytes32(str) == stringToBytes32('F')
-            || stringToBytes32(str) == stringToBytes32('G')
-            || stringToBytes32(str) == stringToBytes32('H')
-            || stringToBytes32(str) == stringToBytes32('I')
-            || stringToBytes32(str) == stringToBytes32('J')
-            || stringToBytes32(str) == stringToBytes32('K')
-            || stringToBytes32(str) == stringToBytes32('L')
-            || stringToBytes32(str) == stringToBytes32('M')
-            || stringToBytes32(str) == stringToBytes32('N')
-            || stringToBytes32(str) == stringToBytes32('O')
-            || stringToBytes32(str) == stringToBytes32('P')
-            || stringToBytes32(str) == stringToBytes32('Q')
-            || stringToBytes32(str) == stringToBytes32('R')
-            || stringToBytes32(str) == stringToBytes32('S')
-            || stringToBytes32(str) == stringToBytes32('T')
-            || stringToBytes32(str) == stringToBytes32('U')
-            || stringToBytes32(str) == stringToBytes32('V')
-            || stringToBytes32(str) == stringToBytes32('W')
-            || stringToBytes32(str) == stringToBytes32('X')
-            || stringToBytes32(str) == stringToBytes32('Y')
-            || stringToBytes32(str) == stringToBytes32('Z')
+            _ToBytes32(str) == _ToBytes32('A')
+            || _ToBytes32(str) == _ToBytes32('B')
+            || _ToBytes32(str) == _ToBytes32('C')
+            || _ToBytes32(str) == _ToBytes32('D')
+            || _ToBytes32(str) == _ToBytes32('E')
+            || _ToBytes32(str) == _ToBytes32('F')
+            || _ToBytes32(str) == _ToBytes32('G')
+            || _ToBytes32(str) == _ToBytes32('H')
+            || _ToBytes32(str) == _ToBytes32('I')
+            || _ToBytes32(str) == _ToBytes32('J')
+            || _ToBytes32(str) == _ToBytes32('K')
+            || _ToBytes32(str) == _ToBytes32('L')
+            || _ToBytes32(str) == _ToBytes32('M')
+            || _ToBytes32(str) == _ToBytes32('N')
+            || _ToBytes32(str) == _ToBytes32('O')
+            || _ToBytes32(str) == _ToBytes32('P')
+            || _ToBytes32(str) == _ToBytes32('Q')
+            || _ToBytes32(str) == _ToBytes32('R')
+            || _ToBytes32(str) == _ToBytes32('S')
+            || _ToBytes32(str) == _ToBytes32('T')
+            || _ToBytes32(str) == _ToBytes32('U')
+            || _ToBytes32(str) == _ToBytes32('V')
+            || _ToBytes32(str) == _ToBytes32('W')
+            || _ToBytes32(str) == _ToBytes32('X')
+            || _ToBytes32(str) == _ToBytes32('Y')
+            || _ToBytes32(str) == _ToBytes32('Z')
         ){
             return true;
         }
