@@ -377,7 +377,6 @@ img {
     right: -2.5vmin;
     top: -2.5vmin;
 }
-img.pandora-image,
 canvas.art {
     background-color: #ddc;
     border: solid 2vmin #eee;
@@ -396,10 +395,6 @@ canvas.art {
     text-align: center;
     margin-bottom: 15px;
 }
-img.pandora-image {
-    height: auto;
-}
-img.pandora-image:before,
 canvas.art:before {
     border-radius: 2px;
     bottom: -1vmin;
@@ -410,7 +405,6 @@ canvas.art:before {
     right: -1vmin;
     top: -1vmin;
 }
-img.pandora-image:after,
 canvas.art:after {
     border-radius: 2px;
     bottom: -1.5vmin;
@@ -421,6 +415,79 @@ canvas.art:after {
     right: -1.5vmin;
     top: -1.5vmin;
 }
+
+/*
+
+PANDORA GALLERY
+
+*/
+img.pandora-image {
+    background-color: #ddc;
+    border: solid 15px #eee;
+    border-bottom-color: #fff;
+    border-left-color: #eee;
+    border-radius: 2px;
+    border-right-color: #eee;
+    border-top-color: #ddd;
+    box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.25) inset, 0 5px 10px 5px rgba(0, 0, 0, 0.25);
+    box-sizing: border-box;
+    display: block;
+    height: 100%;
+    width: 100%;
+    padding: 30px;
+    position: relative;
+    text-align: center;
+    margin-bottom: 15px;
+}
+img.pandora-image.framed {
+    padding: 30px 30px 60px;
+}
+img.pandora-image:before {
+    border-radius: 2px;
+    bottom: 0;
+    box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.25) inset;
+    content: "";
+    left: 0;
+    position: absolute;
+    right: 0;
+    top: 0;
+}
+img.pandora-image:after {
+    border-radius: 2px;
+    bottom: 0;
+    box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.25);
+    content: "";
+    left: 0;
+    position: absolute;
+    right: 0;
+    top: 0;
+}
+.pandora-frame {
+    display: block;
+    position: relative;
+    text-align: center;
+}
+.pandora-frame:after {
+    content: attr(data-tag);
+    display: inline-block;
+    position: absolute;
+    bottom: 30px;
+    padding: 5px 15px;
+    background: #FFF;
+    opacity: 0.8;
+    border: 1px solid #CCC;
+    border-top-color: #AAA;
+    border-left-color: #AAA;
+    font-size: 11px;
+    font-family: monospace;
+    text-align: center;
+    color: #000;
+    margin-left: -30px;
+}
+.pandora-frame.unknown:after {
+    content: "";
+    display: none;
+}
 #random-gallery div.section {
     border-top: 3px double #757575;
     padding: 120px 0;
@@ -428,7 +495,33 @@ canvas.art:after {
 
 .pandora-avatar canvas {
     max-width: 100%;
+    min-width: 100%;
+    width: 100%;
 }
+
+.pandora-avatar-frame {
+    text-align: center;
+    display: block;
+    position: relative;
+    padding: 30px;
+}
+.pandora-avatar-frame canvas {
+    margin-bottom: 10px;
+    padding-bottom: 2px;
+    box-shadow: 0px 12px 8px -10px #AAA;
+}
+.pandora-avatar-frame small {
+    margin: 15px 0;
+}
+
+a:hover img.pandora-image {
+    background-color: #ddc !important;
+    border-bottom-color: #fff !important;
+    border-left-color: #eee !important;
+    border-right-color: #eee !important;
+    border-top-color: #ddd !important;
+}
+
 /*
 
 CARD

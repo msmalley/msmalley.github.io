@@ -3,8 +3,8 @@
 // 23140 of 24977
 // 0xd54d5731d59ef22cbc9ad825afe16d963126c570
 
-// 23719 of 24977 = PAYABLE
-// 0x579db546e77033b05760c6a3c0825b17f5fd68ed
+// 24392 of 24977 = PAYABLE
+// 0x1722a7eb98172f97c6ffb054068200fa2d8adede
 
 // ABC (SQUARES) = 94205699822451333113128196630514675934246267212697860626635805911484442300603
 // ABD (SQUARES) = 24896609405935375194686464106580803410536231185002612372733023314821754720325
@@ -1421,6 +1421,8 @@ contract NonFungibleArt is ERC721Pausable
     mapping(uint256 => uint256) internal _mints;
     
     mapping(string => uint256[]) internal _alpha;
+    mapping(string => uint256[]) internal _styles;
+    mapping(uint256 => uint256[]) internal _artists;
     
     constructor
     (
@@ -1472,6 +1474,8 @@ contract NonFungibleArt is ERC721Pausable
         _arts[nft_id].style = string(artists.getArtisticStyleBytes(artist));
         
         _alpha[initial].push(nft_id);
+        _styles[string(artists.getArtisticStyleBytes(artist))].push(nft_id);
+        _artists[artist].push(nft_id);
         
         _safeMint(tx.origin, nft_id);
         _setTokenURI(nft_id, nft_id.toString());
@@ -1485,6 +1489,16 @@ contract NonFungibleArt is ERC721Pausable
     function searchArt(string memory initial) public view returns(uint256[] memory)
     {
         return _alpha[initial];
+    }
+    
+    function searchArtist(uint256 artist) public view returns(uint256[] memory)
+    {
+        return _artists[artist];
+    }
+    
+    function searchStyles(string memory initial) public view returns(uint256[] memory)
+    {
+        return _styles[initial];
     }
     
     function displayArt(uint256 nft_id) public view returns(string memory)
