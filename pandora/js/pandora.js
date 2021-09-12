@@ -777,6 +777,7 @@ var pandora =
                                                     html+= '<alert class="alert text-center"><h4 class="pstart smaller" style="line-height:3rem;">';
                                                 }
                                                 html+= '<small>Name: ' + artist.name + '</small>';
+                                                html+= '<br /><small>Style: ' + artist.style + '</small>';
                                                 html+= '<br /><small>Artworks: ' + artist.artworks + '</small>';
                                                 html+= '<br /><small>Owner: ' + artist.owner.toUpperCase().substring(0, 5) + '</small>';
                                                 if(is_single)
