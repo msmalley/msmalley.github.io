@@ -260,6 +260,7 @@ html body, html, body {
 .section.sub-header {
     position: relative;
 }
+.section.loading:before,
 .artistic.loading:before,
 .frames canvas.art.loading:before,
 .section.sub-header.loading:before,
@@ -276,11 +277,12 @@ html body, html, body {
     width: 100%;
     height: 100%;
 }
+.section.loading:after,
 .artistic.loading:after,
 .frames canvas.art.loading:after,
 .section.sub-header.loading:after,
 .section.iframe.loading:after {
-    content: "GENERATING ART";
+    content: "LOADING";
     font-family: sans-serif;
     text-align: center;
     font-size: 1.2rem;
@@ -296,6 +298,7 @@ html body, html, body {
     animation: none;
     width: 100%;
 }
+.section.loading:before,
 .artistic.loading:before {
     content: "";
     top: -10px;

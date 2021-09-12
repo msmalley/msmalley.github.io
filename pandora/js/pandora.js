@@ -274,6 +274,7 @@ var pandora =
                 }
                 var html = '<p>&nbsp;</p>' + thing;
                 jQuery('alert.intro-text').html(html);
+                jQuery('.section.loading').removeClass('loading');
                 var costs = pandora.costs();
             }
             jQuery('.pandora-image').each(function(i)
@@ -367,6 +368,7 @@ var pandora =
                         if(loaded_count == filtered_nfts.length && !artist_profile)
                         {
                             var costs = pandora.costs();
+                            jQuery('.section.loading').removeClass('loading');
                         }
                     });
                     img.crossOrigin = 'Anonymous';
