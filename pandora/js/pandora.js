@@ -568,7 +568,7 @@ var pandora =
 
                                         if(filter_count == artists.length)
                                         {
-                                            pandora.html.gallery(false, false, filtered_artists, false);
+                                            pandora.html.gallery(false, false, filtered_artists, is_single);
                                         }
                                     }
                                 });

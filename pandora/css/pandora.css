@@ -523,6 +523,19 @@ a:hover img.pandora-image {
     border-top-color: #ddd !important;
 }
 
+form.subtle input,
+form.subtle button {
+    display: inline-block;
+    vertical-align: top;
+}
+form.subtle input {
+    width: 69%;
+}
+form.subtle button {
+    width: 29%;
+    margin-left: 1%;
+}
+
 /*
 
 CARD
