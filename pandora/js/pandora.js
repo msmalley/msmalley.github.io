@@ -778,7 +778,7 @@ var pandora =
                                                 }
                                                 html+= '<small>Name: ' + artist.name + '</small>';
                                                 html+= '<br /><small>Style: ' + artist.style + '</small>';
-                                                html+= '<br /><small>Artworks: ' + artist.artworks + ' of 26</small>';
+                                                html+= '<br /><small>Minted Art: ' + artist.artworks + ' of 26</small>';
                                                 html+= '<br /><small>Owner: ' + artist.owner.toUpperCase().substring(0, 5) + '</small>';
                                                 if(is_single)
                                                 {
