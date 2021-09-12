@@ -466,12 +466,13 @@ img.pandora-image:after {
     display: block;
     position: relative;
     text-align: center;
+    padding: 15px;
 }
 .pandora-frame:after {
     content: attr(data-tag);
     display: inline-block;
     position: absolute;
-    bottom: 30px;
+    bottom: 60px;
     padding: 5px 15px;
     background: #FFF;
     opacity: 0.8;

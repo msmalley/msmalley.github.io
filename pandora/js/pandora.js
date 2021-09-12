@@ -186,7 +186,28 @@ var pandora =
         },
         owner: function(address = false, art_contract, artist_contract)
         {
-            console.log('get relevant owner', address);
+            var selected_nfts = [];
+            art_contract.methods.balanceOf(address).call({}, function(error, b)
+            {
+                if(!error && b)
+                {
+                    var balance = parseInt(b);
+                    for(index = 0; index < balance; index++)
+                    {
+                        art_contract.methods.tokenOfOwnerByIndex(address, index).call({}, function(error, results)
+                        {
+                            if(!error && results)
+                            {
+                                selected_nfts.push(results);
+                                if(selected_nfts.length == balance)
+                                {
+                                    pandora.nfts.filter(selected_nfts, false);
+                                }
+                            }
+                        });
+                    }
+                }
+            });
         },
         gallery: function(nfts, slide_show = true, artists = false, artist_profile = false)
         {
@@ -294,6 +315,10 @@ var pandora =
                             else if(typeof pandora.config.terms.term != 'undefined')
                             {
                                 thing = '' + art_minted + ' Minted ' + pandora.config.terms.term + ' Artwork - ' + art_remaining + ' Remaining';
+                            }
+                            else if(typeof pandora.config.terms.address != 'undefined')
+                            {
+                                thing = 'Art owned by ' + pandora.config.terms.address.toUpperCase().substring(0, 5);
                             }
                             var html = '<p>&nbsp;</p><h4 class="pstart smaller">' + thing + '</h4>';
                             jQuery('alert.intro-text').html(html);
@@ -655,6 +680,7 @@ var pandora =
                 if(
                     typeof pandora.config.terms.style != 'undefined'
                     || typeof pandora.config.terms.term != 'undefined'
+                    || typeof pandora.config.terms.address != 'undefined'
                 )
                 {
                     var html = '<div class="section">';
