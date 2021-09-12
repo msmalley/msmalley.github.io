@@ -137,10 +137,10 @@ div.section.sub-header h4 {
     z-index: 999;
 }
 div.section.sub-header h2.atruth {
-    font-size: 3.2rem;
+    font-size: 3rem;
 }
 div.section.sub-header h4.truth {
-    font-size: 1.4rem;
+    font-size: 1.2rem;
     opacity: 0.65;
     margin-top: 5px;
 }
