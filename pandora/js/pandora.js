@@ -187,6 +187,8 @@ var pandora =
         owner: function(address = false, art_contract, artist_contract)
         {
             var selected_nfts = [];
+            var selected_artists = [];
+            
             art_contract.methods.balanceOf(address).call({}, function(error, b)
             {
                 if(!error && b)
@@ -208,6 +210,28 @@ var pandora =
                     }
                 }
             });
+            
+            artist_contract.methods.balanceOf(address).call({}, function(error, c)
+            {
+                if(!error && c)
+                {
+                    var balance = parseInt(c);
+                    for(index = 0; index < balance; index++)
+                    {
+                        artist_contract.methods.tokenOfOwnerByIndex(address, index).call({}, function(error, result)
+                        {
+                            if(!error && result)
+                            {
+                                selected_artists.push(result);
+                                if(selected_artists.length == balance)
+                                {
+                                    pandora.artists.filter(selected_artists, false);
+                                }
+                            }
+                        });
+                    }
+                }
+            });
         },
         gallery: function(nfts, slide_show = true, artists = false, artist_profile = false)
         {
@@ -219,7 +243,7 @@ var pandora =
                 filtered_nfts = false;
             }
             var html = pandora.nfts.gallery(filtered_nfts, slide_show, artists, artist_profile);
-            jQuery('#random-nfts').html(html);
+            jQuery('#random-nfts').append(html);
             if(artists)
             {
                 var thing = 'artists';
@@ -233,6 +257,10 @@ var pandora =
                 else if(typeof pandora.config.terms.artist != 'undefined')
                 {
                     thing = '<h4 class="pstart smaller">NFA</h4><small class="btn-blocks">' + pandora.config.terms.artist + '</small>';
+                }
+                else if(typeof pandora.config.terms.address != 'undefined')
+                {
+                    thing = '<h4 class="pstart smaller">Artists &amp; Art owned by ' + pandora.config.terms.address.toUpperCase().substring(0, 5) + '</small>';
                 }
                 var html = '<p>&nbsp;</p>' + thing;
                 jQuery('alert.intro-text').html(html);
@@ -318,7 +346,7 @@ var pandora =
                             }
                             else if(typeof pandora.config.terms.address != 'undefined')
                             {
-                                thing = 'Art owned by ' + pandora.config.terms.address.toUpperCase().substring(0, 5);
+                                thing = 'Art &amp; Artists owned by ' + pandora.config.terms.address.toUpperCase().substring(0, 5);
                             }
                             var html = '<p>&nbsp;</p><h4 class="pstart smaller">' + thing + '</h4>';
                             jQuery('alert.intro-text').html(html);
@@ -540,7 +568,7 @@ var pandora =
 
                                         if(filter_count == artists.length)
                                         {
-                                            pandora.html.gallery(false, false, filtered_artists, is_single);
+                                            pandora.html.gallery(false, false, filtered_artists, false);
                                         }
                                     }
                                 });
@@ -680,7 +708,11 @@ var pandora =
                 if(
                     typeof pandora.config.terms.style != 'undefined'
                     || typeof pandora.config.terms.term != 'undefined'
-                    || typeof pandora.config.terms.address != 'undefined'
+                    || 
+                    (
+                        typeof pandora.config.terms.address != 'undefined'
+                        && selected_nfts
+                    )
                 )
                 {
                     var html = '<div class="section">';
@@ -711,11 +743,16 @@ var pandora =
                 (
                     typeof pandora.config.terms.initial != 'undefined'
                     || typeof pandora.config.terms.artist != 'undefined'
+                    || 
+                    (
+                        typeof pandora.config.terms.address != 'undefined'
+                        && artists
+                    )
                 )
                 {
                     var html = '<div class="section">';
                         html+= '<div class="container">';
-                            html+= '<div id="random-gallery">';
+                            html+= '<div id="random-artist-gallery">';
                                 html+= '<div class="row">';
                                     jQuery.each(artists, function(sn)
                                     {
