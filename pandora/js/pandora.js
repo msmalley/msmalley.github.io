@@ -260,7 +260,7 @@ var pandora =
                 }
                 else if(typeof pandora.config.terms.address != 'undefined')
                 {
-                    thing = '<h4 class="pstart smaller">Artists &amp; Art owned by ' + pandora.config.terms.address.toUpperCase().substring(0, 5) + '</small>';
+                    thing = '<h4 class="pstart smaller">Art &amp; Artists owned by ' + pandora.config.terms.address.toUpperCase().substring(0, 5) + '</small>';
                 }
                 var html = '<p>&nbsp;</p>' + thing;
                 jQuery('alert.intro-text').html(html);
@@ -346,7 +346,7 @@ var pandora =
                             }
                             else if(typeof pandora.config.terms.address != 'undefined')
                             {
-                                thing = 'Art &amp; Artists owned by ' + pandora.config.terms.address.toUpperCase().substring(0, 5);
+                                thing = 'Artists &amp; Art owned by ' + pandora.config.terms.address.toUpperCase().substring(0, 5);
                             }
                             var html = '<p>&nbsp;</p><h4 class="pstart smaller">' + thing + '</h4>';
                             jQuery('alert.intro-text').html(html);
