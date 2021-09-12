@@ -175,7 +175,17 @@ var pandora =
                 {
                     if(!error && result)
                     {
-                        pandora.artists.filter(result, false);
+                        var results = [];
+                        jQuery.each(result, function(r)
+                        {
+                            var got = false;
+                            jQuery.each(results, function(rs)
+                            {
+                                if(results[rs] == result[r]) got = true;
+                            });
+                            if(!got) results.push(result[r]);
+                        })
+                        pandora.artists.filter(results, false);
                     }
                 });
             }
@@ -772,18 +782,27 @@ var pandora =
                                             }
                                                 html+= '<div id="avatar-' + artist.id + '" class="pandora-avatar"></div>';
                                         
+                                                var this_artist_name = '<a href="' + url_base + 'artists/?initial=' + artist.name[0] + '">' + artist.name[0] + '</a><a href="' + url_base + 'artists/?initial=' + artist.name[1] + '">' + artist.name[1] + '</a>';
+                                        
+                                                var this_artist_style = '<a href="' + url_base + 'art/?style=' + artist.style + '">' + artist.style + '</a>';
+                                        
+                                                var this_owner = '<a href="' + url_base + 'owners/?address=' + artist.owner + '">' + artist.owner.toUpperCase().substring(0, 5) + '</a>';
+                                        
                                                 if(is_single)
                                                 {
                                                     html+= '<alert class="alert text-center"><h4 class="pstart smaller" style="line-height:3rem;">';
-                                                }
-                                                html+= '<small>Name: ' + artist.name + '</small>';
-                                                html+= '<br /><small>Style: ' + artist.style + '</small>';
-                                                html+= '<br /><small>Minted Art: ' + artist.artworks + ' of 26</small>';
-                                                html+= '<br /><small>Owner: ' + artist.owner.toUpperCase().substring(0, 5) + '</small>';
-                                                if(is_single)
-                                                {
+                                                
+                                                    html+= '<small>Name: ' + this_artist_name + '</small>';
+                                                    html+= '<br /><small>Style: ' + this_artist_style + '</small>';
+                                                    html+= '<br /><small>Minted Art: ' + artist.artworks + ' of 26</small>';
+                                                    html+= '<br /><small>Owner: ' + this_owner + '</small>';
+                                                
                                                     html+= '<hr><small>See my artwork below!</small><hr><br />';
                                                     html+= '</h4></alert>';
+                                                }
+                                                else
+                                                {
+                                                    html+= '<small>Name: ' + artist.name + ' | Style: ' + artist.style + '</small>';
                                                 }
                                             if(!is_single)
                                             {
