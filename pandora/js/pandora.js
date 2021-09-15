@@ -187,6 +187,10 @@ var pandora =
                         })
                         pandora.artists.filter(results, false);
                     }
+                    else
+                    {
+                        pandora.ux.modal('Warning', '<p>No artists matching <code>' + initial + '</code>.</p><p>Must be a single initial from A to Z.</p>');
+                    }
                 });
             }
             else
@@ -199,27 +203,35 @@ var pandora =
             var selected_nfts = [];
             var selected_artists = [];
             
-            art_contract.methods.balanceOf(address).call({}, function(error, b)
+            try
             {
-                if(!error && b)
+                art_contract.methods.balanceOf(address).call({}, function(error, b)
                 {
-                    var balance = parseInt(b);
-                    for(index = 0; index < balance; index++)
+                    if(!error && b)
                     {
-                        art_contract.methods.tokenOfOwnerByIndex(address, index).call({}, function(error, results)
+                        var balance = parseInt(b);
+                        for(index = 0; index < balance; index++)
                         {
-                            if(!error && results)
+                            art_contract.methods.tokenOfOwnerByIndex(address, index).call({}, function(error, results)
                             {
-                                selected_nfts.push(results);
-                                if(selected_nfts.length == balance)
+                                if(!error && results)
                                 {
-                                    pandora.nfts.filter(selected_nfts, false);
+                                    selected_nfts.push(results);
+                                    if(selected_nfts.length == balance)
+                                    {
+                                        pandora.nfts.filter(selected_nfts, false);
+                                    }
                                 }
-                            }
-                        });
+                            });
+                        }
                     }
-                }
-            });
+                });
+            }
+            catch(err)
+            {
+                pandora.ux.modal('Warning', 'Invalid Owner Address');
+                jQuery('.section.loading').removeClass('loading');
+            }
             
             artist_contract.methods.balanceOf(address).call({}, function(error, c)
             {
@@ -548,46 +560,54 @@ var pandora =
                 
                 var artist = artists[sn];
                 
-                artist_contract.methods.getAttributes(artist).call({}, function(error, attr)
+                try
                 {
-                    if(!error && attr)
+                    artist_contract.methods.getAttributes(artist).call({}, function(error, attr)
                     {
-                        artist_contract.methods.getArtist(artist).call({}, function(error, result)
+                        if(!error && attr)
                         {
-                            if(!error && result)
+                            artist_contract.methods.getArtist(artist).call({}, function(error, result)
                             {
-                                // Now need to get their NFTs ...
-
-                                var this_artist = {
-                                    id: artist,
-                                    name: result.firstInitial + result.secondInitial,
-                                    block: parseInt(result.blockNumber),
-                                    style: result.style,
-                                    creator: result.creator,
-                                    owner: result.owner,
-                                    attributes: attr
-                                };
-
-                                art_contract.methods.searchArtist(artist).call({}, function(error, results)
+                                if(!error && result)
                                 {
-                                    if(!error && results)
+                                    // Now need to get their NFTs ...
+
+                                    var this_artist = {
+                                        id: artist,
+                                        name: result.firstInitial + result.secondInitial,
+                                        block: parseInt(result.blockNumber),
+                                        style: result.style,
+                                        creator: result.creator,
+                                        owner: result.owner,
+                                        attributes: attr
+                                    };
+
+                                    art_contract.methods.searchArtist(artist).call({}, function(error, results)
                                     {
-                                        this_artist.art = results;
-                                        this_artist.artworks = results.length;
-
-                                        filter_count++;
-                                        filtered_artists.push(this_artist);
-
-                                        if(filter_count == artists.length)
+                                        if(!error && results)
                                         {
-                                            pandora.html.gallery(false, false, filtered_artists, is_single);
+                                            this_artist.art = results;
+                                            this_artist.artworks = results.length;
+
+                                            filter_count++;
+                                            filtered_artists.push(this_artist);
+
+                                            if(filter_count == artists.length)
+                                            {
+                                                pandora.html.gallery(false, false, filtered_artists, is_single);
+                                            }
                                         }
-                                    }
-                                });
-                            }
-                        });
-                    }
-                });
+                                    });
+                                }
+                            });
+                        }
+                    });
+                }
+                catch(err)
+                {
+                    pandora.ux.modal('Warning', 'Invalid Artist ID');
+                    jQuery('.section.loading').removeClass('loading');
+                }
             });
         }
     },
@@ -598,13 +618,19 @@ var pandora =
             var filter_count = 0;
             var loaded_count = 0;
             var filtered_nfts = [];
+            
             jQuery.each(nfts, function(sn)
             {
                 var nft = nfts[sn];
                 var settings = {
                     "url": pandora_options.apis.png + nft + '/artist',
                     "method": "GET",
-                    "timeout": 0
+                    "timeout": 0,
+                    "error": function(err)
+                    {
+                        pandora.ux.modal('Warning', 'Invalid NFT ID');
+                        jQuery('.section.loading').removeClass('loading');
+                    }
                 };
                 jQuery.ajax(settings).done(function (response) 
                 {
@@ -617,6 +643,11 @@ var pandora =
                         {
                             pandora.html.gallery(filtered_nfts, slide_show);
                         }
+                    }
+                    else
+                    {
+                        pandora.ux.modal('Warning', 'Invalid NFT ID');
+                        jQuery('.section.loading').removeClass('loading');
                     }
                 });
             });
@@ -843,6 +874,67 @@ var pandora =
                     return html;
                 }
             }
+        }
+    },
+    ux: {
+        modal: function(title, contents, display_footer = false, keyboard = true, backdrop = true, focus = true, footer_text = false, footer_click = false)
+        {
+            if(jQuery('.modal.show').length > 0)
+            {
+                jQuery('.modal.show').each(function(m)
+                {
+                    var id = jQuery(this).attr('id');
+                    var this_modal = bootstrap.Modal.getInstance(
+                        document.getElementById(id)
+                    );
+                    this_modal.hide();
+                });
+            }
+            jQuery('#default-modal').find('.modal-title').text(title);
+            jQuery('#default-modal').find('.modal-body').html(contents);
+            if(display_footer)
+            {
+                jQuery('#default-modal').find('.modal-footer').show();
+            }
+            else
+            {
+                jQuery('#default-modal').find('.modal-footer').hide();
+            }
+            if(backdrop == 'static')
+            {
+                jQuery('#default-modal').find('.btn-close').hide();
+            }
+            else
+            {
+                jQuery('#default-modal').find('.btn-close').show();
+            }
+            if(footer_text)
+            {
+                jQuery('#default-modal').find('.btn-secondary').text(footer_text);
+            }
+            else
+            {
+                jQuery('#default-modal').find('.btn-secondary').text('CLOSE');
+            }
+            if(footer_click)
+            {
+                jQuery('#default-modal').find('.btn-secondary').attr('onclick', footer_click);
+            }
+            else
+            {
+                jQuery('#default-modal').find('.btn-secondary').attr('onclick', '');
+            }
+            var el = document.getElementById('default-modal');
+            var modal = new bootstrap.Modal(el, {
+                keyboard: keyboard,
+                backdrop: backdrop,
+                focus: focus
+            });
+            el.addEventListener('hidden.bs.modal', function (event)
+            {
+                
+            });
+            modal.show();
         }
     }
 };

@@ -681,6 +681,10 @@ CONTENT
     font-size: 2rem;
 }
 
+html .modal-dialog {
+    margin: 5rem auto 1.75rem;
+}
+
 /*
 
 RE-RESETS
