@@ -1,0 +1,842 @@
+<!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+        <title>Pandora | Blockatars</title>
+        <style>
+            canvas {
+                width: 600px !important;
+                height: 600px !important;
+            }
+        </style>
+    </head>
+    <body>
+
+        <script>
+
+        // XOR
+        function XS(x, y, z, w)
+        {
+            this.x = (x ? x >>> 0 : 123456789);
+            this.y = (y ? y >>> 0 : 362436069);
+            this.z = (z ? z >>> 0 : 521288629);
+            this.w = (w ? w >>> 0 : 88675123);
+        }
+
+        XS.prototype.next = function XS_next()
+        {
+            var t = this.x ^ (this.x << 11) & 0x7FFFFFFF;
+            this.x = this.y;
+            this.y = this.z;
+            this.z = this.w;
+            this.w = (this.w ^ (this.w >> 19)) ^ (t ^ (t >> 8));
+            return this.w;
+        };
+
+        XS.prototype.unit = function XS_unit()
+        {
+            return this.next() / 0x80000000;
+        };
+
+        XS.prototype.unitInclusive = function XS_unitInclusive()
+        {
+            return this.next() / 0x7FFFFFFF;
+        };
+
+        XS.prototype.integer = function XS_integer(min, max)
+        {
+            return this.integerExclusive(min, max + 1);
+        };
+
+        XS.prototype.integerExclusive = function XS_integerExclusive(min, max)
+        {
+            min = Math.floor(min);
+            max = Math.floor(max);
+            return Math.floor(this.unit() * (max - min)) + min;
+        };
+
+        XS.prototype.real = function XS_real(min, max)
+        {
+            return this.unit() * (max - min) + min;
+        };
+
+        XS.prototype.realInclusive = function XS_realInclusive(min, max)
+        {
+            return this.unitInclusive() * (max - min) + min;
+        };
+
+        XS.prototype.reseed = function XS_reseed(x, y, z, w)
+        {
+            this.x = (x ? x >>> 0 : 123456789);
+            this.y = (y ? y >>> 0 : 362436069);
+            this.z = (z ? z >>> 0 : 521288629);
+            this.w = (w ? w >>> 0 : 88675123);
+        };
+            
+        // UTILS
+        var s2s = function(str)
+        {
+            var num = '';
+            for(x = 0; x < str.length; x++)
+            {
+                var c = str.charAt(x);
+                var n = c.charCodeAt(0);
+                num+= n;
+            }
+            return parseInt(num);
+        }
+        var gc = function(s)
+        {
+            var h = ['A', 'B', 'C', 'D', 'E', 'F', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
+            var r1 = new XS(parseInt(s2s('R') * s));
+            var r2 = new XS(parseInt(s2s('G') * s));
+            var r3 = new XS(parseInt(s2s('B') * s));
+            var r4 = new XS(parseInt(s2s('C') * s));
+            var r5 = new XS(parseInt(s2s('M') * s));
+            var r6 = new XS(parseInt(s2s('Y') * s));
+            var c = h[r1.integer(0, (h.length - 1))];
+            c+= h[r2.integer(0, (h.length - 1))];
+            c+= h[r3.integer(0, (h.length - 1))];
+            c+= h[r4.integer(0, (h.length - 1))];
+            c+= h[r5.integer(0, (h.length - 1))];
+            c+= h[r6.integer(0, (h.length - 1))];
+            return '#' + c;
+        }
+
+        // General Config
+        var n = '' + (new Date().getTime() * 123456789) + '';
+        var nft = n.substring(0, 16);
+        // To be done on-chain ...
+        var head_nft = parseInt('1' + nft);
+        var leye_nft = parseInt('1' + nft);
+        var reye_nft = parseInt('1' + nft);
+        var mouth_nft = parseInt('1' + nft);
+        var nose_nft = parseInt('1' + nft);
+
+        // Setup Canvas
+        var div = document.createElement("DIV");
+        var can = document.createElement("CANVAS");
+        var ctx = can.getContext('2d');
+        can.id = 'pandora-square-' + nft;
+        div.id = "pandora-wrapper-" + nft;
+        div.classList.add("pandora-square");
+        document.body.appendChild(div);
+        var wrapper = document.querySelector('#pandora-wrapper-' + nft);
+        wrapper.appendChild(can);
+        var size = 900;
+        var dpr = 1;
+        var gsize = 300;
+        can.width = size * dpr;
+        can.height = size * dpr;
+        ctx.scale(dpr, dpr);
+            
+        // UTILS
+        var grad = function(colors, r2, r4, x = 0, y = 0, w = 0, h = 0, d = 1, cx1 = false, cx2 = false)
+        {
+            var direction = d;
+            var grd = ctx.createLinearGradient(x,y,x,h);
+            if(direction == 2) grd = ctx.createLinearGradient(x,y,w,h);
+            if(direction == 3) grd = ctx.createLinearGradient(x,h,w,x);
+            if(direction == 4) grd = ctx.createRadialGradient((can.width/2)/2,(can.height/2)/2,0,can.width/2,can.height/2,can.width);
+            var c1 = colors[r2.integer(0, colors.length - 1)];
+            var c2 = colors[r4.integer(0, colors.length - 1)];
+            if(!cx1 || !cx2)
+            {
+                grd.addColorStop(0,c1);
+                grd.addColorStop(1,c2);
+            }
+            else
+            {
+                grd.addColorStop(0,cx1);
+                grd.addColorStop(1,cx2);
+            }
+            return grd;
+        }
+        
+        var eye = function(
+            eyes = 'square', 
+            pupils = 'square', 
+            x = 0,
+            y = 0,
+            w = 100,
+            a1 = 0.33, 
+            a2 = 0.66,
+            fill = false,
+            stroke = false,
+            line = false,
+            fill2 = false,
+            stroke2 = false,
+            line2 = false,
+            r1, r2, r3, r4, r5, r6,
+            colors = false,
+            margin = 0
+        ){
+            ctx.globalAlpha = a1;
+            if(eyes == 'square')
+            {
+                square(x + 10, y + 10, w - 20, w - 20, stroke, false);
+                square(x, y, w, w, fill, stroke, line);
+                
+                ctx.globalAlpha = 0.33;
+                square(x, y, w, w, '#FFFFFF', false, 0);
+                ctx.globalAlpha = a1;
+            }
+            else
+            {
+                circle(x, y, w, 2, fill, stroke, line);
+                
+                ctx.globalAlpha = 0.33;
+                circle(x, y, w, 2, '#FFFFFF', false, 0);
+                ctx.globalAlpha = a1;
+            }
+            ctx.globalAlpha = a2;
+            
+            var ph = w / r2.integer(3, 9);
+            var pX = (x + (w/2)) - (ph/2);
+            var pY = (y + (w/2)) - (ph/2);
+                
+            var xx = -10 + r1.integer(0, 20);
+            var yy = -10 + r2.integer(0, 20);
+                
+            if(pupils == 'square')
+            {
+                square(pX + xx, pY + yy, ph, ph, fill2, stroke2, line2);
+            }
+            else
+            {
+                circle(pX + xx, pY + yy, ph, 2, fill2, stroke2, line2);
+            }    
+            
+            lashes(x, y - (margin/2), w, r3, r4, r5, r6, colors, eyes);
+        }
+        
+        var lashes = function(x, y, w, r3, r4, r5, r6, colors, eyes)
+        {
+            var va1 = -5 + r5.integer(0, 10);
+            var va2 = -5 + r6.integer(0, 10);
+            var lw = r4.integer(0, 4);
+            var va3 = va1;
+            if(va2 > va1) va3 = va2;
+            y = ((y - r3.integer(1, 10))-lw)-va3;
+
+            ctx.beginPath();
+            ctx.strokeStyle = colors[2];
+            ctx.lineCap = eyes;
+
+            ctx.lineWidth = lw;
+
+            if(r6.integer(0, 1) && r5.integer(0, 1))
+            {
+                ctx.moveTo(x, y - (10 + lw));
+                ctx.lineTo(x + w, y - (10 + lw));
+            }
+            else
+            {
+                ctx.moveTo(x, y - (10 + lw + va1));
+                ctx.lineTo(x + w, y - (10 + lw + va2));
+            }
+            ctx.stroke();
+        }
+        
+        var square = function(x, y, w, h, fill = false, stroke = false, line = 0)
+        {
+            ctx.beginPath();
+            ctx.rect(x, y, w, h);
+            ctx.lineWidth = 0;
+            if(line) ctx.lineWidth = line;
+            if(fill)
+            {
+                ctx.fillStyle = fill;
+                ctx.fill();
+            }
+            if(stroke)
+            {
+                ctx.strokeStyle = stroke;
+                ctx.stroke();
+            }
+        }
+        
+        var circle = function(x, y, w, r = 2, fill = false, stroke = false, line = 0, flip = false, continue_path = false)
+        {
+            if(!continue_path) ctx.beginPath();
+            if(flip)
+            {
+                ctx.arc(x + (w/2), y + (w/2), w/2, r*Math.PI, 0);
+            }
+            else
+            {
+                ctx.arc(x + (w/2), y + (w/2), w/2, 0, r*Math.PI);
+            }
+            ctx.lineWidth = 0;
+            if(line) ctx.lineWidth = line;
+            if(fill)
+            {
+                ctx.fillStyle = fill;
+                if(!continue_path) ctx.fill();
+            }
+            if(stroke)
+            {
+                ctx.strokeStyle = stroke;
+                if(!continue_path) ctx.stroke();
+            }
+        }
+        
+        // GLOBAL
+        var largest_eye = 0;
+        var total_height = 0;
+        var a1 = 1;
+        var a2 = 1;
+            
+        // GHOST ARTISTS
+        var build_ghost = function(layer, nft)
+        {
+            var s1 = parseInt(nft * s2s('R'));
+            var s2 = parseInt(nft * s2s('G'));
+            var s3 = parseInt(nft * s2s('B'));
+            var r1 = new XS(s1);
+            var r2 = new XS(s2);
+            var r3 = new XS(s3);
+            var r4 = new XS(s1 + s2);
+            var r5 = new XS(s2 + s3);
+            var r6 = new XS(s1 + s3);
+            var colors = [
+                gc(s1),
+                gc(s2), 
+                gc(s3),
+                gc(s1 + s2),
+                gc(s2 + s3)
+            ];
+            var white = colors[0];
+            
+            
+            var a3 = parseFloat('0.' + r3.integer(25, 95));
+            var a4 = parseFloat('0.' + r4.integer(25, 95));
+            var a5 = parseFloat('0.' + r5.integer(25, 95));
+            var a6 = parseFloat('0.' + r6.integer(25, 95));
+            var a66 = parseFloat('0.' + r6.integer(66, 99));
+            var aline = 0;
+            var bline = 0;
+            var cline = 0;
+            var astroke = false;
+            var bstroke = false;
+            var cstroke = false;
+            if(r1.integer(0, 1) || r6.integer(0, 1)) aline = r4.integer(1, 20);
+            if(r2.integer(0, 1) || r4.integer(0, 1)) bline = r2.integer(1, 20);
+            if(r3.integer(0, 1) || r5.integer(0, 1)) cline = r6.integer(1, 20);
+            if(aline > 0) astroke = colors[2];
+            if(bline > 0) bstroke = colors[3];
+            if(cline > 0) cstroke = colors[4];
+
+            var x1 = r1.integer(1, 4);
+            var c1 = colors[r2.integer(0, colors.length - 1)];
+            var fill = grad(colors, r2, r4, 0, 0, can.width, can.height, x1, white, c1);
+            
+            // Background ...
+            if(layer == 'bg')
+            {
+                var ground = r2.integer(100, 300);
+                a1 = parseFloat('0.' + r1.integer(25, 95));
+                square(0, 0, can.width, can.height, fill);
+                ctx.globalAlpha = a1;
+                square(0, 0, can.width, can.height, white);
+                ctx.globalAlpha = 0.44;
+                square(0, 0, can.width, can.height - ground, '#FFFFFF');
+                
+                ctx.beginPath();
+                ctx.strokeStyle = bstroke;
+                ctx.lineWidth = bline;
+                ctx.moveTo(0, can.height - ground);
+                ctx.lineTo(can.width, can.height - ground);
+                ctx.stroke();
+                
+                ctx.globalAlpha = a1;
+            }
+            
+            var h4 = r2.integer(20, 155);
+            var w2 = r6.integer(10, 40);
+            
+            // Body
+            if(layer == 'body')
+            {
+                var h1 = r3.integer(10, 80);
+                var h2 = r4.integer(20, 155);
+                var h3 = r1.integer(10, 80);
+                var w1 = r5.integer(10, 40);
+                
+                var aline = r4.integer(10, 30);
+                var astroke = colors[2];
+                
+                var steps = r1.integer(1, 6);
+                var sec = (steps*2)+2;
+                var tq = (gsize+(w1*2))/sec;
+
+                ctx.globalAlpha = a66;
+
+                ctx.beginPath();
+                ctx.fillStyle = colors[1];
+                ctx.lineWidth = aline;
+                ctx.strokeStyle = astroke;
+                ctx.moveTo(gsize - w1, gsize - h1);
+
+                ctx.lineTo(gsize - w1, ((gsize + gsize) + h2)+h3);
+                ctx.lineTo((gsize - w1) + tq, ((gsize + gsize) + h2));
+
+                for(i = 0; i < steps; i++)
+                {
+                    ctx.lineTo(((gsize - w1) + (tq*(i+2))) + (tq*(i)), ((gsize + gsize) + h2)+h3);
+                    ctx.lineTo(((gsize - w1) + (tq*(i+3))) + (tq*(i)), ((gsize + gsize) + h2));
+                }
+
+                ctx.lineTo(((gsize - w1) + (tq*(i+2))) + (tq*(steps)), ((gsize + gsize) + h2)+h3);
+                ctx.lineTo(((gsize - w1) + (tq*(i+2))) + (tq*(steps)), gsize - h1);
+                
+                total_height = (((gsize + gsize) + h2)) - (gsize + h1);
+                console.log('total_height', total_height);
+
+                var lx = ((gsize - w1) + (tq*(i+2))) + (tq*(steps));
+
+                ctx.moveTo(gsize - w1, gsize - h1);
+
+                circle(
+                    gsize - w1, 
+                    (gsize - h1)-((gsize+(w1*2))/2), 
+                    gsize+(w1*2), 
+                    1, 
+                    colors[1], 
+                    astroke, 
+                    aline, 
+                    true, 
+                    true
+                );
+
+                ctx.stroke();
+                ctx.fill();
+                
+                ctx.globalAlpha = 0.5;
+                ctx.fillStyle = '#000000';
+                ctx.fill();
+                ctx.globalAlpha = a66;
+            }
+            
+            ctx.globalAlpha = a1;    
+            
+            if(layer == 'left_eye')
+            {
+                var es = 'square';
+                var ps = 'square';
+                var vx = -5 + r3.integer(0, 10);
+                var vy = -5 + r4.integer(0, 10);
+                var eh = r1.integer(50, 100);
+                var pl = r2.integer(10, 40);
+                var tl = r3.integer(10, 40);
+                var cfill = colors[3];
+                if(r4.integer(0, 1)) es = 'round';
+                if(r5.integer(0, 1)) ps = 'round';
+                fill = colors[2];
+                eye(
+                    es, 
+                    ps, 
+                    gsize + pl,
+                    gsize - tl,
+                    eh,
+                    0.33, 
+                    0.66,
+                    fill,
+                    bstroke,
+                    bline,
+                    cfill,
+                    cstroke,
+                    cline,
+                    r1, r2, r3, r4, r5, r6,
+                    colors,
+                    tl
+                );
+                largest_eye = (((gsize - tl) + eh)-bline)+50;
+            }
+            if(layer == 'right_eye')
+            {
+                var es = 'square';
+                var ps = 'square';
+                var vx = -5 + r3.integer(0, 10);
+                var vy = -5 + r4.integer(0, 10);
+                var eh = r1.integer(50, 100);
+                var pr = r4.integer(10, 40);
+                var tr = r5.integer(10, 40);
+                if(r4.integer(0, 1)) es = 'round';
+                if(r5.integer(0, 1)) ps = 'round';
+                var cfill = colors[3];
+                fill = colors[2];
+                eye(
+                    es, 
+                    ps, 
+                    ((gsize*2)-eh) - pr,
+                    gsize - tr,
+                    eh,
+                    0.33, 
+                    0.66,
+                    fill,
+                    bstroke,
+                    bline,
+                    cfill,
+                    cstroke,
+                    cline,
+                    r1, r2, r3, r4, r5, r6,
+                    colors,
+                    tr
+                );
+                if((((gsize - tr) + eh)-bline) > largest_eye)
+                {
+                    largest_eye = (((gsize - tr) + eh)-bline)+50;
+                }
+            }
+            
+            if(layer == 'mouth')
+            {
+                a2 = parseFloat('0.' + r2.integer(25, 75));
+                var na = parseFloat('0.' + r3.integer(10, 50));
+            
+                ctx.globalAlpha = a2;  
+                
+                var ms = 'square';
+                var teeth = false;
+                if(r6.integer(0, 1)) ms = 'round';
+                if(r1.integer(0, 1)) teeth = true;
+                
+                //ms = 'round';
+                //teeth = true;
+                
+                console.log('largest_eye', largest_eye);
+                    
+                var availabe_space = total_height - largest_eye;
+
+                console.log('availabe_space', availabe_space);
+
+                var mx = (gsize + aline) + 100;
+                var my = largest_eye + 25;
+                var mw = (gsize - (aline*2)) - 200;
+                var mh = total_height - 150;
+                
+                var exp = r5.integer(0, 80);
+                var maxw = r3.integer(0, 180);
+                var maxv = -20 + r4.integer(0, 40);
+                
+                var maxh = ((mh/100)*80);
+                var rh = r2.integer(0, maxh);
+                
+                my+= (rh/2);
+                
+                console.log('fill', fill);
+                console.log('astroke', astroke);
+                
+                var cfill = colors[3];
+                
+                if(teeth)
+                {
+                    teeth = 1;
+                    if(r4.integer(0, 1) || r6.integer(0, 1)) teeth = 2;
+                    if(r2.integer(0, 1)) teeth = 4;
+                }
+                
+                var mouths = [
+                    'full',
+                    'happy',
+                    'sad'
+                ];
+                var mouth = mouths[r6.integer(0, (mouths.length - 1))];
+                
+                if(ms == 'square')
+                {
+                    square(
+                        (mx - (maxw/2))+maxv, 
+                        my, 
+                        mw + maxw, 
+                        mh - rh, 
+                        fill, 
+                        astroke, 
+                        aline
+                    );
+                    
+                    ctx.globalAlpha = 0.33;  
+                    
+                    square(
+                        (mx - (maxw/2))+maxv, 
+                        my, 
+                        mw + maxw, 
+                        mh - rh, 
+                        '#FFFFFF', 
+                        false, 
+                        0
+                    );
+                    
+                    ctx.globalAlpha = na;  
+                    
+                    square(
+                        ((mx - (maxw/2))+maxv)+20, 
+                        my + 20, 
+                        (mw + maxw)-40, 
+                        (mh - rh)-40, 
+                        cfill, 
+                        cstroke, 
+                        cline
+                    );
+                    if(teeth)
+                    {
+                        ctx.beginPath();
+                        ctx.strokeStyle = cstroke;
+                        ctx.lineWidth = cline;
+                        
+                        if(teeth < 2)
+                        {
+                            ctx.moveTo(
+                                (mx - (maxw/2))+maxv,
+                                my + ((mh-rh)/2)
+                            );
+                            ctx.lineTo(
+                                ((mx - (maxw/2))+maxv)+(mw + maxw),
+                                my + ((mh-rh)/2)
+                            );
+                        }
+                        else
+                        {
+                            var secw = (mw + maxw) / teeth;
+                            var my1 = my;
+                            var my2 = my + (mh-rh);
+                            
+                            if(mouth != 'happy')
+                            {
+                                my2 = my;
+                                my1 = my + (mh-rh);
+                            }
+                                
+                            ctx.moveTo(
+                                (mx - (maxw/2))+maxv,
+                                my1
+                            );
+                            ctx.lineTo(
+                                ((mx - (maxw/2))+maxv)+secw,
+                                my2
+                            );
+                            ctx.lineTo(
+                                ((mx - (maxw/2))+maxv)+(secw*2),
+                                my1
+                            );
+                            if(teeth == 4)
+                            {
+                                ctx.lineTo(
+                                    ((mx - (maxw/2))+maxv)+(secw*3),
+                                    my2
+                                );
+                                ctx.lineTo(
+                                    ((mx - (maxw/2))+maxv)+(secw*4),
+                                    my1
+                                );
+                            }
+                        }
+                        
+                        ctx.stroke();
+                    }
+                }
+                else
+                {
+                    
+                    if(mouth == 'full')
+                    {
+                        circle(
+                            ((mx - ((mh - rh)/2))+maxv)+exp, 
+                            my, 
+                            mh - rh, 
+                            2, 
+                            fill, 
+                            astroke, 
+                            aline
+                        );
+                        
+                        ctx.globalAlpha = 0.33; 
+                        
+                        circle(
+                            ((mx - ((mh - rh)/2))+maxv)+exp, 
+                            my, 
+                            mh - rh, 
+                            2, 
+                            '#FFFFFF', 
+                            false, 
+                            0
+                        );
+                        
+                        ctx.globalAlpha = na; 
+                        
+                        if((mh - rh) > 40)
+                        {
+                            circle(
+                                (((mx - ((mh - rh)/2))+maxv)+exp)+20, 
+                                my+20, 
+                                (mh - rh)-40, 
+                                2, 
+                                cfill, 
+                                cstroke, 
+                                cline
+                            );
+                        }
+                        if(teeth)
+                        {
+                            var tx = ((mx - ((mh - rh)/2))+maxv)+exp;
+                            
+                            var ty = my + ((mh - rh)/2);
+                            
+                            var vx = -10 + r5.integer(0, 20);
+                            var vy = -10 + r4.integer(0, 20);
+                        
+                            ctx.beginPath();
+                            ctx.strokeStyle = cstroke;
+                            ctx.lineWidth = cline;
+                            ctx.moveTo(tx, ty + vx);
+                            ctx.lineTo(tx + (mh-rh), ty + vy);
+                            ctx.stroke();
+                        }
+                    }
+                    else if(mouth == 'happy')
+                    {
+                        circle(
+                            (mx - (maxw/2))+maxv, 
+                            my - ((mw + maxw)/2), 
+                            mw + maxw, 
+                            1, 
+                            fill, 
+                            astroke, 
+                            aline
+                        );
+                        
+                        ctx.globalAlpha = 0.33;
+                        
+                        circle(
+                            (mx - (maxw/2))+maxv, 
+                            my - ((mw + maxw)/2), 
+                            mw + maxw, 
+                            1, 
+                            '#FFFFFF', 
+                            false, 
+                            0
+                        );
+                        
+                        ctx.globalAlpha = na; 
+                    }
+                    else if(mouth == 'sad')
+                    {
+                        circle(
+                            (mx - (maxw/2))+maxv, 
+                            my, 
+                            mw + maxw, 
+                            1, 
+                            fill, 
+                            astroke, 
+                            aline,
+                            true
+                        );
+                        
+                        ctx.globalAlpha = 0.33;
+                        
+                        circle(
+                            (mx - (maxw/2))+maxv, 
+                            my, 
+                            mw + maxw, 
+                            1, 
+                            '#FFFFFF', 
+                            false, 
+                            0,
+                            true
+                        );
+                        
+                        ctx.globalAlpha = na; 
+                    }
+                    if(teeth && (mouth == 'happy' || mouth == 'sad'))
+                    {
+                        
+                        var sx = (mx - (maxw/2))+maxv;
+                        var sy = my;
+                        var sw = mw + maxw;
+                        var sh = (mw + maxw)/4;
+                        
+                        if(mouth == 'sad')
+                        {
+                            sy+= sh;
+                        }
+                        
+                        var tt = r2.integer(5, 10);
+                        var tv = r3.integer(1, 4);
+                        var tv2 = tv*2;
+                        
+                        if(teeth == 4)
+                        {
+                            tt = 10;
+                        }
+                        
+                        square(
+                            sx + ((sw/tt)*((tt/10)*4)), 
+                            sy, 
+                            (sw / tt)-tv, 
+                            sh, 
+                            white, 
+                            false, 
+                            0
+                        );
+                        square(
+                            ((sx + ((sw/tt)*((tt/10)*4)))+(sw / tt))+tv2, 
+                            sy, 
+                            (sw / tt)-tv, 
+                            sh, 
+                            white, 
+                            false, 
+                            0
+                        );
+                        
+                        if(teeth == 4)
+                        {
+                            var nw = (sw / tt)-tv;
+                            square(
+                                (sx + ((sw/tt)*((tt/10)*4)))-(nw+tv2+tv), 
+                                sy, 
+                                nw, 
+                                sh, 
+                                white, 
+                                false, 
+                                0
+                            );
+                            square(
+                                (((sx + ((sw/tt)*((tt/10)*4)))+(sw / tt))+tv2)+(nw+tv2+tv), 
+                                sy, 
+                                (sw / tt)-tv, 
+                                sh, 
+                                white, 
+                                false, 
+                                0
+                            );
+                        }
+                    }
+                }
+            }
+            
+            ctx.globalAlpha = a1; 
+        }
+        
+        build_ghost('bg',           parseInt('1' + nft));
+        build_ghost('body',         parseInt('1' + nft));
+        build_ghost('left_eye',     parseInt('1' + nft));
+        build_ghost('right_eye',    parseInt('1' + nft));
+        build_ghost('mouth',        parseInt('1' + nft));
+            
+        // Convert canvas to PNG
+        var w = document.querySelector('#pandora-wrapper-' + nft);
+        img = new Image();
+        img.onload = function () 
+        {
+            var el = document.querySelector('#pandora-square-' + nft);
+            w.removeChild(el);
+        }
+        img.src = can.toDataURL();
+        w.appendChild(img);
+            
+        </script>
+    </body>
+</html>
