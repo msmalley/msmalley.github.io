@@ -44,7 +44,6 @@ SMALLEY RESETS
 
 */
 
-body, html,
 html body
 {
     max-width: 100%;
@@ -699,11 +698,6 @@ body[role="life"] section
     transition: all 3s linear;
     background: #FFCCCC;
 }
-body[role="present"] section
-{
-    transition: all 3s linear;
-    background: #CCFFCC;
-}
 body[role="timeline"] section
 {
     transition: all 3s linear;
@@ -724,14 +718,6 @@ body[role="life"] section blockquote
 body[role="life"] section article blockquote:after 
 {
 	border-top-color: #efdede;
-}
-body[role="present"] section blockquote
-{
-    background: #dff0df;
-}
-body[role="present"] section article blockquote:after 
-{
-	border-top-color: #dff0df;
 }
 body[role="timeline"] section blockquote
 {
@@ -796,7 +782,7 @@ body[role="timeline"] section footer.hide ol
     opacity: 0;
     
     animation-name: hide;
-    animation-duration: 0.25s;
+    animation-duration: 0.5s;
     animation-timing-function: ease-in;
 }
 body[role="introduction"] section footer a
