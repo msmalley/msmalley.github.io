@@ -1,0 +1,975 @@
+:root 
+{
+    /*
+
+    MVP OPTIONS
+
+    */
+    
+    --active-brightness: 0.85;
+    --border-radius: 5px;
+    --box-shadow: 2px 2px 10px;
+    --color-accent: #00669915;
+    --color-bg: #EEE;
+    --color-bg-secondary: #1e2638;
+    --color-link: #006699;
+    --color-secondary: #ff6c3a;
+    --color-secondary-accent: #ff6c3a0b;
+    --color-shadow: #333;
+    --color-table: #006699;
+    --color-text: #EEE;
+    --color-text-secondary: #AAA;
+    --font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+    --hover-brightness: 1.2;
+    --justify-important: center;
+    --justify-normal: left;
+    --line-height: 1.5;
+    --width-card: 285px;
+    --width-card-medium: 460px;
+    --width-card-wide: 800px;
+    --width-content: 1180px;
+    
+    /*
+
+    MVPJS OPTIONS
+
+    */
+    
+    --padding: 0.6rem;
+}
+
+/*
+
+SMALLEY RESETS
+
+*/
+
+body, html 
+{
+    background: #000;
+    margin: 0;
+    padding: 0;
+    font-family: sans-serif;
+    color: #757575;
+    text-align: center;
+}
+html body
+{
+    display: block;
+    width: 100vw;
+    min-height: 100vh;
+    margin: 0 0 -100px 0;
+}
+a {
+    color: #006699;
+    text-decoration: none;
+    transition: all 0.2s ease-in;
+}
+a:hover {
+    color: #444;
+    transition: all 0.3s ease-out;
+}
+a:focus {
+    outline: 0;
+}
+
+/*
+
+MVP RESETS / MODS
+
+*/
+
+small a b
+{
+    padding: var(--padding) calc(var(--padding) * 2);
+    font-size: 88%;
+}
+
+/*
+
+ENVIRONMENT
+
+*/
+
+section
+{
+    display: none;
+    position: relative;
+    padding: 80px 0 0;
+    width: 100vw;
+    height: auto;
+    min-height: 400px;
+    background: rgb(255,255,255);
+    background: linear-gradient(180deg, rgba(255,255,255,1) 0%, rgba(180,215,235,1) 25%, rgba(58,153,220,1) 100%); 
+    z-index: 1;
+}
+section[aria-selected="true"]
+{
+    display: block;
+}
+article span
+{
+    display: block;
+    position: relative;
+    margin-top: 60px;
+    width: 100vw;
+    min-height: 450px;
+    z-index: 4;
+}
+article span:before
+{
+    content: "";
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url(../img/floor.png);
+    background-repeat: repeat-x;
+    z-index: 6;
+}
+article span:after
+{
+    content: "";
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #673830;
+    background: linear-gradient(180deg, #673830 0%, #251a18 100%); 
+    background: transparent;
+    z-index: 5;
+}
+section article
+{
+    display: block;
+    position: relative;
+    margin: 80px 0 0 0;
+    width: 100%;
+    z-index: 110;
+}
+
+/*
+
+NAVIGATION
+
+*/
+
+nav
+{
+    display: block;
+    position: fixed;
+    top: 0;
+    width: 100vw;
+    height: 200px;
+    text-align: center;
+    z-index: 888;
+    padding: var(--padding) 0 0;
+}
+nav a
+{
+    display: inline-block;
+    position: relative;
+    padding: 0.6rem 1.2rem;
+    background: #c5d7e6;
+    border: 1px solid transparent;
+    color: #000;
+    border-radius: 0.6rem;
+    margin: 0.8rem;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    opacity: 0.5;
+    z-index: 999;
+}
+nav a[aria-selected="true"]
+{
+    color: #069;
+    background: #FFF;
+    opacity: 0.75;
+}
+nav a:hover
+{
+    padding: 0.6rem 1.2rem;
+    background: #069;
+    border-color: #AAA;
+    color: #FFF;
+    opacity: 1;
+}
+nav:before
+{
+    content: "";
+    display: block;
+    position: absolute;
+    top: -30px;
+    width: 100vw;
+    height: 140px;
+    background: url(../img/clouds.png);
+    background-repeat: repeat-x;
+    z-index: 666;
+    opacity: 0.75;
+    
+    animation-name: clouds;
+    animation-duration: 100s;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+}
+
+/*
+
+HERO
+
+*/
+
+figure
+{
+    display: block;
+    position: absolute;
+    left: 50%;
+    height: 56px;
+    width: 56px;
+    background: url(../img/Hero.png);
+    background-repeat: no-repeat;
+    background-position: -24px -48px;
+    margin: 0 0 0 -28px;
+    z-index: 999;
+}
+
+footer ol
+{
+    text-align: center;
+    width: 680px;
+    margin: -2rem auto 0;
+}
+article blockquote
+{
+    display: block;
+	position: relative;
+	background: #bfdff0;
+    color: #151515;
+	border-radius: .4em;
+    padding: 1rem 2rem;
+    width: 600px;
+    max-width: 600px;
+    margin: 0 auto 20px;
+    box-shadow: 1px 2px 3px #444;
+    z-index: 6;
+    font-size: 100%;
+}
+
+article blockquote:after 
+{
+	content: '';
+	position: absolute;
+	bottom: 0;
+	left: 50%;
+	width: 0;
+	height: 0;
+	border: 0.625em solid transparent;
+	border-top-color: #bfdff0;
+	border-bottom: 0;
+	margin-left: -0.625em;
+	margin-bottom: -0.625em;
+    z-index: 8;
+}
+article blockquote:before 
+{
+	content: '';
+	position: absolute;
+	bottom: -0.1em;
+	left: 50%;
+	width: 0;
+	height: 0;
+	border: 0.65em solid transparent;
+	border-top-color: #444;
+	border-bottom: 0;
+	margin-left: -0.65em;
+	margin-bottom: -0.65em;
+    z-index: 7;
+}
+
+/*
+
+FOOTER
+
+*/
+
+footer
+{
+    display: block;
+    position: relative;
+    width: 100%;
+    max-width: 100%;
+    min-height: 400px;
+    background: #673830;
+    background-image: url(../img/cave-floor.png);
+    background-repeat: repeat-x;
+    background-position: bottom;
+    z-index: 111;
+    margin-top: -410px;
+    border: none;
+    padding: 0;
+}
+footer:before
+{
+    content: "";
+    display: block;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 572px;
+    height: 239px;
+    background-image: url(../img/cave-left.png);
+    background-repeat: repeat-x;
+    z-index: 2;
+}
+footer:after
+{
+    content: "";
+    display: block;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 572px;
+    height: 239px;
+    background-image: url(../img/cave-right.png);
+    background-repeat: repeat-x;
+    z-index: 2;
+}
+
+body[role="introduction"] footer a
+{
+    display: inline-block;
+    position: relative;
+    width: 93px;
+    height: 97px;
+    text-align: center;
+    margin: 75px 10px 245px;
+    text-indent: -999em;
+    line-height: 430px;
+    background: url(../img/crypt.png);
+}
+
+body[role="introduction"] footer a:before
+{
+    content: "";
+    display: block;
+    position: absolute;
+    top: 42px;
+    left: 34px;
+    width: 25px;
+    height: 24px;
+    background: url(../img/icons.png);
+    background-position: 0 0;
+    z-index: 9;
+}
+body[role="introduction"] footer a:after
+{
+    content: "";
+    display: block;
+    position: absolute;
+    top: 95px;
+    left: -2px;
+    width: 96px;
+    height: 137px;
+    background: url(../img/cliffed.png);
+    background-position: 0 0;
+    z-index: 0;
+}
+body[role="introduction"] footer a:hover
+{
+    text-indent: 0;
+}
+body[role="introduction"] footer a:hover:before
+{
+    background-position: 0 -30px;
+}
+
+body[role="introduction"] footer a[href="http://github.com/msmalley"]:before
+{
+    background-position: -30px 0;
+}
+body[role="introduction"] footer a[href="http://github.com/msmalley"]:hover:before
+{
+    background-position: -30px -30px;
+}
+
+body[role="introduction"] footer a[href="http://facebook.com/mark.smalley"]:before
+{
+    background-position: -60px 0;
+}
+body[role="introduction"] footer a[href="http://facebook.com/mark.smalley"]:hover:before
+{
+    background-position: -60px -30px;
+}
+
+body[role="introduction"] footer a[href="http://instagram.com/djkaspa"]
+{
+    text-indent: 999em;
+}
+body[role="introduction"] footer a[href="http://instagram.com/djkaspa"]:hover
+{
+    text-indent: 0;
+}
+body[role="introduction"] footer a[href="http://instagram.com/djkaspa"]:before
+{
+    background-position: -90px 0;
+}
+body[role="introduction"] footer a[href="http://instagram.com/djkaspa"]:hover:before
+{
+    background-position: -90px -30px;
+}
+
+body[role="introduction"] footer a[href="http://linkedin.com/in/msmalley"]
+{
+    text-indent: 999em;
+}
+body[role="introduction"] footer a[href="http://linkedin.com/in/msmalley"]:hover
+{
+    text-indent: 0;
+}
+body[role="introduction"] footer a[href="http://linkedin.com/in/msmalley"]:before
+{
+    background-position: -120px 0;
+}
+body[role="introduction"] footer a[href="http://linkedin.com/in/msmalley"]:hover:before
+{
+    background-position: -120px -30px;
+}
+
+body[role="introduction"] footer a[href="http://slideshare.com/marksmalley1"]
+{
+    text-indent: 999em;
+}
+body[role="introduction"] footer a[href="http://slideshare.com/marksmalley1"]:hover
+{
+    text-indent: 0;
+}
+body[role="introduction"] footer a[href="http://slideshare.com/marksmalley1"]:before
+{
+    background-position: -180px 0;
+}
+body[role="introduction"] footer a[href="http://slideshare.com/marksmalley1"]:hover:before
+{
+    background-position: -180px -30px;
+}
+
+footer span
+{
+    display: block;
+    position: absolute;
+    top: 10px;
+    width: 100%;
+    background: #222;
+    background: linear-gradient(180deg, #673830 0%, #222222 100%);
+    min-height: 380px;
+    height: auto;
+    bottom: 30px;
+    text-align: center;
+    color: #EEE;
+}
+footer span:before
+{
+    content: "";
+    display: block;
+    position: absolute;
+    top: -30px;
+    padding-bottom: 30px;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: url(../img/water.gif);
+    background-repeat: repeat;
+    opacity: 0.2;
+}
+
+/*
+
+TIMELINE
+
+*/
+
+/*
+footer ol:before
+{
+    content: "";
+    display: block;
+    position: absolute;
+    left: calc(50% - 26px);
+    width: 12px;
+    border-left: 2px solid #000;
+    border-right: 2px solid #000;
+    background: #FFF;
+    height: 100%;
+    margin: -120px 0 0 0;
+    padding-bottom: 78px;
+    background: linear-gradient(180deg, #6dbd32 0%, #968265 100%);
+}
+*/
+
+footer ol
+{
+    display: block;
+    position: relative;
+    padding: 150px 0 120px 0;
+    top: -30px;
+    background: url(../img/bridge.png);
+    background-position: calc(50% + -2px);
+    background-repeat: repeat-y;
+    margin-bottom: -55px;
+}
+footer ol:before
+{
+    content: "";
+    display: block;
+    position: absolute;
+    left: calc(50% - 36px);
+    width: 50px;
+    background: url(../img/Forest.png);
+    background-repeat: no-repeat;
+    height: 58px;
+    margin: -163px 0 0 9px;
+    background-position: -183px -4755px;
+}
+footer ol:after
+{
+    content: "";
+    display: block;
+    position: absolute;
+    left: calc(50% - 36px);
+    bottom: 0;
+    width: 50px;
+    background: url(../img/Forest.png);
+    background-repeat: no-repeat;
+    height: 58px;
+    margin: 0 0 0 9px;
+    background-position: -183px -4805px;
+}
+
+section footer ol li
+{
+    display: block;
+    position: relative;
+    width: 220px;
+    padding: 1rem;
+    background: #4c2923;
+    margin: 30px 0 60px;
+    border-radius: 0.4rem;
+    border: 1px solid #000;
+    box-shadow: 1px 2px 3px #444;
+}
+section footer ol li:after {
+	content: '';
+	position: absolute;
+	right: 0;
+	top: 50%;
+	width: 0;
+	height: 0;
+	border: 20px solid transparent;
+	border-left-color: #4c2923;
+	border-right: 0;
+	margin-top: -20px;
+	margin-right: -20px;
+    z-index: 2;
+}
+section footer ol li:before {
+	content: '';
+	position: absolute;
+	right: 0;
+	top: 50%;
+	width: 0;
+	height: 0;
+	border: 22px solid transparent;
+	border-left-color: #000;
+	border-right: 0;
+	margin-top: -22px;
+	margin-right: -22px;
+    z-index: 1;
+}
+section footer ol li:nth-child(even)
+{
+    float: right;
+    margin-top: -120px;
+}
+section footer ol li:nth-child(even):after {
+	content: '';
+	position: absolute;
+	left: 0;
+	top: 50%;
+	width: 0;
+	height: 0;
+	border: 20px solid transparent;
+	border-right-color: #4c2923;
+	border-left: 0;
+	margin-top: -20px;
+	margin-left: -20px;
+    z-index: 2;
+}
+section footer ol li:nth-child(even):before {
+	content: '';
+	position: absolute;
+	left: 0;
+	top: 50%;
+	width: 0;
+	height: 0;
+	border: 22px solid transparent;
+	border-right-color: #000;
+	border-left: 0;
+	margin-top: -22px;
+	margin-left: -22px;
+    z-index: 1;
+}
+section footer ol li a
+{
+    color: #FFEE99;
+}
+body[role="introduction"] section footer a
+{
+    color: #66CCFF;
+}
+
+/*
+
+SECTIONS
+
+*/
+
+section
+{
+    transition: all 0.2s ease-in;
+}
+body[role="introduction"] section
+{
+    
+    transition: all 3s linear;
+    background: #66CCFF;
+}
+section[aria-selected="true"]:before
+{
+    content: "";
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    background: linear-gradient(180deg, #FFFFFF 0%, #000000 100%);
+    opacity: 0.35;
+}
+body[role="introduction"] nav a:hover,
+body[role="introduction"] section a b
+{
+    background: #66CCFF;
+    color: #222;
+}
+body[role="work"] nav a:hover,
+body[role="work"] section a b
+{
+    background: #006699;
+    color: #FFF;
+}
+body[role="life"] nav a:hover,
+body[role="life"] section a b
+{
+    background: #FFCCCC;
+    color: #222;
+}
+body[role="timeline"] nav a:hover,
+body[role="timeline"] section a b
+{
+    background: #FFEE99;
+    color: #222;
+}
+body[role="work"] section
+{
+    transition: all 3s linear;
+    background: #006699;
+}
+body[role="life"] section
+{
+    transition: all 3s linear;
+    background: #FFCCCC;
+}
+body[role="present"] section
+{
+    transition: all 3s linear;
+    background: #CCFFCC;
+}
+body[role="timeline"] section
+{
+    transition: all 3s linear;
+    background: #FFEE99;
+}
+body[role="work"] section blockquote
+{
+    background: #9dbece;
+}
+body[role="work"] section article blockquote:after 
+{
+	border-top-color: #9dbece;
+}
+body[role="life"] section blockquote
+{
+    background: #efdede;
+}
+body[role="life"] section article blockquote:after 
+{
+	border-top-color: #efdede;
+}
+body[role="present"] section blockquote
+{
+    background: #dff0df;
+}
+body[role="present"] section article blockquote:after 
+{
+	border-top-color: #dff0df;
+}
+body[role="timeline"] section blockquote
+{
+    background: #f0ebcf;
+}
+body[role="timeline"] section article blockquote:after 
+{
+	border-top-color: #f0ebcf;
+}
+
+/*
+
+ANIMATIONS
+
+*/
+
+body section div[aria-disabled="true"],
+body section div[aria-disabled="false"]
+{
+    display: grid;
+    grid-template-rows: 0fr;
+}
+body section div[aria-disabled="true"] div,
+body section div[aria-disabled="false"] div
+{
+    overflow: hidden;
+}
+body section div[aria-disabled="true"]
+{
+    opacity: 0;
+    transition: all 2s ease-in;
+}
+body section div[aria-disabled="false"]
+{
+    opacity: 1;
+    grid-template-rows: 1fr;
+    transition: all 2s ease-out;
+}
+body section footer a,
+body section footer span,
+body section footer ol
+{
+    opacity: 0;
+    transition: all 0.5s ease-in;
+}
+body[role="introduction"] section footer span,
+body[role="timeline"] section footer a,
+body[role="timeline"] section footer span,
+body[role="timeline"] section footer ol
+{
+    opacity: 1;
+    
+    animation-name: reveal;
+    animation-duration: 2s;
+    animation-timing-function: ease-in;
+}
+body[role="introduction"] section footer.hide a,
+body[role="introduction"] section footer.hide span,
+body[role="timeline"] section footer.hide span,
+body[role="timeline"] section footer.hide ol
+{
+    opacity: 0;
+    
+    animation-name: hide;
+    animation-duration: 0.25s;
+    animation-timing-function: ease-in;
+}
+body[role="introduction"] section footer a
+{
+    opacity: 1;
+    
+    animation-name: rise;
+    animation-duration: 2s;
+    animation-timing-function: ease-in;
+}
+article blockquote
+{
+    opacity: 1;
+    transition: all 0.2s ease-in;
+}
+article blockquote.speak
+{
+    height: 0;
+    opacity: 0;
+    overflow: hidden;
+    transition: all 0.3s ease-out;
+}
+article span.moveLeft:before
+{
+    animation-name: mleft;
+    animation-duration: 2s;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+}
+article span.moveRight:before
+{
+    animation-name: mright;
+    animation-duration: 2s;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+}
+
+@-webkit-keyframes mleft {
+    from {
+        background-position-x: 0;
+    }
+    to { 
+        background-position-x: -76px;
+    }
+}
+
+@-webkit-keyframes mright {
+    from {
+        background-position-x: 0;
+    }
+    to { 
+        background-position-x: 76px;
+    }
+}
+
+@-webkit-keyframes reveal {
+    from {
+        opacity: 0;
+    }
+    to { 
+        opacity: 1;
+    }
+}
+@-webkit-keyframes hide {
+    from {
+        opacity: 1;
+    }
+    to { 
+        opacity: 0;
+    }
+}
+
+@-webkit-keyframes rise {
+    from {
+        opacity: 0;
+        margin-top: 1500px;
+    }
+    to { 
+        opacity: 1;
+        margin-top: 75px;
+    }
+}
+
+@-webkit-keyframes clouds {
+    from {
+        background-position-x: 0;
+    }
+    to { 
+        background-position-x: -649px;
+    }
+}
+
+/*
+
+RESPONSIVENESS
+
+*/
+
+@media only screen and (max-width: 1040px) 
+{
+    html body section footer
+    {
+        padding-left: calc(50% - 300px);
+        padding-right: calc(50% - 300px);
+        width: 600px;
+    }
+    html body section footer span
+    {
+        margin-left: calc(50% - 300px - 100%);
+        width: 200%;
+    }
+    html body section article blockquote
+    {
+        max-width: 400px;
+    }
+    body[role="introduction"] footer
+    {
+        padding-bottom:200px;
+    }
+    body[role="introduction"] footer a
+    {
+        margin: 75px 30px;
+    }
+    footer ol:before,
+    footer ol:after
+    {
+        
+    }
+    footer ol
+    {
+        width: 480px;
+    }
+    section footer ol li
+    {
+        width: 180px;
+    }
+}
+@media only screen and (max-width: 590px) 
+{
+    section footer ol li:before,
+    section footer ol li:after,
+    html body section footer:before,
+    html body section footer:after
+    {
+        display: none;
+    }
+    html body section footer
+    {
+        padding-left: 10%;
+        padding-right: 10%;
+        width: 80%;
+    }
+    html body section footer span
+    {
+        margin-left: -10%;
+        width: 120%;
+    }
+    html body section article blockquote
+    {
+        max-width: 80%;
+    }
+    nav a,
+    nav a:hover
+    {
+        padding: 0.3rem 0.6rem;
+        margin: 0.8rem 0.4rem;
+        font-size: 0.6rem;
+    }
+    footer ol
+    {
+        width: 90%;
+    }
+    section footer ol li
+    {
+        width: 90%;
+    }
+    section footer ol li:nth-child(2n)
+    {
+        float: none;
+        margin-top: 0;
+    }
+}
