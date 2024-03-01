@@ -52,6 +52,7 @@ html body
 {
     max-width: 100vw !important;
     overflow-x: hidden !important;
+    background: #673830;
 }
 body, html 
 {
@@ -469,8 +470,9 @@ body[role="introduction"] footer a[href="http://slideshare.com/marksmalley1"]:ho
 footer span
 {
     display: block;
+    position: relative; /* good for LIFE */
     position: absolute;
-    top: 10px;
+    top: 43px;
     width: 100%;
     background: #222;
     background: linear-gradient(180deg, #673830 0%, #222222 100%);
@@ -485,7 +487,7 @@ footer span:before
     content: "";
     display: block;
     position: absolute;
-    top: -30px;
+    top: -40px;
     padding-bottom: 30px;
     left: 0;
     width: 100%;
@@ -493,6 +495,29 @@ footer span:before
     background: url(../img/water.gif);
     background-repeat: repeat;
     opacity: 0.2;
+}
+
+body[role="life"] footer span:before
+{
+    background-image: none;
+}
+body[role="life"] footer span
+{
+    width: 80%;
+    padding: 0 10% 300px;
+    text-align: center;
+    opacity: 1;
+    position: relative !important;
+}
+body[role="life"] footer span iframe
+{
+    display: inline-block !important;
+    position: relative;
+    width: 27% !important;
+    margin: 50px 2% 0 !important;
+    padding: 0 !important;
+    vertical-align: top;
+    z-index: 9999999999;
 }
 
 /*
@@ -769,6 +794,7 @@ body section footer ol
     transition: all 0.5s ease-in;
 }
 body[role="introduction"] section footer span,
+body[role="life"] section footer span,
 body[role="timeline"] section footer a,
 body[role="timeline"] section footer span,
 body[role="timeline"] section footer ol

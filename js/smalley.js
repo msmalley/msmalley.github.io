@@ -229,13 +229,9 @@ var smalley =
                         setTimeout(function()
                         {
                             body.setAttribute("role", hash);
-                        }, 600);
-                        
-                        setTimeout(function()
-                        {
                             wrapper.querySelectorAll('footer')[0].classList.remove('hide');
                             
-                        }, 2000);
+                        }, 600);
                     }
                 });
             });
