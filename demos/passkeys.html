@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+    
+    <head>
+        
+        <!-- META -->
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+        <link rel='dns-prefetch' href='//s.w.org' />
+        <title>CORTEX JS</title>
+        
+        <!-- STYLES -->
+        <link rel="stylesheet" href="css/mvp.css">
+        <link rel="stylesheet" href="css/cortex.css">
+        
+    </head>
+    <body data-mustache="cortex.config.sdk" data-loading="true" data-position="fixed" id="cortex-clipboard">
+        
+        
+        
+    </body>
+    
+    <script src="../js/buffer.js"></script>
+    
+    <script>
+    if 
+    (
+        window.PublicKeyCredential 
+        &&  PublicKeyCredential.isUserVerifyingPlatformAuthenticatorAvailable 
+        &&  PublicKeyCredential.isConditionalMediationAvailable
+    ) 
+    {  
+        Promise.all
+        ([  
+            PublicKeyCredential.isUserVerifyingPlatformAuthenticatorAvailable(),  
+            PublicKeyCredential.isConditionalMediationAvailable(),  
+        ]).then(results => 
+        {  
+            console.log('results', results);
+            if (results.every(r => r === true)) 
+            {  
+                console.log('READY FOR PASSKEY');
+            }
+        });  
+    }  
+    var publicKeyCredentialCreationOptions = 
+    {
+      challenge: Buffer.from('the-challenge', 'utf8'),
+      rp: {
+        name: "Example",
+        id: "localhost:8888",
+      },
+      user: {
+        id: Buffer.from('the-user', 'utf8'),
+        name: "john78",
+        displayName: "John",
+      },
+      pubKeyCredParams: [{alg: -7, type: "public-key"},{alg: -257, type: "public-key"}],
+      excludeCredentials: [{
+        id: Buffer.from('this-user', 'utf8'),
+        type: 'public-key',
+        transports: ['internal'],
+      }],
+      authenticatorSelection: {
+        authenticatorAttachment: "platform",
+        requireResidentKey: true,
+      }
+    };
+
+    var create_passkey = async function()
+    {
+        var credential = await navigator.credentials.create({
+          publicKey: publicKeyCredentialCreationOptions
+        });
+
+        console.log('credential', credential);
+    }
+    </script>
+    
+</html>

@@ -12,8 +12,24 @@ var smalley =
 {
     button:
     {
-        // THIS / THESE SHOULD BE PART OF MVP JS !!!
-        
+        beat: function()
+        {
+            var beaters = document.querySelectorAll('.fa-beater');
+
+            beaters.forEach(f => f.addEventListener('mouseover', function() {
+                var _this = this;
+                beaters.forEach(e => {
+                    var icon = e.querySelector('i');
+                    console.log('icon', icon);
+                    icon.classList.remove('fa-beat');
+                });
+                _this.querySelector('i').classList.add('fa-beat');
+                setTimeout(function()
+                {
+                    _this.querySelector('i').classList.remove('fa-beat');
+                }, 1000);
+            }));
+        },
         toggle: function(el, e)
         {
             e.preventDefault();
@@ -88,6 +104,8 @@ var smalley =
                     ground.classList.remove(ground_direction);
                     
                     wrapper.querySelectorAll('footer')[0].innerHTML = footer;
+                    
+                    smalley.button.beat();
                     
                 }, 3000);
                 
@@ -241,6 +259,8 @@ var smalley =
             var introductions = document.querySelectorAll('section[aria-selected="true"]')[0];
             var backup = document.querySelectorAll('section[aria-label="introduction"]')[0];
             backup.innerHTML = introductions.innerHTML;
+            
+            smalley.button.beat();
         }
     }
 }

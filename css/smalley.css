@@ -107,7 +107,7 @@ section
     position: relative;
     padding: 80px 0 0;
     width: 100vw;
-    height: auto;
+    height: 100vh;
     min-height: 400px;
     background: rgb(255,255,255);
     background: linear-gradient(180deg, rgba(255,255,255,1) 0%, rgba(180,215,235,1) 25%, rgba(58,153,220,1) 100%); 
@@ -314,33 +314,44 @@ footer
     max-width: 100%;
     min-height: 400px;
     background: #673830;
-    background-image: url(../img/cave-floor.png);
-    background-repeat: repeat-x;
-    background-position: bottom;
     z-index: 111;
     margin-top: -410px;
     border: none;
-    padding: 0;
+    padding: 0 0 calc(100vh * 0.35);
     overflow: hidden;
 }
 footer:before
 {
     content: "";
     display: block;
-    position: absolute;
+    position: fixed;
     bottom: 0;
     left: 0;
     width: 572px;
     height: 239px;
     background-image: url(../img/cave-left.png);
     background-repeat: repeat-x;
-    z-index: 2;
+    z-index: 22;
+}
+span[aria-label="footer"]:before
+{
+    content: "";
+    display: block;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    height: 29px;
+    background-image: url(../img/cave-floor.png);
+    background-repeat: repeat-x;
+    z-index: 22;
 }
 footer:after
 {
     content: "";
     display: block;
-    position: absolute;
+    position: fixed;
     bottom: 0;
     right: 0;
     width: 572px;
@@ -467,6 +478,34 @@ body[role="introduction"] footer a[href="http://slideshare.com/marksmalley1"]:ho
     background-position: -180px -30px;
 }
 
+body[role="introduction"] footer a:before
+{
+    background: none !important;
+}
+body[role="introduction"] footer a 
+{
+    display: inline-block;
+    position: relative;
+    text-align: center;
+}
+body[role="introduction"] footer a i
+{
+    display: block;
+    position: absolute;
+    width: 25px;
+    border: none;
+    font-size: 40px;
+    text-indent: 0;
+    color: #FFF;
+    left: -5px;
+    top: 8px;
+    text-align: center;
+}
+body[role="introduction"] footer a:hover i
+{
+    color: #66ccff;
+}
+
 footer span
 {
     display: block;
@@ -518,6 +557,7 @@ body[role="life"] footer span iframe
     padding: 0 !important;
     vertical-align: top;
     z-index: 9999999999;
+    min-height: 570px;
 }
 
 /*

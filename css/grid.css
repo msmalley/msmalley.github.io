@@ -1,0 +1,26 @@
+body
+{
+    padding-top: 56px;
+}
+
+body .navbar
+{
+    background: #EEE;
+}
+
+.placeholder
+{
+    display: block;
+    position: relative;
+    height: 200px;
+    width: 100%;
+    background: black;
+}
+.grid .card
+{
+    margin-bottom: 1rem;
+}
+.x .placeholder
+{
+    height: 400px;
+}
