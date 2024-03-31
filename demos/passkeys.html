@@ -29,6 +29,8 @@
     <script>
     if 
     (
+        var domainId = 'smalley.my';
+        //var domainId = 'localhost';
         window.PublicKeyCredential 
         &&  PublicKeyCredential.isUserVerifyingPlatformAuthenticatorAvailable 
         &&  PublicKeyCredential.isConditionalMediationAvailable
@@ -40,154 +42,128 @@
             PublicKeyCredential.isConditionalMediationAvailable(),  
         ]).then(results => 
         {  
-            console.log('results', results);
             if (results.every(r => r === true)) 
             {  
-                console.log('READY FOR PASSKEY');
+
+
+                var firstSalt = new Uint8Array(new Array(32).fill(1)).buffer;
+                var blob = new Uint8Array(new Array(16).fill(1)).buffer;
+                var publicKeyCredentialCreationOptions = 
+                {
+                  challenge: Buffer.from('the-challenge', 'utf8'),
+                  rp: {
+                    name: "Example",
+                    id: domainId
+                  },
+                  user: {
+                    id: Buffer.from('the-user', 'utf8'),
+                    name: "john78",
+                    displayName: "John",
+                  },
+                  pubKeyCredParams: [
+                      {alg: -8, type: "public-key"},
+                      {alg: -7, type: "public-key"},
+                      {alg: -257, type: "public-key"}
+                  ],
+                  authenticatorSelection: {
+                    authenticatorAttachment: "platform",
+                    requireResidentKey: true,
+                  },
+                    attestation: 'direct',
+                  extensions: {
+                      "hmac-secret": true,
+                      prf: {
+                        eval: {
+                          first: firstSalt,
+                        }
+                      },
+                      credBlob: blob
+                    }
+                };
+
+                    var pk = false;
+                    var credential = false;
+
+                var create_passkey = async function()
+                {
+                    credential = await navigator.credentials.create({
+                      publicKey: publicKeyCredentialCreationOptions
+                    });
+
+                    pk = Buffer.from(credential.rawId).toString('hex');
+
+                    var exres = credential.getClientExtensionResults();
+
+                    alert('PublicKey: ' + pk);
+                    alert('PRF: ' + exres.prf.enabled);
+                }
+
+                var get_passkey = async function()
+                {
+                    var publicKeyCredentialGetOptions = 
+                    {
+                      challenge: Buffer.from('the-challenge2', 'utf8'),
+                      rpId: domainId,
+                      allowCredentials: [{
+                        type: "public-key",
+                        id: credential.rawId
+                    }],
+                        userVerification: "required",
+                    extensions: {
+                      prf: {}
+                    }
+                    };
+                    var gets = await navigator.credentials.get({
+                        publicKey: publicKeyCredentialGetOptions
+                    });
+
+                    var res = gets.getClientExtensionResults();\
+                    alert('PRF: ' + JSON.stringify(res.prf));
+
+                    var ad = Buffer.from(gets.response.authenticatorData).toString('hex');
+                    var cd = Buffer.from(gets.response.clientDataJSON).toString('utf8');
+                    var sig = Buffer.from(gets.response.signature).toString('hex');
+
+                    // import key
+                    var key = await crypto.subtle.importKey(
+                    // The getPublicKey() operation thus returns the credential public key as a SubjectPublicKeyInfo. See:
+                    // 
+                    // https://w3c.github.io/webauthn/#sctn-public-key-easy
+                    //
+                    // crypto.subtle can import the spki format:
+                    // 
+                    // https://developer.mozilla.org/en-US/docs/Web/API/SubtleCrypto/importKey
+                      "spki", // "spki" Simple Public Key Infrastructure rfc2692
+
+                      Buffer.from(gets.rawId),
+                      {
+                        // these are the algorithm options
+                        // await cred.response.getPublicKeyAlgorithm() // returns -7
+                        // -7 is ES256 with P-256 // search -7 in https://w3c.github.io/webauthn
+                        // the W3C webcrypto docs:
+                        //
+                        // https://www.w3.org/TR/WebCryptoAPI/#informative-references (scroll down a bit)
+                        //
+                        // ES256 corrisponds with the following AlgorithmIdentifier:
+                        name: "ECDSA",
+                        namedCurve: "P-256",
+                        hash: { name: "SHA-256" }
+                      },
+                      false, //whether the key is extractable (i.e. can be used in exportKey)
+                      ["verify"] //"verify" for public key import, "sign" for private key imports
+                    );
+                    
+                    var pk = Buffer.from(gets.rawId).toString('hex');
+                    var sig = Buffer.from(gets.response.signature).toString('hex');
+                    var handle = Buffer.from(gets.response.userHandle).toString('utf8');
+                    alert(pk);
+                }
             }
-        });  
-    }  
-    var firstSalt = new Uint8Array(new Array(32).fill(1)).buffer;
-    var blob = new Uint8Array(new Array(16).fill(1)).buffer;
-    var publicKeyCredentialCreationOptions = 
-    {
-      challenge: Buffer.from('the-challenge', 'utf8'),
-      rp: {
-        name: "Example",
-        //id: "localhost",
-        id: "smalley.my",
-      },
-      user: {
-        id: Buffer.from('the-user', 'utf8'),
-        name: "john78",
-        displayName: "John",
-      },
-      pubKeyCredParams: [
-          {alg: -8, type: "public-key"},
-          {alg: -7, type: "public-key"},
-          {alg: -257, type: "public-key"}
-      ],
-      authenticatorSelection: {
-        authenticatorAttachment: "platform",
-        requireResidentKey: true,
-      },
-        attestation: 'direct',
-      extensions: {
-          "hmac-secret": true,
-          prf: {
-            eval: {
-              first: firstSalt,
+            else
+            {
+                alert('NOT SUPPORTED')
             }
-          },
-          credBlob: blob
-        }
-    };
-        
-        var pk = false;
-        var credential = false;
-
-    var create_passkey = async function()
-    {
-        credential = await navigator.credentials.create({
-          publicKey: publicKeyCredentialCreationOptions
-        });
-
-        pk = Buffer.from(credential.rawId).toString('hex');
-        console.log('this.pk', pk);
-        console.log('credential', credential);
-        console.log('credential.attestationObject', Buffer.from(credential.response.attestationObject).toString('utf8'));
-        
-        var exres = credential.getClientExtensionResults();
-        console.log('exres', exres);
-        
-        alert('PublicKey: ' + pk);
-        alert('PRF: ' + exres.prf.enabled);
-    }
-    
-    // FF - 191f414cb167ddff6970495ff7d3f439dc8abc0f
-    
-    // AD = 49960de5880e8c687434170f6476605b8fe4aeb9a28632c7995cf3ba831d97630500000000
-    // AD = 49960de5880e8c687434170f6476605b8fe4aeb9a28632c7995cf3ba831d97630500000000
-    // CD = {"type":"webauthn.get","challenge":"dGhlLWNoYWxsZW5nZQ","origin":"http://localhost:8888","crossOrigin":false}
-    // SIG = 304402201bea1688722fc114f77f958719bb32aeb336a3291ee6f7290a7d72f0d1057f0302201118e3ab3d717ff7f8d043b548955cc883cef2a195574856e37091632f1095b4
-    // SIG = 3045022100c2f0875680f1f8bcb0156cc0cca7ea267004541a7ebcb29d3ca70f92c542cf150220039e3853d2b90683e9f9cfb36c41e06dfff724003d603f0d9d7186fc4aa5779f
-    //create_passkey();
-        
-        console.log('pk', pk);
-        
-    var get_passkey = async function()
-    {
-        console.log('pk', pk);
-        console.log('credential', credential);
-        var publicKeyCredentialGetOptions = 
-        {
-            // sig = 30440220255cd82bbf7897d37ebf1b27e58f74200d505a97f43c9ffab2055892c6fd1d7702205d440706af6cacfc25bfe521bebcae657342ae355ca00d62aad8abca64897f9f
-          challenge: Buffer.from('the-challenge2', 'utf8'),
-          //rpId: "localhost",
-          rpId: "smalley.my",
-          allowCredentials: [{
-            type: "public-key",
-            id: credential.rawId
-        }],
-            userVerification: "required",
-        extensions: {
-          prf: {}
-        }
-        };
-        var gets = await navigator.credentials.get({
-            publicKey: publicKeyCredentialGetOptions
-        });
-        
-        console.log('gets', gets);
-        
-        var res = gets.getClientExtensionResults();
-        console.log('res', res);
-        alert('PRF: ' + JSON.stringify(res.prf));
-        
-        var ad = Buffer.from(gets.response.authenticatorData).toString('hex');
-        var cd = Buffer.from(gets.response.clientDataJSON).toString('utf8');
-        var sig = Buffer.from(gets.response.signature).toString('hex');
-        console.log('ad', ad);
-        console.log('cd', cd);
-        console.log('sig', sig);
-        
-        // import key
-        var key = await crypto.subtle.importKey(
-        // The getPublicKey() operation thus returns the credential public key as a SubjectPublicKeyInfo. See:
-        // 
-        // https://w3c.github.io/webauthn/#sctn-public-key-easy
-        //
-        // crypto.subtle can import the spki format:
-        // 
-        // https://developer.mozilla.org/en-US/docs/Web/API/SubtleCrypto/importKey
-          "spki", // "spki" Simple Public Key Infrastructure rfc2692
-
-          Buffer.from(gets.rawId),
-          {
-            // these are the algorithm options
-            // await cred.response.getPublicKeyAlgorithm() // returns -7
-            // -7 is ES256 with P-256 // search -7 in https://w3c.github.io/webauthn
-            // the W3C webcrypto docs:
-            //
-            // https://www.w3.org/TR/WebCryptoAPI/#informative-references (scroll down a bit)
-            //
-            // ES256 corrisponds with the following AlgorithmIdentifier:
-            name: "ECDSA",
-            namedCurve: "P-256",
-            hash: { name: "SHA-256" }
-          },
-          false, //whether the key is extractable (i.e. can be used in exportKey)
-          ["verify"] //"verify" for public key import, "sign" for private key imports
-        );
-        
-        console.log('key', key);
-        
-        var pk = Buffer.from(gets.rawId).toString('hex');
-        var sig = Buffer.from(gets.response.signature).toString('hex');
-        var handle = Buffer.from(gets.response.userHandle).toString('utf8');
-        alert(pk);
-        console.log('sig', sig);
-        console.log('handle', handle);
+        });    
     }
     
     </script>
