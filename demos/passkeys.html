@@ -17,112 +17,129 @@
     </head>
     <body data-mustache="cortex.config.sdk" data-loading="true" data-position="fixed" id="cortex-clipboard">
         
-        <a href="#" class="create_passkey">CREATE v0.0.14</a> 
+        <a href="#" class="create_passkey">CREATE v0.0.15</a> 
         <hr>
-        <a href="#" onclick="get_passkey()">GET</a> 
-        
-        <input type="text" name="username" autocomplete="webauthn">
+        <a href="#" class="get_passkey">GET</a> 
         
     </body>
     
     <script src="../js/buffer.js"></script>
-    <script src="../js/webauth.js"></script>
     
     <script>
-    var domainId = 'smalley.my';
-    //var domainId = 'localhost';
+    var user_id = 'mark.smalley.my';
+    //var domainId = 'smalley.my';
+    var domainId = 'localhost';
+        
+    var firstSalt = new Uint8Array(new Array(32).fill(1)).buffer;
         
     var create_buttons = document.querySelectorAll('.create_passkey');
+    var get_buttons = document.querySelectorAll('.get_passkey');
 
     create_buttons.forEach(function(button, i)
     {
         button.addEventListener("click", async function(e)
         {
             e.preventDefault();
-            alert('clicked');
             
             var publicKeyCredentialCreationOptions = 
             {
                 challenge: Buffer.from('the-challenge', 'utf8'),
                 rp: {
-                    name: domainId,
-                    id: domainId
+                    id: domainId,
+                    name: "Test"
                 },
                 user: {
-                    id: Buffer.from('the-user', 'utf8'),
-                    name: "john78",
-                    displayName: "John"
+                    id: Buffer.from(user_id, 'utf8'),
+                    name: user_id,
+                    displayName: "Test"
                 },
                 pubKeyCredParams: [
                     {alg: -7, type: "public-key"},
                 ],
-                attestation: 'none',
                 authenticatorSelection: {
-                    authenticatorAttachment: "platform",
-                    requireResidentKey: true,
-                    residentKey: "preferred"
+                    authenticatorAttachment: "platform"
+                },
+                extensions: {
+                    prf: {
+                        eval: {
+                            first: firstSalt,
+                        }
+                    }
                 }
             };
-            
-            var simpleOptions = 
-            {
-                challenge: SimpleWebAuthnBrowser.bufferToBase64URLString(Buffer.from('the-challenge', 'utf8')),
-                rp: 
-                {
-                    name: domainId,
-                    id: domainId
-                },
-                user: 
-                {
-                    id: SimpleWebAuthnBrowser.bufferToBase64URLString(Buffer.from('the-user', 'utf8')),
-                    name: 'the-user',
-                    displayName: 'The User'
-                },
-                attestationType: 'none',
-                excludeCredentials: [],
-                authenticatorSelection: {
-                    residentKey: 'required',
-                    userVerification: 'preferred'
-                },
-                pubKeyCredParams: [
-                    {alg: -7, type: "public-key"},
-                    {alg: -257, type: "public-key"}
-                ],
-                timeout: 60000,
-                extensions:
-                {
-                    credProps: true
-                }
-            };
-            
-            alert(JSON.stringify(simpleOptions));
-            alert('Supported: ' + SimpleWebAuthnBrowser.browserSupportsWebAuthn());
-            
-            /*
-            alert(JSON.stringify(publicKeyCredentialCreationOptions));
-            alert(navigator);
-            alert(JSON.stringify(navigator.credentials));
-            alert(navigator.credentials.create);
-            */
             
             try
             {
                 
-                var credential = await SimpleWebAuthnBrowser.startRegistration(simpleOptions, false);
+                var credential = await navigator.credentials.create({
+                    publicKey: publicKeyCredentialCreationOptions
+                });
                 var pk = Buffer.from(credential.rawId).toString('hex');
 
                 alert('PublicKey: ' + pk);
+                console.log('credential', credential);
 
                 var exres = credential.getClientExtensionResults();
+                console.log('exres', exres);
 
                 if
                 (
                     typeof exres == 'object' 
                     && typeof exres.prf == 'object'
-                    && typeof exres.prf.enabled != 'undefined'
                 )
                 {
-                    alert('PRF: ' + exres.prf.enabled);
+                    alert('PRF: ' + JSON.stringify(exres.prf));
+                }
+            }
+            catch(e)
+            {
+                alert(e);
+            }
+        });
+    });
+        
+    get_buttons.forEach(function(button, i)
+    {
+        button.addEventListener("click", async function(e)
+        {
+            e.preventDefault();
+            
+            var publicKeyCredentialCreationOptions = 
+            {
+                challenge: Buffer.from('the-challenge', 'utf8'),
+                rpId: domainId,
+                user: {
+                    id: Buffer.from(user_id, 'utf8'),
+                    name: user_id,
+                    displayName: "Test"
+                },
+                userVerification: "required",
+                extensions: {
+                    prf: {}
+                }
+            };
+            
+            try
+            {
+                
+                var credential = await navigator.credentials.get({
+                    publicKey: publicKeyCredentialCreationOptions
+                });
+                var pk = Buffer.from(credential.rawId).toString('hex');
+
+                alert('PublicKey: ' + pk);
+                console.log('credential', credential);
+
+                var exres = credential.getClientExtensionResults();
+                console.log('exres', exres);
+
+                if
+                (
+                    typeof exres == 'object' 
+                    && typeof exres.prf == 'object'
+                )
+                {
+                    alert('PRF: ' + JSON.stringify(exres.prf));
                 }
             }
             catch(e)
