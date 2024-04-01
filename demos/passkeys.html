@@ -17,7 +17,7 @@
     </head>
     <body data-mustache="cortex.config.sdk" data-loading="true" data-position="fixed" id="cortex-clipboard">
         
-        <a href="#" class="create_passkey">CREATE v0.0.11</a> 
+        <a href="#" class="create_passkey">CREATE v0.0.12</a> 
         <hr>
         <a href="#" onclick="get_passkey()">GET</a> 
         
@@ -56,10 +56,11 @@
                 pubKeyCredParams: [
                     {alg: -7, type: "public-key"},
                 ],
+                attestation: 'none',
                 authenticatorSelection: {
                     authenticatorAttachment: "platform",
                     requireResidentKey: true,
-                    residentKey: "required"
+                    residentKey: "preferred"
                 }
             };
             
@@ -79,6 +80,8 @@
                 },
                 attestationType: 'none',
                 authenticatorSelection: {
+                    authenticatorAttachment: "platform",
+                    requireResidentKey: true,
                     residentKey: 'required',
                     userVerification: 'preferred'
                 },
