@@ -17,7 +17,7 @@
     </head>
     <body data-mustache="cortex.config.sdk" data-loading="true" data-position="fixed" id="cortex-clipboard">
         
-        <a href="#" class="create_passkey">CREATE v0.0.10</a> 
+        <a href="#" class="create_passkey">CREATE v0.0.11</a> 
         <hr>
         <a href="#" onclick="get_passkey()">GET</a> 
         
@@ -88,6 +88,7 @@
             };
             
             alert(JSON.stringify(simpleOptions));
+            alert('Supported: ' + SimpleWebAuthnBrowser.browserSupportsWebAuthn());
             
             /*
             alert(JSON.stringify(publicKeyCredentialCreationOptions));
