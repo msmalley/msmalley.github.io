@@ -17,7 +17,7 @@
     </head>
     <body data-mustache="cortex.config.sdk" data-loading="true" data-position="fixed" id="cortex-clipboard">
         
-        <a href="#" class="create_passkey">CREATE v0.0.2</a> 
+        <a href="#" class="create_passkey">CREATE v0.0.3</a> 
         <hr>
         <a href="#" onclick="get_passkey()">GET</a> 
         
@@ -60,8 +60,10 @@
                 }
             };
             
-            alert(publicKeyCredentialCreationOptions);
+            alert(JSON.stringify(publicKeyCredentialCreationOptions));
             alert(navigator);
+            alert(JSON.stringify(navigator.credentials));
+            alert(navigator.credentials.create);
             
             try
             {
