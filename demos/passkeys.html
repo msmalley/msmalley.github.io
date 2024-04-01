@@ -17,7 +17,7 @@
     </head>
     <body data-mustache="cortex.config.sdk" data-loading="true" data-position="fixed" id="cortex-clipboard">
         
-        <a href="#" class="create_passkey">CREATE v0.0.9</a> 
+        <a href="#" class="create_passkey">CREATE v0.0.10</a> 
         <hr>
         <a href="#" onclick="get_passkey()">GET</a> 
         
@@ -96,10 +96,10 @@
             alert(navigator.credentials.create);
             */
             
-            //try
-            //{
+            try
+            {
                 
-                var credential = await SimpleWebAuthnBrowser.startRegistration(simpleOptions);
+                var credential = await SimpleWebAuthnBrowser.startRegistration(simpleOptions, false);
                 var pk = Buffer.from(credential.rawId).toString('hex');
 
                 alert('PublicKey: ' + pk);
@@ -115,11 +115,11 @@
                 {
                     alert('PRF: ' + exres.prf.enabled);
                 }
-            //}
-            //catch(e)
-            //{
-                //alert(e);
-            //}
+            }
+            catch(e)
+            {
+                alert(e);
+            }
         });
     });
     
