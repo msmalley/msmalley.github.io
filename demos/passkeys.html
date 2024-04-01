@@ -20,8 +20,6 @@
         <a href="#" class="create_passkey">CREATE</a> 
         <hr>
         <a href="#" onclick="get_passkey()">LOGIN</a> 
-        <hr>
-        <a href="#" onclick="test_clicks()">TEST</a> 
         
     </body>
     
@@ -247,7 +245,7 @@
                 }
             };
             
-            credential = await navigator.credentials.create({
+            var credential = await navigator.credentials.create({
                 publicKey: publicKeyCredentialCreationOptions
             });
 
