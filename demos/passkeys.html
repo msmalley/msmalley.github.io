@@ -17,7 +17,7 @@
     </head>
     <body data-mustache="cortex.config.sdk" data-loading="true" data-position="fixed" id="cortex-clipboard">
         
-        <a href="#" class="create_passkey">CREATE v0.0.18</a> 
+        <a href="#" class="create_passkey">CREATE v0.0.19</a> 
         <hr>
         <a href="#" class="get_passkey">GET</a> 
         
@@ -116,11 +116,7 @@
             {
                 challenge: Buffer.from('the-challenge', 'utf8'),
                 rpId: domainId,
-                userVerification: "required",
-                extensions: {
-                    credProps: true,
-                    prf: true
-                }
+                userVerification: "required"
             };
             
             try
