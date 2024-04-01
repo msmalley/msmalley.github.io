@@ -17,7 +17,7 @@
     </head>
     <body data-mustache="cortex.config.sdk" data-loading="true" data-position="fixed" id="cortex-clipboard">
         
-        <a href="#" class="create_passkey">CREATE v0.0.19</a> 
+        <a href="#" class="create_passkey">CREATE v0.0.20</a> 
         <hr>
         <a href="#" class="get_passkey">GET</a> 
         
@@ -93,10 +93,9 @@
                 if
                 (
                     typeof exres == 'object' 
-                    && typeof exres.prf == 'object'
                 )
                 {
-                    alert('PRF: ' + JSON.stringify(exres.prf));
+                    alert('PRF: ' + JSON.stringify(exres));
                 }
             }
             catch(e)
@@ -136,10 +135,9 @@
                 if
                 (
                     typeof exres == 'object' 
-                    && typeof exres.prf == 'object'
                 )
                 {
-                    alert('PRF: ' + JSON.stringify(exres.prf));
+                    alert('PRF: ' + JSON.stringify(exres));
                 }
             }
             catch(e)
