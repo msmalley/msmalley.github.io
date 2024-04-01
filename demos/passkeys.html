@@ -17,9 +17,11 @@
     </head>
     <body data-mustache="cortex.config.sdk" data-loading="true" data-position="fixed" id="cortex-clipboard">
         
-        <a href="#" class="create_passkey">CREATE v0.0.5</a> 
+        <a href="#" class="create_passkey">CREATE v0.0.6</a> 
         <hr>
         <a href="#" onclick="get_passkey()">GET</a> 
+        
+        <input type="text" name="username" autocomplete="webauthn">
         
     </body>
     
@@ -61,18 +63,44 @@
                 }
             };
             
+            var simpleOptions = 
+            {
+                challenge: SimpleWebAuthnBrowser.bufferToBase64URLString(Buffer.from('the-challenge', 'utf8')),
+                rp: 
+                {
+                    name: domainId,
+                    id: domainId
+                },
+                user: 
+                {
+                    id: SimpleWebAuthnBrowser.bufferToBase64URLString(Buffer.from('the-user', 'utf8')),
+                    name: 'the-user',
+                    displayName: 'The User'
+                },
+                attestationType: 'none',
+                authenticatorSelection: {
+                    residentKey: 'required',
+                    userVerification: 'preferred'
+                },
+                pubKeyCredParams: [
+                    {alg: -7, type: "public-key"},
+                ]
+            };
+            
+            alert(JSON.stringify(simpleOptions));
+            
+            /*
             alert(JSON.stringify(publicKeyCredentialCreationOptions));
             alert(navigator);
             alert(JSON.stringify(navigator.credentials));
             alert(navigator.credentials.create);
+            */
             
             try
             {
-                var credential = await navigator.credentials.create({
-                    publicKey: publicKeyCredentialCreationOptions
-                });
-
-                pk = Buffer.from(credential.rawId).toString('hex');
+                
+                var credential = await SimpleWebAuthnBrowser.startRegistration(simpleOptions, true);
+                var pk = Buffer.from(credential.rawId).toString('hex');
 
                 alert('PublicKey: ' + pk);
 
