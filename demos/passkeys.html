@@ -17,7 +17,7 @@
     </head>
     <body data-mustache="cortex.config.sdk" data-loading="true" data-position="fixed" id="cortex-clipboard">
         
-        <a href="#" class="create_passkey">CREATE v0.0.15</a> 
+        <a href="#" class="create_passkey">CREATE v0.0.16</a> 
         <hr>
         <a href="#" class="get_passkey">GET</a> 
         
@@ -27,8 +27,8 @@
     
     <script>
     var user_id = 'mark.smalley.my';
-    //var domainId = 'smalley.my';
-    var domainId = 'localhost';
+    var domainId = 'smalley.my';
+    //var domainId = 'localhost';
         
     var firstSalt = new Uint8Array(new Array(32).fill(1)).buffer;
         
@@ -104,7 +104,7 @@
         {
             e.preventDefault();
             
-            var publicKeyCredentialCreationOptions = 
+            var publicKeyCredentialGetOptions = 
             {
                 challenge: Buffer.from('the-challenge', 'utf8'),
                 rpId: domainId,
@@ -123,7 +123,7 @@
             {
                 
                 var credential = await navigator.credentials.get({
-                    publicKey: publicKeyCredentialCreationOptions
+                    publicKey: publicKeyCredentialGetOptions
                 });
                 var pk = Buffer.from(credential.rawId).toString('hex');
 
