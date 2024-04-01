@@ -19,7 +19,7 @@
         
         <a href="#" class="create_passkey">CREATE</a> 
         <hr>
-        <a href="#" onclick="get_passkey()">GET KEY</a> 
+        <a href="#" onclick="get_passkey()">GET</a> 
         <hr>
         <a href="#" onclick="test_clicks()">TEST</a> 
         
@@ -66,6 +66,7 @@
           authenticatorSelection: {
             authenticatorAttachment: "platform",
             requireResidentKey: true,
+            residentKey: "required"
           },
           attestation: 'direct',
           extensions: {
