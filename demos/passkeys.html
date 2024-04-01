@@ -20,6 +20,8 @@
         <a href="#" onclick="create_passkey()">CREATE KEY</a> 
         <hr>
         <a href="#" onclick="get_passkey()">GET KEY</a> 
+        <hr>
+        <a href="#" onclick="test_clicks()">TEST</a> 
         
     </body>
     
@@ -34,6 +36,14 @@
     var credential = false;
     var create_passkey = false;
     var get_passkey = false;
+        
+    var test_clicks = function()
+    {
+        alert('clicks work?');
+        alert('PublicKeyCredential.isUserVerifyingPlatformAuthenticatorAvailable: ' + PublicKeyCredential.isUserVerifyingPlatformAuthenticatorAvailable);
+        alert('PublicKeyCredential.isConditionalMediationAvailable: ' + PublicKeyCredential.isConditionalMediationAvailable);
+    }
+    
         
     if 
     (
