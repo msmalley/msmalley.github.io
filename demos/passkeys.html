@@ -17,7 +17,7 @@
     </head>
     <body data-mustache="cortex.config.sdk" data-loading="true" data-position="fixed" id="cortex-clipboard">
         
-        <a href="#" onclick="create_passkey()">CREATE KEY</a> 
+        <a href="#" class="create_passkey">CREATE</a> 
         <hr>
         <a href="#" onclick="get_passkey()">GET KEY</a> 
         <hr>
@@ -207,6 +207,18 @@
     {
         alert('window.PublicKeyCredential not available?');
     }
+        
+    var create_buttons = document.querySelectorAll('.create_passkey');
+
+    create_buttons.forEach(function(button, i)
+    {
+        button.addEventListener("click", async function(e)
+        {
+            e.preventDefault();
+            alert('clicked');
+            create_passkey();
+        });
+    });
     
     </script>
     
