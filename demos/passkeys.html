@@ -19,7 +19,7 @@
         
         <a href="#" class="create_passkey">CREATE</a> 
         <hr>
-        <a href="#" onclick="get_passkey()">GET</a> 
+        <a href="#" onclick="get_passkey()">LOGIN</a> 
         <hr>
         <a href="#" onclick="test_clicks()">TEST</a> 
         
@@ -36,6 +36,7 @@
     var credential = false;
     var create_passkey = false;
     var get_passkey = false;
+    var firstSalt = new Uint8Array(new Array(32).fill(1)).buffer;
         
     var test_clicks = function()
     {
@@ -46,7 +47,6 @@
     
     var run_demo = function()
     {
-        var firstSalt = new Uint8Array(new Array(32).fill(1)).buffer;
         var blob = new Uint8Array(new Array(16).fill(1)).buffer;
         var publicKeyCredentialCreationOptions = 
         {
@@ -217,7 +217,55 @@
         {
             e.preventDefault();
             alert('clicked');
-            create_passkey();
+            
+            var publicKeyCredentialCreationOptions = 
+            {
+                challenge: Buffer.from('the-challenge', 'utf8'),
+                rp: {
+                    name: "Example",
+                    id: domainId
+                },
+                user: {
+                    id: Buffer.from('the-user', 'utf8'),
+                    name: "john78",
+                    displayName: "John",
+                },
+                pubKeyCredParams: [
+                    {alg: -7, type: "public-key"},
+                ],
+                authenticatorSelection: {
+                    requireResidentKey: true,
+                    residentKey: "required"
+                },
+                attestation: 'direct',
+                extensions: {
+                    prf: {
+                        eval: {
+                            first: firstSalt,
+                        }
+                    }
+                }
+            };
+            
+            credential = await navigator.credentials.create({
+                publicKey: publicKeyCredentialCreationOptions
+            });
+
+            pk = Buffer.from(credential.rawId).toString('hex');
+
+            alert('PublicKey: ' + pk);
+
+            var exres = credential.getClientExtensionResults();
+
+            if
+            (
+                typeof exres == 'object' 
+                && typeof exres.prf == 'object'
+                && typeof exres.prf.enabled != 'undefined'
+            )
+            {
+                alert('PRF: ' + exres.prf.enabled);
+            }
         });
     });
     
