@@ -181,9 +181,9 @@
     }
     else if
     (
-        window.PublicKeyCredential 
-        &&  PublicKeyCredential.isUserVerifyingPlatformAuthenticatorAvailable 
-        &&  PublicKeyCredential.isConditionalMediationAvailable
+        typeof window.PublicKeyCredential == 'object'
+        && typeof PublicKeyCredential.isUserVerifyingPlatformAuthenticatorAvailable != 'undefined'
+        && typeof PublicKeyCredential.isConditionalMediationAvailable != 'undefined'
     ) 
     {  
         Promise.all
@@ -203,10 +203,10 @@
             }
         });    
     }
-        else
-        {
-            alert('window.PublicKeyCredential not available?');
-        }
+    else
+    {
+        alert('window.PublicKeyCredential not available?');
+    }
     
     </script>
     
