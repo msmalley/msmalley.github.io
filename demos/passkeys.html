@@ -17,7 +17,7 @@
     </head>
     <body data-mustache="cortex.config.sdk" data-loading="true" data-position="fixed" id="cortex-clipboard">
         
-        <a href="#" class="create_passkey">CREATE v0.0.16</a> 
+        <a href="#" class="create_passkey">CREATE v0.0.18</a> 
         <hr>
         <a href="#" class="get_passkey">GET</a> 
         
@@ -28,7 +28,11 @@
     <script>
     var user_id = 'mark.smalley.my';
     var domainId = 'smalley.my';
-    //var domainId = 'localhost';
+        
+    if(window.location.href.indexOf('localhost') > 0)
+    {
+        domainId = 'localhost';
+    }
         
     var firstSalt = new Uint8Array(new Array(32).fill(1)).buffer;
         
@@ -55,11 +59,15 @@
                 },
                 pubKeyCredParams: [
                     {alg: -7, type: "public-key"},
+                    {alg: -257, type: "public-key"}
                 ],
                 authenticatorSelection: {
-                    authenticatorAttachment: "platform"
+                    authenticatorAttachment: "platform",
+                    requireResidentKey: true,
+                    residentKey: "required"
                 },
                 extensions: {
+                    credProps: true,
                     prf: {
                         eval: {
                             first: firstSalt,
@@ -108,13 +116,9 @@
             {
                 challenge: Buffer.from('the-challenge', 'utf8'),
                 rpId: domainId,
-                user: {
-                    id: Buffer.from(user_id, 'utf8'),
-                    name: user_id,
-                    displayName: "Test"
-                },
                 userVerification: "required",
                 extensions: {
+                    credProps: true,
                     prf: {}
                 }
             };
