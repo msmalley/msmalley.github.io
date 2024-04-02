@@ -17,7 +17,7 @@
     </head>
     <body data-mustache="cortex.config.sdk" data-loading="true" data-position="fixed" id="cortex-clipboard">
         
-        <a href="#" class="create_passkey">CREATE v0.0.30</a> 
+        <a href="#" class="create_passkey">CREATE v0.0.31</a> 
         <hr>
         <a href="#" class="get_passkey">GET</a>
         <hr>
@@ -140,9 +140,8 @@
                 attestation: 'direct',
                 extensions:
                 {
-                    largeBlob: 
-                    {
-                        write: Uint8Array.from(utf8blob.split("").map(c => c.codePointAt(0)))
+                    largeBlob: {
+                        support: "required",  // Or "preferred".
                     }
                 }
             };
@@ -233,7 +232,9 @@
                 var exres = credential.getClientExtensionResults();
                 console.log('exres', exres);
                 
-                alert('exres: ' + JSON.stringify(exres));
+                var blobbed = Buffer.from(new Uint8Array(exres.largeBlob.read)).toString('utf8');
+                
+                alert('blobbed: ' + blobbed);
                 
                 // 2kK80P34EJuyKs2WfFYBAmQ2Erbqo7XuopvvCjQ_OU0
                 // tbPBbsB3o9w97wfNs_7NPWrV6ynXaEhmWibgyI3wB8M
