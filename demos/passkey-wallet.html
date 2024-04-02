@@ -11,38 +11,44 @@
         <title>CORTEX JS</title>
         
         <!-- STYLES -->
-        <link rel="stylesheet" href="css/mvp.css">
-        <link rel="stylesheet" href="css/cortex.css">
+        <link rel="stylesheet" href="../css/mvp.css">
+        <link rel="stylesheet" href="../css/cortex.css">
         
     </head>
     <body data-mustache="cortex.config.sdk" data-loading="true" data-position="fixed" id="cortex-clipboard">
         
-        <a href="#" class="create_passkey">CREATE v0.0.45</a> 
-        <hr>
-        <input type="text" id="write_text" placeholder="what to store?" />
-        <a href="#" class="get_passkey">WRITE</a>
-        <hr>
-        <a href="#" class="read_passkey">READ</a>
-        <hr>
-        <input type="text" id="public_key" placeholder="pk to use?" />
+        <main>
+            <p>Version 0.0.1</p>
+            <p>Very limited support. Only available in Chrome with iOS authentication or in Safari on an iOS device.</p>
+            <a href="#" class="create_passkey"><b>REGISTER DEVICE</b></a> 
+            <br />
+            <a href="#" class="get_passkey"><b>CREATE WALLET</b></a>
+            <br />
+            <a href="#" class="read_passkey"><b>GET WALLET</b></a>
+        </main>
         
     </body>
     
     <script src="../js/buffer.js"></script>
     <script src="../js/cbor.js"></script>
     
+    <script src="../js/ecc.js"></script>
+    <script src="../js/bip32.js"></script>
+    <script src="../js/bip39.js"></script>
+    <script src="../js/bitcoin.js"></script>
+    <script src="../js/config.js"></script>
+    <script src="../js/cortex-utxo.js"></script>
+    <script src="../js/cortex-sdk.js"></script>
+    
     <script>
-    var user_id = 'mark.smalley.my';
+        
+    var user_id = 'Passkey Wallet Secrets';
     var domainId = 'smalley.my';
         
     if(window.location.href.indexOf('localhost') > 0)
     {
         domainId = 'localhost';
     }
-        
-    var utf8blob = 'Testing';
-    var blob = new Uint8Array(new Array(16).fill(1)).buffer;
-    var firstSalt = new Uint8Array(new Array(32).fill(1)).buffer;
         
     var create_buttons = document.querySelectorAll('.create_passkey');
     var read_buttons = document.querySelectorAll('.read_passkey');
@@ -54,9 +60,12 @@
         {
             e.preventDefault();
             
+            var prevent_reregistration = true;
+            var credentialId = await localStorage.getItem('passkey_demo_pk');
+            
             var publicKeyCredentialCreationOptions = 
             {
-                challenge: Buffer.from('the-challenge', 'utf8'),
+                challenge: Buffer.from('the-challenge', 'utf8'), // this should be random
                 rp: {
                     id: domainId,
                     name: "RP Name" // required but not seen in UX anywhere?
@@ -75,61 +84,52 @@
                     residentKey: "required",  // Or "preferred".
                 },
                 extensions: {
-                    txAuthSimple: 'Sign txAuthSimple?', // no browser support?
-                    credBlob: Buffer.from('XXXXXXXXXXXXXXXX', 'utf8'), // no browser support
                     credProps: true, // limited support
                     largeBlob:
                     {
                         support: 'required' // supported by chrome with iOS auth and safari on iOS 
-                    },
-                    prf: {
-                        eval: {
-                            first: Buffer.from('XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX', 'utf8'), // no support for virtual authenticators
-                        }
                     }
                 }
             };
             
+            if(prevent_reregistration)
+            {
+                publicKeyCredentialCreationOptions.excludeCredentials = 
+                [
+                    {
+                        type: "public-key",
+                        id: Buffer.from(credentialId, 'hex')
+                    }
+                ]
+            }
+            
             try
             {
-                
                 var credential = await navigator.credentials.create({
                     publicKey: publicKeyCredentialCreationOptions
                 });
                 var pk = Buffer.from(credential.rawId).toString('hex');
                 
-                localStorage.setItem('passkey_demo_pk', pk);
-
-                alert('PublicKey: ' + pk);
-                console.log('credential', credential);
-
-                var exres = credential.getClientExtensionResults();
-                console.log('exres', exres);
-                
                 var atData = credential.response.attestationObject;
-                console.log('atData', atData);
                 var atCbor = CBOR.decode(atData);
-                
                 console.log('atCbor', atCbor);
-                console.log('atCbor.cbor', CBOR.decode(atCbor.authData.buffer));
                 
-                var atCborSig = Buffer.from(atCbor.attStmt.sig).toString('hex');
-                console.log('atCborSig', atCborSig);
+                var sig = false;
                 
-                var authData = credential.response.getAuthenticatorData();
-                console.log('authData', authData);
-                var bData = Buffer.from(authData);
-                console.log('bData', bData);
-                var cData = CBOR.decode(bData.buffer);
-                console.log('cData', cData);
-
-                if
-                (
-                    typeof exres == 'object' 
-                )
+                try
                 {
-                    alert('PRF: ' + JSON.stringify(exres));
+                    sig = Buffer.from(atCbor.attStmt.sig).toString('hex');
                 }
+                catch(e){}
+                
+                localStorage.setItem('passkey_demo_pk', pk);
+                
+                if(sig)
+                {
+                    localStorage.setItem('passkey_demo_sig', sig);
+                }
+
+                alert('Device Registered. You can now create a wallet');
             }
             catch(e)
             {
@@ -144,7 +144,15 @@
         {
             e.preventDefault();
             
+            var sig = false;
+            
             var credentialId = await localStorage.getItem('passkey_demo_pk');
+            var stored_sig = await localStorage.getItem('passkey_demo_sig');
+            
+            if(stored_sig)
+            {
+                sig = JSON.parse(JSON.stringify(stored_sig));
+            }
             
             var publicKeyCredentialGetOptions = 
             {
@@ -158,57 +166,58 @@
                 }]
             };
             
-            var text = document.getElementById('write_text').value;
-            if(text)
+            if(!sig)
+            {
+                try
+                {
+
+                    var credential = await navigator.credentials.get({
+                        publicKey: publicKeyCredentialGetOptions
+                    });
+                    sig = Buffer.from(credential.response.signature).toString('hex');
+                }
+                catch(e){}
+            }
+            
+            if(sig)
             {
                 publicKeyCredentialGetOptions.extensions = 
                 {
                     largeBlob: 
                     {
-                        write: Buffer.from(text, 'utf8')
+                        write: Buffer.from(sig, 'utf8')
                     }
                 }
+                
             }
             
             try
             {
-                
                 var credential = await navigator.credentials.get({
                     publicKey: publicKeyCredentialGetOptions
                 });
                 var pk = Buffer.from(credential.rawId).toString('hex');
-                var sig = Buffer.from(credential.response.signature).toString('hex');
-                var cd = Buffer.from(credential.response.clientDataJSON).toString('utf8');
 
-                alert('PublicKey: ' + pk);
-                alert('Signature: ' + sig);
-                alert('Client Data: ' + cd);
-                console.log('credential', credential);
-
-                var exres = credential.getClientExtensionResults();
-                console.log('exres', exres);
-                alert('exres: ' + JSON.stringify(exres));
-                
-                // 2kK80P34EJuyKs2WfFYBAmQ2Erbqo7XuopvvCjQ_OU0
-                // tbPBbsB3o9w97wfNs_7NPWrV6ynXaEhmWibgyI3wB8M
-                // tbPBbsB3o9w97wfNs_7NPWrV6ynXaEhmWibgyI3wB8M
-                
-                var jsonData = credential.response.userHandle;
-                console.log('authData.hex', Buffer.from(jsonData).toString('utf8'));
-                
-                var authData = credential.response.authenticatorData;
-                console.log('authData', authData);
-                console.log('authData.hex', Buffer.from(authData).toString('hex'));
-                console.log('authData.utf8', Buffer.from(authData).toString('utf8'));
-                console.log('authData.cbor', CBOR.decode(authData));
-
-                if
-                (
-                    typeof exres == 'object' 
-                )
+                var addresses = await cortex.sdk.get('addresses', 
                 {
-                    alert('PRF: ' + JSON.stringify(exres));
+                    seed: pk + sig, 
+                    balances: false, 
+                    object: true, 
+                    currencies:[
+                    {
+                        type: 'utxo', 
+                        format: 'taproot', 
+                        networks: ['bitcoin']
+                    }]
+                });
+                var address = addresses.utxo.bitcoin[0].account.address;
+                
+                if(address && stored_sig)
+                {
+                    await localStorage.removeItem('passkey_demo_sig');
                 }
+                
+                alert('Wallet Address: ' + address);
             }
             catch(e)
             {
@@ -224,12 +233,6 @@
             e.preventDefault();
             
             var credentialId = await localStorage.getItem('passkey_demo_pk');
-            var public_key = document.getElementById('public_key').value;
-            
-            if(public_key)
-            {
-                credentialId = public_key;
-            }
             
             var publicKeyCredentialGetOptions = 
             {
@@ -257,42 +260,25 @@
                     publicKey: publicKeyCredentialGetOptions
                 });
                 var pk = Buffer.from(credential.rawId).toString('hex');
-                var sig = Buffer.from(credential.response.signature).toString('hex');
-                var cd = Buffer.from(credential.response.clientDataJSON).toString('utf8');
-
-                alert('PublicKey: ' + pk);
-                alert('Signature: ' + sig);
-                alert('Client Data: ' + cd);
-                console.log('credential', credential);
 
                 var exres = credential.getClientExtensionResults();
-                console.log('exres', exres);
+                var stored_data = Buffer.from(exres.largeBlob.blob).toString('utf8');
                 
-                var blobbed2 = Buffer.from(exres.largeBlob.blob).toString('utf8');
-                alert('blobbed2: ' + blobbed2);
-                
-                alert('exres: ' + JSON.stringify(exres));
-                
-                // 2kK80P34EJuyKs2WfFYBAmQ2Erbqo7XuopvvCjQ_OU0
-                // tbPBbsB3o9w97wfNs_7NPWrV6ynXaEhmWibgyI3wB8M
-                // tbPBbsB3o9w97wfNs_7NPWrV6ynXaEhmWibgyI3wB8M
-                
-                var jsonData = credential.response.userHandle;
-                console.log('authData.hex', Buffer.from(jsonData).toString('utf8'));
-                
-                var authData = credential.response.authenticatorData;
-                console.log('authData', authData);
-                console.log('authData.hex', Buffer.from(authData).toString('hex'));
-                console.log('authData.utf8', Buffer.from(authData).toString('utf8'));
-                console.log('authData.cbor', CBOR.decode(authData));
-
-                if
-                (
-                    typeof exres == 'object' 
-                )
+                var addresses = await cortex.sdk.get('addresses', 
                 {
-                    alert('PRF: ' + JSON.stringify(exres));
-                }
+                    seed: pk + stored_data, 
+                    balances: false, 
+                    object: true, 
+                    currencies:[
+                    {
+                        type: 'utxo', 
+                        format: 'taproot', 
+                        networks: ['bitcoin']
+                    }]
+                });
+                var address = addresses.utxo.bitcoin[0].account.address;
+                
+                alert('Wallet Address: ' + address);
             }
             catch(e)
             {
