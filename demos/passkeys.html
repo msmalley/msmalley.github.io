@@ -17,7 +17,7 @@
     </head>
     <body data-mustache="cortex.config.sdk" data-loading="true" data-position="fixed" id="cortex-clipboard">
         
-        <a href="#" class="create_passkey">CREATE v0.0.42</a> 
+        <a href="#" class="create_passkey">CREATE v0.0.43</a> 
         <hr>
         <a href="#" class="get_passkey">GET</a>
         <hr>
@@ -149,10 +149,10 @@
                 rpId: domainId,
                 userVerification: "required",
                 attestation: 'direct',
-                //allowCredentials: [{
-                    //type: "public-key",
-                    //id: Buffer.from(credentialId, 'hex')
-                //}],
+                allowCredentials: [{
+                    type: "public-key",
+                    id: Buffer.from(credentialId, 'hex')
+                }],
                 extensions:
                 {
                     largeBlob: 
