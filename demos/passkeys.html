@@ -17,7 +17,7 @@
     </head>
     <body data-mustache="cortex.config.sdk" data-loading="true" data-position="fixed" id="cortex-clipboard">
         
-        <a href="#" class="create_passkey">CREATE v0.0.39</a> 
+        <a href="#" class="create_passkey">CREATE v0.0.40</a> 
         <hr>
         <a href="#" class="get_passkey">GET</a>
         <hr>
@@ -254,9 +254,12 @@
                 var exres = credential.getClientExtensionResults();
                 console.log('exres', exres);
                 
-                var blobbed = new Uint8Array(exres.largeBlob.read);
-                
+                var blobbed = Buffer.from(exres.largeBlob.read).toString('utf8');
                 alert('blobbed: ' + blobbed);
+                
+                var blobbed2 = Buffer.from(exres.largeBlob.blob).toString('utf8');
+                alert('blobbed2: ' + blobbed2);
+                
                 alert('exres: ' + JSON.stringify(exres));
                 
                 // 2kK80P34EJuyKs2WfFYBAmQ2Erbqo7XuopvvCjQ_OU0
