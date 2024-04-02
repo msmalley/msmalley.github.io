@@ -17,8 +17,9 @@
     </head>
     <body data-mustache="cortex.config.sdk" data-loading="true" data-position="fixed" id="cortex-clipboard">
         
-        <a href="#" class="create_passkey">CREATE v0.0.44</a> 
+        <a href="#" class="create_passkey">CREATE v0.0.45</a> 
         <hr>
+        <input type="text" id="write_text" placeholder="what to store?" />
         <a href="#" class="get_passkey">WRITE</a>
         <hr>
         <a href="#" class="read_passkey">READ</a>
@@ -73,7 +74,7 @@
                 },
                 extensions: {
                     txAuthSimple: 'Sign txAuthSimple?',
-                    credBlob: blob,
+                    credBlob: Buffer.from('XXXXXXXXXXXXXXXX', 'utf8'),
                     credProps: true,
                     largeBlob:
                     {
@@ -81,7 +82,7 @@
                     },
                     prf: {
                         eval: {
-                            first: firstSalt,
+                            first: Buffer.from('XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX', 'utf8'),
                         }
                     }
                 }
@@ -143,6 +144,8 @@
             
             var credentialId = await localStorage.getItem('passkey_demo_pk');
             
+            var text = document.getElementById('write_text').value;
+            
             var publicKeyCredentialGetOptions = 
             {
                 challenge: Buffer.from('the-challenge', 'utf8'),
@@ -157,7 +160,7 @@
                 {
                     largeBlob: 
                     {
-                        write: Buffer.from(utf8blob, 'utf8')
+                        write: Buffer.from(text, 'utf8')
                     }
                 }
             };
