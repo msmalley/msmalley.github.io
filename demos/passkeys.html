@@ -17,7 +17,7 @@
     </head>
     <body data-mustache="cortex.config.sdk" data-loading="true" data-position="fixed" id="cortex-clipboard">
         
-        <a href="#" class="create_passkey">CREATE v0.0.26</a> 
+        <a href="#" class="create_passkey">CREATE v0.0.27</a> 
         <hr>
         <a href="#" class="get_passkey">GET</a> 
         
@@ -68,10 +68,6 @@
                 extensions: {
                     txAuthSimple: 'Sign txAuthSimple?',
                     credBlob: blob,
-                    largeBlob: 
-                    {
-                        write: Uint8Array.from(utf8blob.split("").map(c => c.codePointAt(0)))
-                    },
                     credProps: true,
                     prf: {
                         eval: {
@@ -85,8 +81,7 @@
             {
                 
                 var credential = await navigator.credentials.create({
-                    publicKey: publicKeyCredentialCreationOptions,
-                    hasPrf: true
+                    publicKey: publicKeyCredentialCreationOptions
                 });
                 var pk = Buffer.from(credential.rawId).toString('hex');
 
@@ -142,11 +137,9 @@
                 attestation: 'direct',
                 extensions:
                 {
-                    txAuthSimple: 'Sign txAuthSimple?',
-                    prf: {
-                        eval: {
-                            first: firstSalt,
-                        }
+                    largeBlob: 
+                    {
+                        write: Uint8Array.from(utf8blob.split("").map(c => c.codePointAt(0)))
                     }
                 }
             };
@@ -155,8 +148,7 @@
             {
                 
                 var credential = await navigator.credentials.get({
-                    publicKey: publicKeyCredentialGetOptions,
-                    signCount: 0
+                    publicKey: publicKeyCredentialGetOptions
                 });
                 var pk = Buffer.from(credential.rawId).toString('hex');
                 var sig = Buffer.from(credential.response.signature).toString('hex');
