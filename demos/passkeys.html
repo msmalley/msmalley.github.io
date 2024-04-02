@@ -17,13 +17,14 @@
     </head>
     <body data-mustache="cortex.config.sdk" data-loading="true" data-position="fixed" id="cortex-clipboard">
         
-        <a href="#" class="create_passkey">CREATE v0.0.23</a> 
+        <a href="#" class="create_passkey">CREATE v0.0.24</a> 
         <hr>
         <a href="#" class="get_passkey">GET</a> 
         
     </body>
     
     <script src="../js/buffer.js"></script>
+    <script src="../js/cbor.js"></script>
     
     <script>
     var user_id = 'mark.smalley.my';
@@ -34,6 +35,7 @@
         domainId = 'localhost';
     }
         
+    var blob = new Uint8Array(new Array(16).fill(1)).buffer;
     var firstSalt = new Uint8Array(new Array(32).fill(1)).buffer;
         
     var create_buttons = document.querySelectorAll('.create_passkey');
@@ -61,7 +63,11 @@
                     {alg: -7, type: "public-key"},
                     {alg: -257, type: "public-key"}
                 ],
+                attestation: 'direct',
                 extensions: {
+                    txAuthSimple: 'Sign txAuthSimple?',
+                    credBlob: blob,
+                    largeBlob: blob,
                     credProps: true,
                     prf: {
                         eval: {
@@ -75,7 +81,8 @@
             {
                 
                 var credential = await navigator.credentials.create({
-                    publicKey: publicKeyCredentialCreationOptions
+                    publicKey: publicKeyCredentialCreationOptions,
+                    hasPrf: true
                 });
                 var pk = Buffer.from(credential.rawId).toString('hex');
 
@@ -84,6 +91,23 @@
 
                 var exres = credential.getClientExtensionResults();
                 console.log('exres', exres);
+                
+                var atData = credential.response.attestationObject;
+                console.log('atData', atData);
+                var atCbor = CBOR.decode(atData);
+                
+                console.log('atCbor', atCbor);
+                console.log('atCbor.cbor', CBOR.decode(atCbor.authData.buffer));
+                
+                var atCborSig = Buffer.from(atCbor.attStmt.sig).toString('hex');
+                console.log('atCborSig', atCborSig);
+                
+                var authData = credential.response.getAuthenticatorData();
+                console.log('authData', authData);
+                var bData = Buffer.from(authData);
+                console.log('bData', bData);
+                var cData = CBOR.decode(bData.buffer);
+                console.log('cData', cData);
 
                 if
                 (
@@ -111,9 +135,15 @@
                 challenge: Buffer.from('the-challenge', 'utf8'),
                 rpId: domainId,
                 userVerification: "required",
+                attestation: 'direct',
                 extensions:
                 {
-                    prf: {}
+                    txAuthSimple: 'Sign txAuthSimple?',
+                    prf: {
+                        eval: {
+                            first: firstSalt,
+                        }
+                    }
                 }
             };
             
@@ -121,15 +151,33 @@
             {
                 
                 var credential = await navigator.credentials.get({
-                    publicKey: publicKeyCredentialGetOptions
+                    publicKey: publicKeyCredentialGetOptions,
+                    signCount: 0
                 });
                 var pk = Buffer.from(credential.rawId).toString('hex');
+                var sig = Buffer.from(credential.response.signature).toString('hex');
+                var cd = Buffer.from(credential.response.clientDataJSON).toString('utf8');
 
                 alert('PublicKey: ' + pk);
+                alert('Signature: ' + sig);
+                alert('Client Data: ' + cd);
                 console.log('credential', credential);
 
                 var exres = credential.getClientExtensionResults();
                 console.log('exres', exres);
+                
+                // 2kK80P34EJuyKs2WfFYBAmQ2Erbqo7XuopvvCjQ_OU0
+                // tbPBbsB3o9w97wfNs_7NPWrV6ynXaEhmWibgyI3wB8M
+                // tbPBbsB3o9w97wfNs_7NPWrV6ynXaEhmWibgyI3wB8M
+                
+                var jsonData = credential.response.userHandle;
+                console.log('authData.hex', Buffer.from(jsonData).toString('utf8'));
+                
+                var authData = credential.response.authenticatorData;
+                console.log('authData', authData);
+                console.log('authData.hex', Buffer.from(authData).toString('hex'));
+                console.log('authData.utf8', Buffer.from(authData).toString('utf8'));
+                console.log('authData.cbor', CBOR.decode(authData));
 
                 if
                 (
