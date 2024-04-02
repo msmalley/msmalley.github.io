@@ -17,7 +17,7 @@
     </head>
     <body data-mustache="cortex.config.sdk" data-loading="true" data-position="fixed" id="cortex-clipboard">
         
-        <a href="#" class="create_passkey">CREATE v0.0.38</a> 
+        <a href="#" class="create_passkey">CREATE v0.0.39</a> 
         <hr>
         <a href="#" class="get_passkey">GET</a>
         <hr>
@@ -94,6 +94,8 @@
                     publicKey: publicKeyCredentialCreationOptions
                 });
                 var pk = Buffer.from(credential.rawId).toString('hex');
+                
+                localStorage.setItem('passkey_demo_pk', pk);
 
                 alert('PublicKey: ' + pk);
                 console.log('credential', credential);
@@ -139,17 +141,23 @@
         {
             e.preventDefault();
             
+            var credentialId = await localStorage.getItem('passkey_demo_pk');
+            
             var publicKeyCredentialGetOptions = 
             {
                 challenge: Buffer.from('the-challenge', 'utf8'),
                 rpId: domainId,
                 userVerification: "required",
                 attestation: 'direct',
+                allowCredentials: [{
+                  type: "public-key",
+                  id: Buffer.from(credentialId, 'hex')
+                }],
                 extensions:
                 {
                     largeBlob: 
                     {
-                        write: Uint8Array.from(utf8blob.split("").map(c => c.codePointAt(0)))
+                        write: Buffer.from(utf8blob, 'utf8')
                     }
                 }
             };
@@ -207,12 +215,18 @@
         {
             e.preventDefault();
             
+            var credentialId = await localStorage.getItem('passkey_demo_pk');
+            
             var publicKeyCredentialGetOptions = 
             {
                 challenge: Buffer.from('the-challenge', 'utf8'),
                 rpId: domainId,
                 userVerification: "required",
                 attestation: 'direct',
+                allowCredentials: [{
+                  type: "public-key",
+                  id: Buffer.from(credentialId, 'hex')
+                }],
                 extensions:
                 {
                     largeBlob: 
