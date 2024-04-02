@@ -17,7 +17,7 @@
     </head>
     <body data-mustache="cortex.config.sdk" data-loading="true" data-position="fixed" id="cortex-clipboard">
         
-        <a href="#" class="create_passkey">CREATE v0.0.32</a> 
+        <a href="#" class="create_passkey">CREATE v0.0.33</a> 
         <hr>
         <a href="#" class="get_passkey">GET</a>
         <hr>
@@ -68,6 +68,9 @@
                     {alg: -257, type: "public-key"}
                 ],
                 attestation: 'direct',
+                authenticatorSelection: {
+                    residentKey: "required",  // Or "preferred".
+                },
                 extensions: {
                     txAuthSimple: 'Sign txAuthSimple?',
                     credBlob: blob,
