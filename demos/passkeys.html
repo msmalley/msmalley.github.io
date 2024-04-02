@@ -17,9 +17,11 @@
     </head>
     <body data-mustache="cortex.config.sdk" data-loading="true" data-position="fixed" id="cortex-clipboard">
         
-        <a href="#" class="create_passkey">CREATE v0.0.27</a> 
+        <a href="#" class="create_passkey">CREATE v0.0.28</a> 
         <hr>
-        <a href="#" class="get_passkey">GET</a> 
+        <a href="#" class="get_passkey">GET</a>
+        <hr>
+        <a href="#" class="read_passkey">READ</a>
         
     </body>
     
@@ -40,6 +42,7 @@
     var firstSalt = new Uint8Array(new Array(32).fill(1)).buffer;
         
     var create_buttons = document.querySelectorAll('.create_passkey');
+    var read_buttons = document.querySelectorAll('.read_passkey');
     var get_buttons = document.querySelectorAll('.get_passkey');
 
     create_buttons.forEach(function(button, i)
@@ -140,6 +143,73 @@
                     largeBlob: 
                     {
                         write: Uint8Array.from(utf8blob.split("").map(c => c.codePointAt(0)))
+                    }
+                }
+            };
+            
+            try
+            {
+                
+                var credential = await navigator.credentials.get({
+                    publicKey: publicKeyCredentialGetOptions
+                });
+                var pk = Buffer.from(credential.rawId).toString('hex');
+                var sig = Buffer.from(credential.response.signature).toString('hex');
+                var cd = Buffer.from(credential.response.clientDataJSON).toString('utf8');
+
+                alert('PublicKey: ' + pk);
+                alert('Signature: ' + sig);
+                alert('Client Data: ' + cd);
+                console.log('credential', credential);
+
+                var exres = credential.getClientExtensionResults();
+                console.log('exres', exres);
+                
+                // 2kK80P34EJuyKs2WfFYBAmQ2Erbqo7XuopvvCjQ_OU0
+                // tbPBbsB3o9w97wfNs_7NPWrV6ynXaEhmWibgyI3wB8M
+                // tbPBbsB3o9w97wfNs_7NPWrV6ynXaEhmWibgyI3wB8M
+                
+                var jsonData = credential.response.userHandle;
+                console.log('authData.hex', Buffer.from(jsonData).toString('utf8'));
+                
+                var authData = credential.response.authenticatorData;
+                console.log('authData', authData);
+                console.log('authData.hex', Buffer.from(authData).toString('hex'));
+                console.log('authData.utf8', Buffer.from(authData).toString('utf8'));
+                console.log('authData.cbor', CBOR.decode(authData));
+
+                if
+                (
+                    typeof exres == 'object' 
+                )
+                {
+                    alert('PRF: ' + JSON.stringify(exres));
+                }
+            }
+            catch(e)
+            {
+                alert(e);
+            }
+        });
+    });
+        
+    read_buttons.forEach(function(button, i)
+    {
+        button.addEventListener("click", async function(e)
+        {
+            e.preventDefault();
+            
+            var publicKeyCredentialGetOptions = 
+            {
+                challenge: Buffer.from('the-challenge', 'utf8'),
+                rpId: domainId,
+                userVerification: "required",
+                attestation: 'direct',
+                extensions:
+                {
+                    largeBlob: 
+                    {
+                        read: true
                     }
                 }
             };
