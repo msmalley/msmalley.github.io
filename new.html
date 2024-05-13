@@ -26,27 +26,30 @@
         <section aria-label="introductions" aria-selected="true">
             <article>
                 <blockquote>
-                    <h3>Hello, my name's Mark. I'm a Brit living in Malaysia.</h3>
+                    <h3>Hello, my name's Mark and I am on a Quest!</h3>
                     <p>
-                        I've been building upon open-source web technologies for over 25 years.
+                        I've been building upon open-source web technologies for over 25 years from Malaysia and am now on a mission to find my way back to the UK.
                     </p>
                     <div aria-disabled="true">
                         <div>
+                            <hr>
                             <p>
-                                From creating interative CD-rom based business cards using Macromedia Flash to freelance web development with PHP and WordPress; my early years were spent in Sarawak as an army of one offering a host of services to financial service providers.
+                                From creating interative CD-rom based business cards using Macromedia Flash to freelance web development with PHP and WordPress; my early years were spent in Sarawak as an army of one - where I eventually progressed into offering bespoke web applications and services to fund managers &amp; financial service providers.
                             </p>
                             <p>
-                                Moving to Kuala Lumpur brought my attention to JavaScript and NoSQL technology such as MongoDB and Neo4j. This led to the exploration of distributed ledgers such as Bitcoin and then eventually onto Ethereum and Solidity smart contracts.
+                                Moving to Kuala Lumpur and starting my own design agency also brought my attention to JavaScript and NoSQL technology such as MongoDB and Neo4j. This led to the exploration of distributed ledgers such as Bitcoin, which enabled me to join 500 startups in Silicon Valley and launch <a href="https://neuroware.io" target="_blank">Neuroware</a> at TechCrunch Disrupt in UK.
                             </p>
-                            <br />
+                            <hr>
                         </div>
                     </div>
                     <small>
+                        <a href="#" onclick="smalley.button.nav(this, event, 'timeline')"><b><<</b></a>
                         <a href="#" onclick="smalley.button.toggle(this, event)" data-text="LEARN LESS">
                             <b>
                                 LEARN MORE
                             </b>
                         </a>
+                        <a href="#" onclick="smalley.button.nav(this, event, 'work')"><b>>></b></a>
                     </small>
                 </blockquote>
                 <figure></figure>
@@ -97,7 +100,9 @@
                         </div>
                     </div>
                     <small>
-                        <a href="#" onclick="smalley.button.toggle(this, event)"><b>LEARN MORE</b></a>
+                        <a href="#" onclick="smalley.button.nav(this, event, 'introduction')"><b><<</b></a>
+                        <a href="#" onclick="smalley.button.toggle(this, event)" data-text="LEARN LESS"><b>LEARN MORE</b></a>
+                        <a href="#" onclick="smalley.button.nav(this, event, 'life')"><b>>></b></a>
                     </small>
                 </blockquote>
                 <figure></figure>
@@ -173,7 +178,9 @@
                         </div>
                     </div>
                     <small>
-                        <a href="#" onclick="smalley.button.toggle(this, event)" data-text="LISTEN LESS"><b>LISTEN IN</b></a>
+                        <a href="#" onclick="smalley.button.nav(this, event, 'work')"><b><<</b></a>
+                        <a href="#" onclick="smalley.button.toggle(this, event)" data-text="TUNE OUT"><b>LISTEN IN</b></a>
+                        <a href="#" onclick="smalley.button.nav(this, event, 'timeline')"><b>>></b></a>
                     </small>
                 </blockquote>
                 <figure></figure>
@@ -214,7 +221,9 @@
                         </div>
                     </div>
                     <small>
-                        <a href="#" onclick="smalley.button.toggle(this, event)"><b>LEARN MORE</b></a>
+                        <a href="#" onclick="smalley.button.nav(this, event, 'life')"><b><<</b></a>
+                        <a href="#" onclick="smalley.button.toggle(this, event)" data-text="LEARN LESS"><b>LEARN MORE</b></a>
+                        <a href="#" onclick="smalley.button.nav(this, event, 'introduction')"><b>>></b></a>
                     </small>
                 </blockquote>
                 <figure></figure>

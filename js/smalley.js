@@ -34,6 +34,12 @@ var smalley =
         {
             e.preventDefault();
             var value = 'false';
+            var original = el.innerText;
+            console.log('old text', original);
+            var text = el.getAttribute('data-text');
+            console.log('new text', text);
+            el.setAttribute('data-text', original);
+            el.querySelector('b').innerText = text;
             var node = el.parentNode.parentNode;
             var wrappers = node.querySelectorAll('div[aria-disabled="true"]');
             if(wrappers.length < 1)
@@ -47,6 +53,15 @@ var smalley =
                 {
                     div.setAttribute('aria-disabled', value);
                 })
+            }
+        },
+        nav: function(el, e, hash)
+        {
+            e.preventDefault();
+            var nav = document.querySelectorAll('a[href="#' + hash + '"]')[0];
+            if(typeof nav == 'object' && typeof nav.click == 'function')
+            {
+                nav.click();
             }
         }
     },
@@ -83,6 +98,7 @@ var smalley =
             setTimeout(function()
             {
                 bubble.innerHTML = html;
+                window.scrollTo(0, 0);
                 
                 // Move hero / scene ...
                 smalley.hero.walk(hero_direction);
@@ -198,7 +214,8 @@ var smalley =
         {
             var nav = document.querySelectorAll('nav');
             var body = document.querySelectorAll('body')[0];
-            var navs = nav[0].querySelectorAll('a');
+            
+            var onavs = nav[0].querySelectorAll('a');
             
             var wrapper = document.querySelectorAll('section[aria-selected="true"]')[0];
             var bubble = wrapper.querySelectorAll('blockquote')[0];
@@ -209,48 +226,59 @@ var smalley =
             
             var current_index = 0;
             
-            navs.forEach(function(button, i)
+            nav.forEach(function(tnav, x)
             {
-                button.addEventListener("click", async function(e)
+                var navs = tnav.querySelectorAll('a');
+                navs.forEach(function(button, i)
                 {
-                    navs.forEach(function(b, eye)
+                    button.addEventListener("click", async function(e)
                     {
-                        if(b.getAttribute('aria-selected') == 'true')
+                        onavs.forEach(function(b, eye)
                         {
-                            current_index = eye;
-                        }
-                        b.setAttribute("aria-selected", "false");
-                    });
-                    
-                    e.preventDefault();
-                    
-                    var direction = 'right';
-                    
-                    if(current_index != i)
-                    {
-                        if(i < current_index)
-                        {
-                            direction = 'left';
-                        }
-                        
-                        var hash = button.hash.split('#')[1];
-                        var section = document.querySelectorAll('section[aria-label="' + hash + '"]')[0];
-                        var quote = section.querySelectorAll('blockquote')[0].innerHTML;
-                        var footer = section.querySelectorAll('footer')[0].innerHTML;
+                            if(b.getAttribute('aria-selected') == 'true')
+                            {
+                                current_index = eye;
+                            }
+                            b.setAttribute("aria-selected", "false");
+                        });
 
-                        button.setAttribute("aria-selected", "true");
-                        
-                        wrapper.querySelectorAll('footer')[0].classList.add('hide');
-                        
-                        smalley.hero.speech(quote, direction, footer);
-                        
-                        setTimeout(function()
-                        {
-                            body.setAttribute("role", hash);
-                            wrapper.querySelectorAll('footer')[0].classList.remove('hide');
+                        e.preventDefault();
+
+                        var direction = 'right';
+
+                        if(current_index != i)
+                        {   
+                            if(i < current_index)
+                            {
+                                direction = 'left';
+                            }
+
+                            var hash = button.hash.split('#')[1];
+                            var section = document.querySelectorAll('section[aria-label="' + hash + '"]')[0];
+                            var quote = section.querySelectorAll('blockquote')[0].innerHTML;
+                            var footer = section.querySelectorAll('footer')[0].innerHTML;
+
+                            //button.setAttribute("aria-selected", "true");
                             
-                        }, 600);
-                    }
+                            onavs.forEach(function(b, eye)
+                            {
+                                if(b.getAttribute('href') == '#' + hash)
+                                {
+                                    b.setAttribute("aria-selected", "true");
+                                }
+                            });
+
+                            wrapper.querySelectorAll('footer')[0].classList.add('hide');
+
+                            smalley.hero.speech(quote, direction, footer);
+                            
+                            setTimeout(function()
+                            {
+                                body.setAttribute("role", hash);
+                                wrapper.querySelectorAll('footer')[0].classList.remove('hide');
+                            }, 600);
+                        }
+                    });
                 });
             });
         },

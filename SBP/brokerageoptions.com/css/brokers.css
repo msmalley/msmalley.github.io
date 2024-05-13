@@ -1,0 +1,121 @@
+/*
+
+PRIMARY STYLES
+
+*/
+
+:root 
+{   
+    --sections: 10rem;
+    --padded: 3rem;
+    --header: 55px;
+    --border-radius: 5px;
+    --box-shadow: 1px 2px 3px #393E46;
+    
+    --color-bg: #EEEEEE;
+    --color-bg-dark: #222831;
+    --color-text-dark: #EEEEEE;
+    --color-bg-light: #FFFFFF;
+    --color-bg-light-border: #DDDDDD;
+    --color-shadow: #393E46;
+    --color-primary: #00ADB5;
+    --color-primary-light: #A6E3E9;
+    --color-primary-dark: #106b73;
+}
+
+/*
+
+RESETS
+
+*/
+
+html, body,
+html body
+{
+    background: var(--color-bg);
+}
+
+/*
+
+BOOTSTRAP MODS
+
+*/
+
+html body 
+{
+    padding-top: var(--header);
+}
+html body alert.alert
+{
+    display: block;
+    text-align: center;
+    padding: var(--padded) calc(var(--padded) / 2);
+}
+html body alert.alert-primary
+{
+    background: var(--color-primary-light);
+    border-color: var(--color-primary);
+}
+html body alert.alert-secondary
+{
+    background: var(--color-bg-light);
+    border-color: var(--color-bg-light-border);
+    box-shadow: var(--box-shadow);
+}
+html body .btn.btn-primary
+{
+    background: var(--color-primary);
+    border-color: var(--color-primary-dark);
+}
+html body .btn.btn-primary:hover,
+html body .btn.btn-primary:active
+{
+    background: var(--color-primary-dark);
+}
+html body .btn.btn-secondary
+{
+    background: var(--color-shadow);
+    border-color: var(--color-bg-dark);
+}
+html body .btn.btn-secondary:hover,
+html body .btn.btn-secondary:active
+{
+    background: var(--color-bg-dark);
+}
+
+html body .navbar[data-bs-theme="dark"] .navbar-brand
+{
+    color: var(--color-primary-light);
+}
+html body .navbar[data-bs-theme="dark"] .navbar-brand b
+{
+    color: var(--color-bg-light);
+}
+html body .navbar[data-bs-theme="dark"]
+{
+    background: var(--color-primary) !important;
+}
+
+/*
+
+SECTIONS
+
+*/
+
+section
+{
+    display: block;
+    position: relative;
+    padding: var(--sections) 0;
+}
+
+section.dark
+{
+    background: var(--color-bg-dark);
+    color: var(--color-text-dark);
+}
+
+section.footer
+{
+    padding: calc(var(--padded) / 4) 0;
+}

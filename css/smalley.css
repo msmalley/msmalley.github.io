@@ -300,6 +300,37 @@ article blockquote:before
     z-index: 7;
 }
 
+article blockquote hr
+{
+    margin: 1rem 0 2rem;
+}
+
+article blockquote nav
+{
+    position: relative;
+    width: 100%;
+    opacity: 1;
+    height: auto;
+    margin: 0 0 2rem;
+    padding: 0;
+}
+article blockquote nav:before,
+article blockquote nav:after
+{
+    display: none;
+}
+article blockquote nav a,
+article blockquote nav a:hover
+{
+    background: transparent !important;
+    border: transparent !important;
+    padding: 0.3rem 0.6rem;
+    margin: 0.4rem;
+}
+article blockquote nav a b
+{
+    
+}
 /*
 
 FOOTER
