@@ -10,17 +10,30 @@ PRIMARY STYLES
     --padded: 3rem;
     --header: 55px;
     --border-radius: 5px;
-    --box-shadow: 1px 2px 3px #393E46;
+    --box-shadow: 1px 1px 5px #555555;
     
-    --color-bg: #EEEEEE;
+    --color-bg: #EAEAEA;
     --color-bg-dark: #222831;
     --color-text-dark: #EEEEEE;
     --color-bg-light: #FFFFFF;
     --color-bg-light-border: #DDDDDD;
     --color-shadow: #393E46;
+    
     --color-primary: #00ADB5;
     --color-primary-light: #A6E3E9;
     --color-primary-dark: #106b73;
+    
+    --color-primary: #42ACBD;
+    --color-secondary: #BD42AC;
+    --color-tri: #ACBD42;
+    
+    --color-primary-light: #ADDBE2;
+    --color-secondary-light: #E2ADDB;
+    --color-tri-light: #DBE2AD;
+    
+    --color-primary-dark: #317F8C;
+    --color-secondary-dark: #8C317F;
+    --color-tri-dark: #7F8C31;
 }
 
 /*
@@ -49,18 +62,43 @@ html body alert.alert
 {
     display: block;
     text-align: center;
+    border-style: double;
+    border-width: 3px;
     padding: var(--padded) calc(var(--padded) / 2);
 }
 html body alert.alert-primary
 {
     background: var(--color-primary-light);
     border-color: var(--color-primary);
+    box-shadow: var(--box-shadow);
 }
 html body alert.alert-secondary
 {
     background: var(--color-bg-light);
     border-color: var(--color-bg-light-border);
     box-shadow: var(--box-shadow);
+}
+html body alert.alert-success
+{
+    background: var(--color-tri-light);
+    border-color: var(--color-tri);
+    box-shadow: var(--box-shadow);
+}
+html body alert.alert-danger
+{
+    background: var(--color-secondary-light);
+    border-color: var(--color-secondary);
+    box-shadow: var(--box-shadow);
+}
+html body .btn.btn-block
+{
+    display: block;
+    text-align: center;
+}
+html body .btn
+{
+    border-style: double;
+    border-width: 3px
 }
 html body .btn.btn-primary
 {
@@ -71,29 +109,61 @@ html body .btn.btn-primary:hover,
 html body .btn.btn-primary:active
 {
     background: var(--color-primary-dark);
+    border-color: var(--color-primary);
 }
 html body .btn.btn-secondary
 {
-    background: var(--color-shadow);
-    border-color: var(--color-bg-dark);
+    background: var(--color-secondary);
+    border-color: var(--color-secondary-dark);
 }
 html body .btn.btn-secondary:hover,
 html body .btn.btn-secondary:active
 {
-    background: var(--color-bg-dark);
+    background: var(--color-secondary-dark);
+    border-color: var(--color-secondary);
+}
+html body .btn.btn-triadic
+{
+    background: var(--color-tri);
+    border-color: var(--color-tri-dark);
+}
+html body .btn.btn-triadic:hover,
+html body .btn.btn-triadic:active
+{
+    background: var(--color-tri-dark);
+    border-color: var(--color-tri);
 }
 
 html body .navbar[data-bs-theme="dark"] .navbar-brand
 {
-    color: var(--color-primary-light);
+    color: var(--color-bg-light);
 }
 html body .navbar[data-bs-theme="dark"] .navbar-brand b
 {
-    color: var(--color-bg-light);
+    color: var(--color-secondary);
 }
 html body .navbar[data-bs-theme="dark"]
 {
     background: var(--color-primary) !important;
+}
+
+html body .card
+{
+    border-style: double;
+    border-width: 3px;
+    box-shadow: var(--box-shadow);
+}
+
+html body .card .card-body
+{
+    padding: calc(var(--padded) / 2);
+}
+
+html body .card .card-header
+{
+    padding: calc(var(--padded) / 2);
+    background: var(--color-primary-light);
+    font-weight: bold;
 }
 
 /*
@@ -107,6 +177,9 @@ section
     display: block;
     position: relative;
     padding: var(--sections) 0;
+    border-top: 3px double var(--color-primary);
+    border-bottom: 3px double var(--color-tri);
+    margin-top: 1px;
 }
 
 section.dark
@@ -118,4 +191,5 @@ section.dark
 section.footer
 {
     padding: calc(var(--padded) / 4) 0;
+    border-bottom: none;
 }

@@ -20,7 +20,7 @@
         
         <!-- STYLES -->
         <link rel="stylesheet" href="css/bootstrap.min.css">
-        <link rel="stylesheet" href="css/brokers.css?v=0.0.0.1">
+        <link rel="stylesheet" href="css/brokers.css?v=0.0.0.2">
         
     </head>
     <body>
@@ -46,11 +46,12 @@
         <section class="dark">
             <div class="container">
                 <alert class="alert alert-primary">
-                    <strong>This is a <code>PRIMARY</code> alert used to showcase custom bootstrap styles that are available!</strong>
+                    <strong>This is a <code>PRIMARY</code> alert used to showcase custom bootstrap styles available!</strong>
                 </alert>
                 <alert class="alert">
                     <a href="#" class="btn btn-primary">PRIMARY</a> 
-                    <a href="#" class="btn btn-secondary">SECONDARY</a>
+                    <a href="#" class="btn btn-secondary">SECONDARY</a> 
+                    <a href="#" class="btn btn-triadic">TRIADIC</a>
                 </alert>
             </div>
         </section>
@@ -58,10 +59,69 @@
         <section>
             <div class="container">
                 <alert class="alert alert-secondary">
-                    <strong>This is a <code>SECONDARY</code> alert used to showcase custom bootstrap styles that are available!</strong>
+                    <strong>This is a <code>SECONDARY</code> alert used to showcase custom bootstrap styles available!</strong>
                     <hr>
                     <a href="#" class="btn btn-primary">PRIMARY</a> 
-                    <a href="#" class="btn btn-secondary">SECONDARY</a>
+                    <a href="#" class="btn btn-secondary">SECONDARY</a> 
+                    <a href="#" class="btn btn-triadic">TRIADIC</a>
+                </alert>
+                
+                <alert class="alert alert-success">
+                    <strong>This is a <code>SUCCESS</code> alert used to showcase custom bootstrap styles available!</strong>
+                    <hr>
+                    <a href="#" class="btn btn-primary">PRIMARY</a> 
+                    <a href="#" class="btn btn-secondary">SECONDARY</a> 
+                    <a href="#" class="btn btn-triadic">TRIADIC</a>
+                </alert>
+                
+                <alert class="alert alert-danger">
+                    <strong>This is a <code>DANGER</code> alert used to showcase custom bootstrap styles available!</strong>
+                    <hr>
+                    <a href="#" class="btn btn-primary">PRIMARY</a> 
+                    <a href="#" class="btn btn-secondary">SECONDARY</a> 
+                    <a href="#" class="btn btn-triadic">TRIADIC</a>
+                </alert>
+                
+                <alert class="alert">
+                    <strong>These are <code>CARDS</code> to showcase custom bootstrap styles available!</strong>
+                    
+                    <hr>
+                    
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="card">
+                                <div class="card-header">Card Header</div>
+                                <div class="card-body">
+                                    <p>This is the card body!</p>
+                                    <p>Outline button below activates modal</p>
+                                    <hr>
+                                    <a href="#" class="btn btn-outline-dark btn-block" data-bs-toggle="modal" data-bs-target="#modal-example">MODAL</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="card">
+                                <div class="card-header">Card Header</div>
+                                <div class="card-body">
+                                    <p>This is the card body!</p>
+                                    <p>Outline button below activates offcanvas</p>
+                                    <hr>
+                                    <a href="#" class="btn btn-outline-dark btn-block" data-bs-toggle="offcanvas" data-bs-target="#offcanvas-example">OFFCANVAS</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="card">
+                                <div class="card-header">Card Header</div>
+                                <div class="card-body">
+                                    <p>This is the card body!</p>
+                                    <p>Outline button below activates toast</p>
+                                    <hr>
+                                    <a href="#" class="btn btn-outline-dark btn-block" id="btn-toast-example">TOASTS</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </alert>
             </div>
         </section>
@@ -74,7 +134,61 @@
             </div>
         </section>
         
+        <!-- Toast -->
+        <div class="toast-container position-fixed bottom-0 end-0 p-3">
+            <div id="toast-example" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+                <div class="toast-header">
+                    <img src="..." class="rounded me-2" alt="...">
+                    <strong class="me-auto">Bootstrap</strong>
+                    <small>11 mins ago</small>
+                    <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+                </div>
+                <div class="toast-body">
+                    Hello, world! This is a toast message.
+                </div>
+            </div>
+        </div>
+        
+        <!-- Offcanvas -->
+        <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvas-example">
+            <div class="offcanvas-header">
+                <h5 class="offcanvas-title" id="offcanvasExampleLabel">Offcanvas</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+            </div>
+            <div class="offcanvas-body">
+                <p>
+                    Some text as placeholder. In real life you can have the elements you have chosen. Like, text, images, lists, etc.
+                </p>
+                <div class="dropdown mt-3">
+                    <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown">
+                        Dropdown button
+                    </button>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="#">Action</a></li>
+                        <li><a class="dropdown-item" href="#">Another action</a></li>
+                        <li><a class="dropdown-item" href="#">Something else here</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Modal -->
+        <div class="modal fade" id="modal-example" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        And then?
+                    </div>
+                </div>
+            </div>
+        </div>
+        
         <script src="js/bootstrap.bundle.min.js"></script>
+        <script src="js/brokers.js"></script>
         
     </body>
 </html>
