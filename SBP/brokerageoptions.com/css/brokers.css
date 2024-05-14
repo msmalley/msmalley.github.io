@@ -223,14 +223,17 @@ html body .modal .modal-content
     border-width: 3px;
     box-shadow: var(--box-shadow);
 }
+html body .offcanvas-backdrop,
 html body .modal-backdrop
 {
     background-color: var(--color-bg);
 }
+html body .offcanvas-backdrop.show,
 html body .modal-backdrop.show
 {
     opacity: 0.85;
 }
+html body .offcanvas .offcanvas-header,
 html body .modal .modal-header
 {
     color: var(--color-bg-light);
@@ -281,5 +284,9 @@ RESPONSIVE
     {
         flex-direction: column-reverse;
         text-align: center;
+    }
+    html body .offcanvas.offcanvas-start
+    {
+        width: 100%;
     }
 }
