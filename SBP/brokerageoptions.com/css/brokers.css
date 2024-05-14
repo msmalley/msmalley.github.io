@@ -165,7 +165,7 @@ html body .btn.btn-outline-dark
 html body .btn.btn-outline-dark
 {
     background: var(--color-bg);
-    color: var(--color-secondary);
+    color: var(--color-primary-dark);
 }
 html body .btn.btn-outline-dark:hover
 {
@@ -178,17 +178,29 @@ NAVBAR
 
 */
 
+html body .navbar[data-bs-theme="dark"] .navbar-brand i
+{
+    position: relative;
+    top: 2px;
+}
+html body .navbar[data-bs-theme="dark"] .navbar-brand .fa-regular,
+html body .navbar[data-bs-theme="dark"] .navbar-brand .fa-solid
+{
+    color: var(--color-primary-light);
+}
 html body .navbar[data-bs-theme="dark"] .navbar-brand
 {
     color: var(--color-bg-light);
+    color: var(--color-tri-light);
 }
 html body .navbar[data-bs-theme="dark"] .navbar-brand b
 {
     color: var(--color-tri-light);
+    color: var(--color-bg-light);
 }
 html body .navbar[data-bs-theme="dark"]
 {
-    background: var(--color-primary) !important;
+    background: var(--color-primary-dark) !important;
 }
 html body .navbar-expand-lg .navbar-nav
 {
@@ -204,7 +216,7 @@ html body .navbar-expand-lg .navbar-nav .nav-link.active:hover,
 html body .navbar-expand-lg .navbar-nav .nav-link.show,
 html body .navbar-expand-lg .navbar-nav .nav-link.show:hover
 {
-    color: var(--color-secondary);
+    color: var(--color-bg-light);
     font-weight: bold;
 }
 html body .navbar-expand-lg .navbar-nav .nav-link:hover
