@@ -20,7 +20,7 @@
         
         <!-- STYLES -->
         <link rel="stylesheet" href="css/bootstrap.min.css">
-        <link rel="stylesheet" href="css/brokers.css?v=0.0.0.2">
+        <link rel="stylesheet" href="css/brokers.css?v=0.0.0.3">
         
     </head>
     <body>
@@ -28,18 +28,18 @@
         <nav class="navbar fixed-top navbar-expand-lg bg-body-tertiary" data-bs-theme="dark">
             <div class="container">
                 <a class="navbar-brand">brokerage<b>options</b></a>
-                <span>
-                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navigation" aria-expanded="false" aria-label="Toggle Navigation">
-                        <span class="navbar-toggler-icon"></span>
-                    </button>
-                    <div class="collapse navbar-collapse" id="navigation">
-                        <div class="navbar-nav">
-                            <a class="nav-link active" aria-current="page" href="#">Home</a>
-                            <a class="nav-link" href="#">Brokers</a>
-                            <a class="nav-link" href="#">Tools</a>
-                        </div>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navigation" aria-controls="navigation" aria-expanded="false" aria-label="Toggle Navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navigation">
+                    <div class="navbar-nav">
+                        
+                        <a class="nav-link" href="#">Tools</a>
+                        <a class="nav-link" href="#">Brokers</a>
+                        <a class="nav-link active" aria-current="page" href="#">Home</a>
+                        
                     </div>
-                </span>
+                </div>
             </div>
         </nav>
         
@@ -98,17 +98,19 @@
                                     <a href="#" class="btn btn-outline-dark btn-block" data-bs-toggle="modal" data-bs-target="#modal-example">MODAL</a>
                                 </div>
                             </div>
+                            <p>&nbsp;</p>
                         </div>
                         <div class="col-md-4">
                             <div class="card">
                                 <div class="card-header">Card Header</div>
                                 <div class="card-body">
                                     <p>This is the card body!</p>
-                                    <p>Outline button below activates offcanvas</p>
+                                    <p>Outline button below activates canvas</p>
                                     <hr>
                                     <a href="#" class="btn btn-outline-dark btn-block" data-bs-toggle="offcanvas" data-bs-target="#offcanvas-example">OFFCANVAS</a>
                                 </div>
                             </div>
+                            <p>&nbsp;</p>
                         </div>
                         <div class="col-md-4">
                             <div class="card">
@@ -117,9 +119,10 @@
                                     <p>This is the card body!</p>
                                     <p>Outline button below activates toast</p>
                                     <hr>
-                                    <a href="#" class="btn btn-outline-dark btn-block" id="btn-toast-example">TOASTS</a>
+                                    <a href="" class="btn btn-outline-dark btn-block" id="btn-toast-example" data-text="TOAST">TOAST</a>
                                 </div>
                             </div>
+                            <p>&nbsp;</p>
                         </div>
                     </div>
                 </alert>

@@ -66,6 +66,23 @@ html body alert.alert
     border-width: 3px;
     padding: var(--padded) calc(var(--padded) / 2);
 }
+html body .btn
+{
+    border-style: double;
+    border-width: 3px
+}
+html body .btn.btn-block
+{
+    display: block;
+    text-align: center;
+}
+
+/*
+
+ALERTS
+
+*/
+
 html body alert.alert-primary
 {
     background: var(--color-primary-light);
@@ -90,16 +107,13 @@ html body alert.alert-danger
     border-color: var(--color-secondary);
     box-shadow: var(--box-shadow);
 }
-html body .btn.btn-block
-{
-    display: block;
-    text-align: center;
-}
-html body .btn
-{
-    border-style: double;
-    border-width: 3px
-}
+
+/*
+
+BUTTONS
+
+*/
+
 html body .btn.btn-primary
 {
     background: var(--color-primary);
@@ -133,6 +147,26 @@ html body .btn.btn-triadic:active
     background: var(--color-tri-dark);
     border-color: var(--color-tri);
 }
+html body .btn.btn-outline-dark
+{
+    position: relative;
+    color: transparent;
+}
+html body .btn.btn-outline-dark
+{
+    background: var(--color-bg);
+    color: var(--color-secondary);
+}
+html body .btn.btn-outline-dark:hover
+{
+    background: var(--color-bg-light);
+}
+
+/*
+
+NAVBAR
+
+*/
 
 html body .navbar[data-bs-theme="dark"] .navbar-brand
 {
@@ -146,6 +180,17 @@ html body .navbar[data-bs-theme="dark"]
 {
     background: var(--color-primary) !important;
 }
+html body .navbar-expand-lg .navbar-nav
+{
+    width: 100%;
+    flex-direction: row-reverse;
+}
+
+/*
+
+CARDS
+
+*/
 
 html body .card
 {
@@ -164,6 +209,32 @@ html body .card .card-header
     padding: calc(var(--padded) / 2);
     background: var(--color-primary-light);
     font-weight: bold;
+}
+
+/*
+
+MODALS
+
+*/
+
+html body .modal .modal-content
+{
+    border-style: double;
+    border-width: 3px;
+    box-shadow: var(--box-shadow);
+}
+html body .modal-backdrop
+{
+    background-color: var(--color-bg);
+}
+html body .modal-backdrop.show
+{
+    opacity: 0.85;
+}
+html body .modal .modal-header
+{
+    color: var(--color-bg-light);
+    background: var(--color-primary);
 }
 
 /*
@@ -192,4 +263,23 @@ section.footer
 {
     padding: calc(var(--padded) / 4) 0;
     border-bottom: none;
+}
+
+/*
+
+RESPONSIVE
+
+*/
+
+@media (max-width: 991px)
+{
+    html body .navbar-expand-lg .navbar-nav .nav-link
+    {
+        padding: calc(var(--padded) / 2) 0;
+    }
+    html body .navbar-expand-lg .navbar-nav
+    {
+        flex-direction: column-reverse;
+        text-align: center;
+    }
 }
