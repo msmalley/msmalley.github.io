@@ -7,6 +7,7 @@ PRIMARY STYLES
 :root 
 {   
     --sections: 10rem;
+    --sections-mobile: 3rem;
     --padded: 3rem;
     --header: 55px;
     --border-radius: 5px;
@@ -46,6 +47,15 @@ html, body,
 html body
 {
     background: var(--color-bg);
+}
+html body a
+{
+    color: var(--color-primary);
+    text-decoration: none;
+}
+html body a:hover
+{
+    color: var(--color-primary-dark);
 }
 
 /*
@@ -174,7 +184,7 @@ html body .navbar[data-bs-theme="dark"] .navbar-brand
 }
 html body .navbar[data-bs-theme="dark"] .navbar-brand b
 {
-    color: var(--color-secondary);
+    color: var(--color-tri-light);
 }
 html body .navbar[data-bs-theme="dark"]
 {
@@ -184,6 +194,22 @@ html body .navbar-expand-lg .navbar-nav
 {
     width: 100%;
     flex-direction: row-reverse;
+}
+html body .navbar-expand-lg .navbar-nav .nav-link
+{
+    color: var(--color-tri-light);
+}
+html body .navbar-expand-lg .navbar-nav .nav-link.active,
+html body .navbar-expand-lg .navbar-nav .nav-link.active:hover,
+html body .navbar-expand-lg .navbar-nav .nav-link.show,
+html body .navbar-expand-lg .navbar-nav .nav-link.show:hover
+{
+    color: var(--color-secondary);
+    font-weight: bold;
+}
+html body .navbar-expand-lg .navbar-nav .nav-link:hover
+{
+    color: var(--color-bg-light);
 }
 
 /*
@@ -280,6 +306,7 @@ FONTS
 */
 
 h2, h4, h6,
+html body .btn,
 html body .card-header,
 .play-regular 
 {
@@ -424,5 +451,14 @@ RESPONSIVE
     html body .offcanvas.offcanvas-start
     {
         width: 100%;
+    }
+    html body section
+    {
+        padding-top: var(--sections-mobile);
+        padding-bottom: var(--sections-mobile);
+    }
+    .fold h1
+    {
+        font-size: 200%;
     }
 }
