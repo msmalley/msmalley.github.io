@@ -268,6 +268,11 @@ section.footer
     border-bottom: none;
 }
 
+section.dark.fold
+{
+    background: linear-gradient(180deg, var(--color-bg-dark) 0%, var(--color-shadow) 100%);
+}
+
 /*
 
 RESPONSIVE
