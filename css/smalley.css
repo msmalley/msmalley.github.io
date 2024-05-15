@@ -327,10 +327,18 @@ article blockquote nav a:hover
     padding: 0.3rem 0.6rem;
     margin: 0.4rem;
 }
-article blockquote nav a b
+
+html body article blockquote a[data-style="default"] b
 {
-    
+    background: var(--color-text);
+    color: var(--color-link);
+    opacity: 0.45;
 }
+html body article blockquote a[data-style="default"]:hover b
+{
+    opacity: 0.85;
+}
+
 /*
 
 FOOTER
@@ -525,11 +533,11 @@ body[role="introduction"] footer a i
     position: absolute;
     width: 25px;
     border: none;
-    font-size: 40px;
+    font-size: 32px;
     text-indent: 0;
     color: #FFF;
-    left: -5px;
-    top: 8px;
+    left: -2px;
+    top: 12px;
     text-align: center;
 }
 body[role="introduction"] footer a:hover i

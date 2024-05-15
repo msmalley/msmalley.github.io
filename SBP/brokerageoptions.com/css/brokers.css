@@ -347,6 +347,9 @@ h1, h3, h5,
   font-style: normal;
 }
 
+.kanit-bold h2,
+.kanit-bold h4,
+.kanit-bold h6,
 .kanit-light {
   font-family: "Kanit", sans-serif;
   font-weight: 300;
@@ -365,12 +368,17 @@ h1, h3, h5,
   font-style: normal;
 }
 
+.kanit h4,
+html body .card-header.kanit h4,
 .kanit-semibold {
   font-family: "Kanit", sans-serif;
   font-weight: 600;
   font-style: normal;
 }
 
+.kanit-bold h1,
+.kanit-bold h3,
+.kanit-bold h5,
 .kanit-bold {
   font-family: "Kanit", sans-serif;
   font-weight: 700;
