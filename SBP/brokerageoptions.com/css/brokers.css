@@ -200,7 +200,7 @@ html body .navbar[data-bs-theme="dark"] .navbar-brand b
 }
 html body .navbar[data-bs-theme="dark"]
 {
-    background: var(--color-primary-dark) !important;
+    background: var(--color-secondary-dark) !important;
 }
 html body .navbar-expand-lg .navbar-nav
 {
@@ -289,9 +289,8 @@ section
     display: block;
     position: relative;
     padding: var(--sections) 0;
-    border-top: 3px double var(--color-primary);
-    border-bottom: 3px double var(--color-tri);
-    margin-top: 1px;
+    border-top: 3px double var(--color-bg-dark);
+    border-bottom: 3px double var(--color-shadow);
 }
 
 section.dark
@@ -308,7 +307,8 @@ section.footer
 
 section.dark.fold
 {
-    background: linear-gradient(180deg, var(--color-bg-dark) 0%, var(--color-shadow) 100%);
+    margin-top: -3px;
+    background: linear-gradient(180deg, var(--color-secondary-dark) 0%, var(--color-bg-dark) 100%);
 }
 
 /*
