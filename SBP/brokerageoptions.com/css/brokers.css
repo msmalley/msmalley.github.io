@@ -1085,7 +1085,7 @@ RESPONSIVE
     }
     section .trustpilot
     {
-        margin-left: 22px;
+        margin-left: 18px;
     }
     section .hero-row
     {
@@ -1327,6 +1327,10 @@ RESPONSIVE
     section.top-brokers .row.tops .col-xl-6
     {
         margin-top: -6rem;
+    }
+    html body .hero-text h1
+    {
+        font-size: 2.2rem;
     }
 }
 @media (max-width: 565px)
