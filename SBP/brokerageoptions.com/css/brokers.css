@@ -1141,6 +1141,30 @@ RESPONSIVE
         width: 100%;
         margin-left: 0;
     }
+    section.top-brokers .container
+    {
+        margin-top: 0;
+        margin-bottom: 0;
+    }
+    section.top-brokers .row.tops .col-xl-6
+    {
+        text-align: center;
+        margin-bottom: var(--padded);
+        margin-top: -3rem;
+    }
+    section.top-brokers .row.tops .col-xl-5
+    {
+        margin-bottom: calc(var(--padded) * 2);
+    }
+    section.top-brokers .row.tops
+    {
+        flex-direction: column-reverse;
+        margin-top: -150px;
+    }
+    html body .hero-text
+    {
+        margin-top: -40px;
+    }
 }
 @media (max-width: 991px)
 {
@@ -1180,25 +1204,6 @@ RESPONSIVE
     section .spotlight
     {
         display: none;
-    }
-    section.top-brokers .container
-    {
-        margin-top: 0;
-        margin-bottom: 0;
-    }
-    section.top-brokers .row.tops .col-xl-6
-    {
-        text-align: center;
-        margin-bottom: var(--padded);
-        margin-top: -3rem;
-    }
-    section.top-brokers .row.tops .col-xl-5
-    {
-        margin-bottom: calc(var(--padded) * 2);
-    }
-    section.top-brokers .row.tops
-    {
-        flex-direction: column-reverse;
     }
     section .hover-grid .card
     {
@@ -1337,7 +1342,11 @@ RESPONSIVE
     }
     section .carousel-inner
     {
-        height: 800px;
+        height: 750px;
+    }
+    section.top-brokers .row.tops
+    {
+        margin-top: -50px;
     }
 }
 @media (max-width: 767px)
