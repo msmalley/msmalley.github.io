@@ -1091,7 +1091,7 @@ RESPONSIVE
     }
     section .trustpilot
     {
-        margin-left: 10px;
+        margin-left: 18px;
     }
     section .hero-row
     {
@@ -1099,7 +1099,7 @@ RESPONSIVE
     }
     section .carousel-inner
     {
-        height: auto;
+        height: 900px;
     }
     section .carousel-inner
     {
@@ -1331,6 +1331,14 @@ RESPONSIVE
         margin-bottom: calc(var(--padded) / 2);
         border: none;
     }
+    section .trustpilot
+    {
+        margin-left: 0;
+    }
+    section .carousel-inner
+    {
+        height: 800px;
+    }
 }
 @media (max-width: 767px)
 {
@@ -1352,6 +1360,28 @@ RESPONSIVE
     html body .navbar-toggler
     {
         right: calc(calc(100% - 540px) / 2);
+    }
+    html body section.faq alert
+    {
+        padding-left: 0;
+        padding-right: 0;
+    }
+    section .accordion-body
+    {
+        padding-left: calc(var(--padded) / 2);
+        padding-right: calc(var(--padded) / 2);
+    }
+    html body section.faq .accordion-item .accordion-header .accordion-button
+    {
+        font-size: 1.4rem;
+    }
+    section .accordion-body
+    {
+        font-size: 1rem;
+    }
+    html body .modal .modal-dialog
+    {
+        margin-top: 10px;
     }
 }
 @media (max-width: 565px)
