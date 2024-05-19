@@ -13,7 +13,7 @@
         <meta property="og:locale" content="en_GB" />
         <meta property="og:type" content="website" />
         <meta property="og:title" content="BROKERAGE OPTIONS" />
-        <meta property="og:description" content="Compare brokers and find peace of mind ..." />
+        <meta property="og:description" content="Compare brokers. Find peace of mind." />
         <meta property="og:url" content="https://brokerageoptions.com" />
         <meta property="og:site_name" content="https://brokerageoptions.com" />
         <meta property="og:image" content="https://brokerageoptions.com/img/meta.png?v=0.0.1" /> 
@@ -21,7 +21,7 @@
         <!-- STYLES -->
         <link rel="stylesheet" href="css/bootstrap.min.css">
         <link rel="stylesheet" href="fontawesome/css/all.min.css">
-        <link rel="stylesheet" href="css/brokers.css?v=0.0.0.12">
+        <link rel="stylesheet" href="css/brokers.css?v=0.0.0.13">
         
         <!-- FONTS -->
         <link href="https://fonts.googleapis.com/css2?family=Kanit:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Oswald:wght@200..700&family=Play:wght@400;700&family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
@@ -33,10 +33,6 @@
             <div class="container">
                 <a class="navbar-brand play-regular">
                     brokerage
-                    <!--
-                    <i class="fa-regular fa-handshake"></i>
-                    <i class="fa-regular fa-thumbs-up"></i>
-                    -->
                     <i class="fa-solid fa-compass"></i>
                     <b>options</b>
                 </a>
@@ -46,9 +42,87 @@
                 <div class="collapse navbar-collapse" id="navigation">
                     <div class="navbar-nav">
                         
-                        <a class="nav-link" href="#">Tools</a>
-                        <a class="nav-link" href="#">Brokers</a>
-                        <a class="nav-link active" aria-current="page" href="#">Home</a>
+                        <form class="login">
+                            <div class="input-group mb-3">
+                                <input type="text" class="form-control" placeholder="Search brokerage options ..." />
+                                <button class="btn btn-primary" type="submit">
+                                    <i class="fa-solid fa-magnifying-glass"></i>
+                                    <small>SEARCH</small>
+                                </button>
+                            </div>
+
+                        </form>
+                        
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="fa-solid fa-life-ring"></i> 
+                                Login
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-dark">
+                                <form class="px-4 py-3">
+                                    <div class="mb-3">
+                                        <label for="login-email" class="form-label">Email address</label>
+                                        <input type="email" class="form-control" id="login-email" placeholder="email@example.com">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="login-pw" class="form-label">Password</label>
+                                        <input type="password" class="form-control" id="login-pw" placeholder="Password">
+                                    </div>
+                                    <hr>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <a class="btn btn-outline-dark btn-block" data-bs-toggle="modal" href="#modal-signup">REGISTER</a>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <button type="submit" class="btn btn-primary btn-block">LOGIN</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </ul>
+                        </li>
+                        
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="fa-solid fa-life-ring"></i> 
+                                Help
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-dark">
+                                <li><a class="dropdown-item" href="#">About Us</a></li>
+                                <li><a class="dropdown-item" href="#">Contacts</a></li>
+                                <li><a class="dropdown-item" href="#">Frequently Asked Questions</a></li>
+                                <li><a class="dropdown-item" href="#">Team</a></li>
+                            </ul>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="fa-solid fa-compass-drafting"></i> 
+                                Tools
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-dark">
+                                <li><a class="dropdown-item" href="#">Compare Brokers</a></li>
+                                <li><a class="dropdown-item" href="#">Find Broker</a></li>
+                                <li><a class="dropdown-item" href="#">FX Fee Calculator</a></li>
+                                <li><a class="dropdown-item" href="#">Personal AI Broker</a></li>
+                                <li><a class="dropdown-item" href="#">Stock Fee Calculator</a></li>
+                            </ul>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="fa-solid fa-scale-balanced"></i> 
+                                Brokers
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-dark">
+                                <li><a class="dropdown-item" href="#">Brokers by Region</a></li>
+                                <li><a class="dropdown-item" href="#">Global Map</a></li>
+                                <li><a class="dropdown-item" href="#">Offshore Brokers</a></li>
+                                <li><a class="dropdown-item" href="#">Onshore Brokers</a></li>
+                            </ul>
+                        </li>
+
+                        <a class="nav-link active" aria-current="page" href="#">
+                            <i class="fa-solid fa-house-chimney"></i> 
+                            Home
+                        </a>
                         
                     </div>
                 </div>
@@ -57,160 +131,520 @@
         
         <section class="dark fold">
             <div class="container">
-                <alert class="alert kanit-bold">
-                    <h1>Compare brokers. Find peace of mind.</h1>
-                    <h4>( bylines to come, testing typography now )</h4>
-                </alert>
-                <alert class="alert alert-primary">
-                    <strong>This is a <code>PRIMARY</code> alert used to showcase custom bootstrap styles available!</strong>
-                </alert>
-                <alert class="alert">
-                    <a href="#" class="btn btn-primary">PRIMARY</a> 
-                    <a href="#" class="btn btn-secondary">SECONDARY</a> 
-                    <a href="#" class="btn btn-triadic">TRIADIC</a>
+                
+                <p>&nbsp;</p>
+                <p>&nbsp;</p>
+                <p>&nbsp;</p>
+                
+                <div class="row hero-row">
+                    <div class="col-lg-4 kanit hero-text">
+                        <h1>Compare brokers. Find peace of mind.</h1>
+                        <h4 class="kanit-thin">Navigate the options available to you before engaging with brokers</h4>
+                        <br />
+                        <br />
+                        <a class="btn btn-triadic" data-bs-toggle="modal" href="#modal-signup">GET STARTED</a>
+                        <img src="svg/trustpilot-widget.svg" class="trustpilot" />
+                    </div>
+                    <div class="col-lg-8 spotlight">
+                        <img class="img img-block images-fold" src="img/placeholder-05.png" />
+                    </div>
+                </div>
+                
+            </div>
+        </section>
+        
+        <section class="folded top-brokers">
+            <div class="container">
+                
+                <div class="row tops">
+                    <div class="col-xl-5">
+                        <div class="card">
+                        <div class="list-group list-group-flush list-group-padded">
+                            <a href="#" class="list-group-item list-group-item-action">
+                                <div class="row">
+                                    <div class="col-md-2">
+                                        <img class="img img-block img-thumbnail" src="img/interactive-brokers-review.webp" />
+                                    </div>
+                                    <div class="col-md-10">
+                                        <div class="d-flex w-100 justify-content-between">
+                                            <h3 class="mb-1">Interactive Brokers</h3>
+                                            <small class="text-body-secondary">
+                                                <i class="fa-solid fa-star"></i>
+                                                <i class="fa-solid fa-star"></i>
+                                                <i class="fa-solid fa-star"></i>
+                                                <i class="fa-solid fa-star"></i>
+                                                <i class="fa-solid fa-star"></i>
+                                            </small>
+                                        </div>
+                                    </div>
+                                    <p class="mb-1">Clients in over 200 countries and territories trade stocks, options, futures, currencies, bonds, funds and more on 150 global markets from a single unified platform.</p>
+                                    <small class="text-body-secondary">https://interactivebrokers.com</small>
+                                </div>
+                            </a>
+                            <a href="#" class="list-group-item list-group-item-action">
+                                <div class="row">
+                                    <div class="col-md-2">
+                                        <img class="img img-block img-thumbnail" src="img/saxo-bank-review.webp" />
+                                    </div>
+                                    <div class="col-md-10">
+                                        <div class="d-flex w-100 justify-content-between">
+                                            <h3 class="mb-1">Saxo</h3>
+                                            <small class="text-body-secondary">
+                                                <i class="fa-solid fa-star"></i>
+                                                <i class="fa-solid fa-star"></i>
+                                                <i class="fa-solid fa-star"></i>
+                                                <i class="fa-solid fa-star"></i>
+                                                <i class="fa-regular fa-star-half-stroke"></i>
+                                            </small>
+                                        </div>
+                                    </div>
+                                    <p class="mb-1">Maximise trading opportunities. Minimise costs. Your one-stop broker, trusted by over one million clients worldwide</p>
+                                    <small class="text-body-secondary">https://saxo.com</small>
+                                </div>
+                            </a>
+                            <a href="#" class="list-group-item list-group-item-action">
+                                <div class="row">
+                                    <div class="col-md-2">
+                                        <img class="img img-block img-thumbnail" src="img/xtb-review.webp" />
+                                    </div>
+                                    <div class="col-md-10">
+                                        <div class="d-flex w-100 justify-content-between">
+                                            <h3 class="mb-1">XTB</h3>
+                                            <small class="text-body-secondary">
+                                                <i class="fa-solid fa-star"></i>
+                                                <i class="fa-solid fa-star"></i>
+                                                <i class="fa-solid fa-star"></i>
+                                                <i class="fa-regular fa-star-half-stroke"></i>
+                                                <i class="fa-regular fa-star"></i>
+                                            </small>
+                                        </div>
+                                    </div>
+                                    <p class="mb-1">Investing, market analysis, and education.</p>
+                                    <small class="text-body-secondary">https://xtb.com</small>
+                                </div>
+                            </a>
+                        </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-1"></div>
+                    <div class="col-xl-6">
+                        <p>&nbsp;</p>
+                        <p>&nbsp;</p>
+                        <p>&nbsp;</p>
+                        <p>&nbsp;</p><br />
+                        <h2 class="kanit-regular">Our recommendations for the top 3 brokers in <b>Australia</b></h2>
+                        <br />
+                        <a href="#" class="btn btn-triadic btn-lg">SEE MAP</a> 
+                        <a href="#" class="btn btn-primary btn-lg">COMPARE ALL BROKERS</a>
+                    </div>
+                </div>
+                
+            </div>
+        </section>
+        
+        <section class="dark folded">
+            <div class="container">
+                <alert class="alert kanit">
+                    
+                    <h2>Featured Partners</h2>
+                    <h4 class="kanit-thin">This section can be used to promote other network sites or sponsored spots?</h4>
+                    <br />
+                    <br />
+
+                    <div class="row hover-grid">
+                        <div class="col-xl-3 col-lg-6 hover-item">
+                            <div class="card">
+                                <a href="#" class="img-btn">
+                                    <img src="img/screenshot.png" class="card-img-top" />
+                                </a>
+                                <div class="card-body">
+                                    <h4>Broker Choice</h4>
+                                    <hr>
+                                    <small>
+                                        <i class="fa-solid fa-star"></i>
+                                        <i class="fa-solid fa-star"></i>
+                                        <i class="fa-solid fa-star"></i>
+                                        <i class="fa-solid fa-star"></i>
+                                        <i class="fa-solid fa-star"></i>
+                                    </small>
+                                    <p>&nbsp;</p>
+                                    <a href="#" class="btn btn-block btn-outline-light">PREVIEW</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xl-3 col-lg-6 hover-item">
+                            <div class="card">
+                                <a href="#" class="img-btn">
+                                    <img src="img/screenshot.png" class="card-img-top" />
+                                </a>
+                                <div class="card-body">
+                                    <h4>Broker Choice</h4>
+                                    <hr>
+                                    <small>
+                                        <i class="fa-solid fa-star"></i>
+                                        <i class="fa-solid fa-star"></i>
+                                        <i class="fa-solid fa-star"></i>
+                                        <i class="fa-solid fa-star"></i>
+                                        <i class="fa-solid fa-star"></i>
+                                    </small>
+                                    <p>&nbsp;</p>
+                                    <a href="#" class="btn btn-block btn-outline-light">PREVIEW</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xl-3 col-lg-6 hover-item">
+                            <div class="card">
+                                <a href="#" class="img-btn">
+                                    <img src="img/screenshot.png" class="card-img-top" />
+                                </a>
+                                <div class="card-body">
+                                    <h4>Broker Choice</h4>
+                                    <hr>
+                                    <small>
+                                        <i class="fa-solid fa-star"></i>
+                                        <i class="fa-solid fa-star"></i>
+                                        <i class="fa-solid fa-star"></i>
+                                        <i class="fa-solid fa-star"></i>
+                                        <i class="fa-solid fa-star"></i>
+                                    </small>
+                                    <p>&nbsp;</p>
+                                    <a href="#" class="btn btn-block btn-outline-light">PREVIEW</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xl-3 col-lg-6 hover-item">
+                            <div class="card">
+                                <a href="#" class="img-btn">
+                                    <img src="img/screenshot.png" class="card-img-top" />
+                                </a>
+                                <div class="card-body">
+                                    <h4>Broker Choice</h4>
+                                    <hr>
+                                    <small>
+                                        <i class="fa-solid fa-star"></i>
+                                        <i class="fa-solid fa-star"></i>
+                                        <i class="fa-solid fa-star"></i>
+                                        <i class="fa-solid fa-star"></i>
+                                        <i class="fa-solid fa-star"></i>
+                                    </small>
+                                    <p>&nbsp;</p>
+                                    <a href="#" class="btn btn-block btn-outline-light">PREVIEW</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </alert>
             </div>
         </section>
         
-        <section>
+        <section class="slideshow">
+            <div id="main-carousel" class="carousel slide" data-bs-ride="carousel">
+                
+                <div class="carousel-indicators">
+                    <button type="button" data-bs-target="#main-carousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+                    <button type="button" data-bs-target="#main-carousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
+                    <button type="button" data-bs-target="#main-carousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
+                </div>
+                
+                <div class="carousel-inner">
+                    <div class="carousel-item active">
+
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-xl-7 kanit">
+                                    <h2 class="kanit-regular">June saved over <b>US$200</b></h2>
+                                    <h4 class="kanit-thin">On her first trade by using brokerage options</h4>
+                                    <br />
+                                    <a href="#" class="btn btn-primary btn-lg">LEARN HOW</a>
+                                </div>
+                                <div class="col-xl-5">
+                                    <img 
+                                        class="img img-block slideshow-01" 
+                                        src="img/placeholder-01.png" 
+                                    />
+                                </div>
+                            </div>
+                        </div>
+                        
+                    </div>
+                    <div class="carousel-item">
+
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-xl-7 kanit">
+                                    <h2 class="kanit-regular">Testimony <b>#2</b></h2>
+                                    <h4 class="kanit-thin">This could alternatively be a link to a blog post ?</h4>
+                                    <br />
+                                    <a href="#" class="btn btn-primary btn-lg">LEARN MORE</a>
+                                </div>
+                                <div class="col-xl-5">
+                                    <img 
+                                        class="img img-block slideshow-02" 
+                                        src="img/placeholder-06.png" 
+                                    />
+                                </div>
+                            </div>
+                        </div>
+                        
+                    </div>
+                    <div class="carousel-item">
+
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-xl-7 kanit">
+                                    <h2 class="kanit-regular">Testimony <b>#3</b></h2>
+                                    <h4 class="kanit-thin">It takes time to find the right image and match it's size ...</h4>
+                                    <br />
+                                    <a href="#" class="btn btn-primary btn-lg">LEARN MORE</a>
+                                </div>
+                                <div class="col-xl-5">
+                                    <img 
+                                        class="img img-block slideshow-03" 
+                                        src="img/placeholder-07.png" 
+                                    />
+                                </div>
+                            </div>
+                        </div>
+                        
+                    </div>
+                </div>
+                <button class="carousel-control-prev" type="button" data-bs-target="#main-carousel" data-bs-slide="prev">
+                    <i class="fa-solid fa-angles-left"></i>
+                    <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#main-carousel" data-bs-slide="next">
+                    <i class="fa-solid fa-angles-right"></i>
+                    <span class="visually-hidden">Next</span>
+                </button>
+            </div>
+        </section>
+        
+        <section class="dark folded">
             <div class="container">
-                <alert class="alert alert-secondary">
-                    <strong>This <code>SECONDARY</code> alert showcases custom bootstrap styles available!</strong>
-                    <hr>
-                    <a href="#" class="btn btn-primary">PRIMARY</a> 
-                    <a href="#" class="btn btn-secondary">SECONDARY</a> 
-                    <a href="#" class="btn btn-triadic">TRIADIC</a>
-                </alert>
                 
-                <alert class="alert alert-success">
-                    <strong>This is a <code>SUCCESS</code> alert used to showcase custom bootstrap styles available!</strong>
-                    <hr>
-                    <a href="#" class="btn btn-primary">PRIMARY</a> 
-                    <a href="#" class="btn btn-secondary">SECONDARY</a> 
-                    <a href="#" class="btn btn-triadic">TRIADIC</a>
-                </alert>
+                <alert class="alert kanit">
+                    <h2>Frequently Asked Questions</h2>
+                    <h4 class="kanit-thin">This could be auto-populated using forums later?</h4>
+                    <br />
+                    <br />
                 
-                <alert class="alert alert-danger">
-                    <strong>This is a <code>DANGER</code> alert used to showcase custom bootstrap styles available!</strong>
-                    <hr>
-                    <a href="#" class="btn btn-primary">PRIMARY</a> 
-                    <a href="#" class="btn btn-secondary">SECONDARY</a> 
-                    <a href="#" class="btn btn-triadic">TRIADIC</a>
-                </alert>
-                
-                <alert class="alert">
-                    <strong>These are <code>CARDS</code> to showcase custom bootstrap styles available!</strong>
-                    
-                    <hr>
-                    
                     <div class="row">
-                        <div class="col-lg-4">
-                            <div class="card">
-                                <div class="card-header kanit">
-                                    <h4>Card Header</h4>
+                        <div class="col-xl-2"></div>
+                        <div class="col-xl-8">
+                            <div class="accordion" id="main-accordion">
+                                <div class="accordion-item">
+                                    <h2 class="accordion-header">
+                                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq-01" aria-expanded="false" aria-controls="faq-01">
+                                            What is brokerage options ?
+                                        </button>
+                                    </h2>
+                                    <div id="faq-01" class="accordion-collapse collapse" data-bs-parent="#main-accordion">
+                                        <div class="accordion-body">
+                                            Brokerage Options is a dedicated platform that helps investors and traders find the most suitable brokers based on their unique preferences and needs. We provide in-depth, unbiased reviews and comparisons to empower your investment decisions.
+                                        </div>
+                                    </div>
+                              </div>
+                              <div class="accordion-item">
+                                    <h2 class="accordion-header">
+                                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq-02" aria-expanded="false" aria-controls="faq-02">
+                                            How do we select and review brokers ?
+                                        </button>
+                                    </h2>
+                                    <div id="faq-02" class="accordion-collapse collapse" data-bs-parent="#main-accordion">
+                                        <div class="accordion-body">
+                                            We employ a meticulous and unbiased methodology. Our team conducts thorough research and tests each broker by opening and using live accounts, investing our own money to experience their services first-hand. This ensures our reviews are accurate and trustworthy.
+                                        </div>
+                                    </div>
+                              </div>
+                              <div class="accordion-item">
+                                    <h2 class="accordion-header">
+                                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq-03" aria-expanded="false" aria-controls="faq-03">
+                                            How do we maintain our independence ?
+                                        </button>
+                                    </h2>
+                                    <div id="faq-03" class="accordion-collapse collapse" data-bs-parent="#main-accordion">
+                                        <div class="accordion-body">
+                                            While we have partnerships and may receive compensation, our recommendations remain unbiased and independent, guided by a rigorous, professional methodology. We're committed to transparency, offering our service free to users. For detailed information on our partnerships and remuneration, please see our advertiser disclosure.
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="card-body">
-                                    <p>This is the card body!</p>
-                                    <p>Button below activates modal</p>
-                                    <hr>
-                                    <a href="#" class="btn btn-outline-dark btn-block" data-bs-toggle="modal" data-bs-target="#modal-example">MODAL</a>
-                                </div>
-                            </div>
-                            <p>&nbsp;</p>
+                            </div>  
                         </div>
-                        <div class="col-lg-4">
-                            <div class="card">
-                                <div class="card-header kanit">
-                                    <h4>Card Header</h4>
-                                </div>
-                                <div class="card-body">
-                                    <p>This is the card body!</p>
-                                    <p>Button below activates canvas</p>
-                                    <hr>
-                                    <a href="#" class="btn btn-outline-dark btn-block" data-bs-toggle="offcanvas" data-bs-target="#offcanvas-example">OFFCANVAS</a>
-                                </div>
-                            </div>
-                            <p>&nbsp;</p>
-                        </div>
-                        <div class="col-lg-4">
-                            <div class="card">
-                                <div class="card-header kanit">
-                                    <h4>Card Header</h4>
-                                </div>
-                                <div class="card-body">
-                                    <p>This is the card body!</p>
-                                    <p>Button below activates toast</p>
-                                    <hr>
-                                    <a href="#" class="btn btn-outline-dark btn-block" id="btn-toast-example" data-text="TOAST">TOAST</a>
-                                </div>
-                            </div>
-                            <p>&nbsp;</p>
-                        </div>
+                        <div class="col-xl-2"></div>
                     </div>
                 </alert>
+            </div>
+        </section>
+        
+        <section class="signup">
+            <div class="container">
+                <div class="row">
+                    <div class="col-xl-8">
+                        <img 
+                            class="img img-block images-signup" 
+                            src="img/placeholder-03.png" 
+                        />
+                    </div>
+                    <div class="col-xl-4">
+                        <div class="signup-meta">
+                            <h4 class="kanit-thin">Can you afford to miss the latest deals?</h4>
+                            <h2 class="kanit-regular">Join our <b>FREE</b> community</h2>
+                            <br />
+                            <a class="btn btn-primary btn-lg" data-bs-toggle="modal" href="#modal-signup">JOIN TODAY</a>
+                        </div>
+                    </div>
+                </div>
             </div>
         </section>
         
         <section class="dark footer">
             <div class="container">
+                
+                <p>&nbsp;</p>
+                <p>&nbsp;</p>
+                
+                <div class="row">
+                    <div class="col-lg-4">
+                        <div class="list-group list-group-flush">
+                            <a class="list-group-item list-group-item-action list-group-item-dark">
+                                <b>
+                                    <i class="fa-solid fa-earth-americas"></i> 
+                                    BROKERS BY REGION
+                                </b>
+                            </a>
+                            <a href="#" class="list-group-item list-group-item-action">
+                                Australia
+                            </a>
+                            <a href="#" class="list-group-item list-group-item-action">
+                                Canada
+                            </a>
+                            <a href="#" class="list-group-item list-group-item-action">
+                                India
+                            </a>
+                            <a href="#" class="list-group-item list-group-item-action">
+                                Singapore
+                            </a>
+                            <a href="#" class="list-group-item list-group-item-action">
+                                United Kingdom
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="list-group list-group-flush text-center">
+                            <a class="list-group-item list-group-item-action list-group-item-dark">
+                                <b>
+                                    <i class="fa-solid fa-compass-drafting"></i> 
+                                    TOOLS &amp; RESOURCES
+                                </b>
+                            </a>
+                            <a href="#" class="list-group-item list-group-item-action">
+                                Compare Brokers
+                            </a>
+                            <a href="#" class="list-group-item list-group-item-action">
+                                Find Broker
+                            </a>
+                            <a href="#" class="list-group-item list-group-item-action">
+                                FX Fee Calculator
+                            </a>
+                            <a href="#" class="list-group-item list-group-item-action">
+                                Personal AI Broker
+                            </a>
+                            <a href="#" class="list-group-item list-group-item-action">
+                                Stock Fee Calculator
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="list-group list-group-flush text-end">
+                            <a class="list-group-item list-group-item-action list-group-item-dark">
+                                <b>
+                                    <i class="fa-solid fa-life-ring"></i> 
+                                    HELPFUL LINKS 
+                                </b>
+                            </a>
+                            <a href="#" class="list-group-item list-group-item-action">
+                                Contact Brokerage Options
+                            </a>
+                            <a href="#" class="list-group-item list-group-item-action">
+                                Disclaimers &amp; Legal
+                            </a>
+                            <a href="#" class="list-group-item list-group-item-action">
+                                Frequently Asked Questions
+                            </a>
+                            <a href="#" class="list-group-item list-group-item-action">
+                                Terms &amp; Conditions
+                            </a>
+                            <a href="#" class="list-group-item list-group-item-action">
+                                Tips &amp; Tricks
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                
+                <p>&nbsp;</p>
+                <p>&nbsp;</p>
+                
+                <hr>
+                
                 <alert class="alert">
-                    <small>&copy; 2024 - All rights reserved by <a href="#">SBP</a> v0.0.0.12</small>
+                    
+                    <small>&copy; 2024 - All rights reserved by <a href="#">SBP</a> v0.0.0.13</small>
+                    
                 </alert>
             </div>
         </section>
         
-        <!-- Toast -->
-        <div class="toast-container position-fixed bottom-0 end-0 p-3">
-            <div id="toast-example" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
-                <div class="toast-header">
-                    <img src="..." class="rounded me-2" alt="...">
-                    <strong class="me-auto">Bootstrap</strong>
-                    <small>11 mins ago</small>
-                    <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
-                </div>
-                <div class="toast-body">
-                    Hello, world! This is a toast message.
-                </div>
-            </div>
-        </div>
-        
-        <!-- Offcanvas -->
-        <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvas-example">
+        <div class="offcanvas offcanvas-start" tabindex="-1" id="canvas-register" aria-labelledby="offcanvasLabel">
             <div class="offcanvas-header kanit">
-                <h2 class="offcanvas-title" id="offcanvasExampleLabel">Offcanvas</h2>
+                <h5 class="offcanvas-title" id="offcanvasLabel">Offcanvas</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
             </div>
             <div class="offcanvas-body">
-                <p>
-                    Some text as placeholder. In real life you can have the elements you have chosen.
-                </p>
-                <p>
-                    This could include text, images, lists, etc.
-                </p>
-                <hr>
-                <div class="dropdown mt-3">
-                    <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown">
-                        Dropdown
-                    </button>
-                    <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="#">Action</a></li>
-                        <li><a class="dropdown-item" href="#">Another action</a></li>
-                        <li><a class="dropdown-item" href="#">Something else here</a></li>
-                    </ul>
-                </div>
+                Content for the offcanvas goes here. You can place just about any Bootstrap component or custom elements here.
             </div>
         </div>
         
-        <!-- Modal -->
-        <div class="modal fade" id="modal-example" tabindex="-1" aria-hidden="true">
+        <div class="modal fade" id="modal-signup" tabindex="-1" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header kanit">
-                        <h2 class="modal-title fs-5" id="exampleModalLabel">Modal title</h2>
+                        <h2 class="modal-title fs-5" id="exampleModalLabel">
+                            REGISTER TO ACCESS <b>EXCLUSIVE</b> DEALS
+                        </h2>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        And then?
+                        <form>
+                            <alert class="alert alert-success">
+                                <strong>Are you ready to join an exclusive community dedicated to bringing you the latest broker deals?</strong>
+                            </alert>
+                            <br />
+                            <div class="mb-4 row">
+                                <label for="signup-email" class="col-sm-3 col-form-label">Email</label>
+                                <div class="col-sm-9">
+                                    <input type="text" readonly class="form-control" id="signup-email" />
+                                </div>
+                            </div>
+                            <div class="mb-4 row">
+                                <label for="signup-pw" class="col-sm-3 col-form-label">Password</label>
+                                <div class="col-sm-9">
+                                    <input type="password" class="form-control" id="signup-pw" />
+                                </div>
+                            </div>
+                            <div class="mb-4 row">
+                                <label for="signup-pw" class="col-sm-3 col-form-label">Repeat</label>
+                                <div class="col-sm-9">
+                                    <input type="password" class="form-control" id="signup-pwr" />
+                                </div>
+                            </div>
+                            <br />
+                            <div class="row">
+                                <div class="col-md-6"></div>
+                                <div class="col-md-6">
+                                    <input type="submit" class="btn btn-primary btn-block" value="REGISTER" />
+                                </div>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>
