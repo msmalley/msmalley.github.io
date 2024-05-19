@@ -1085,7 +1085,7 @@ RESPONSIVE
     }
     section .trustpilot
     {
-        margin-left: 18px;
+        margin-left: 10px;
     }
     section .hero-row
     {
@@ -1313,6 +1313,16 @@ RESPONSIVE
     html body .images-signup
     {
         margin: 100px 0 -100px;
+    }
+    html body section.top-brokers .card .list-group.list-group-padded .list-group-item .img-block
+    {
+        width: 60%;
+        max-width: 60% !important;
+        min-width: 60% !important;
+        margin-left: 20%;
+        margin-top: calc(var(--padded) / 2);
+        margin-bottom: calc(var(--padded) / 2);
+        border: none;
     }
 }
 @media (max-width: 767px)
