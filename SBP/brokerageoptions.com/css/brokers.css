@@ -585,6 +585,12 @@ section.signup .signup-meta
     margin-top: -20px;
 }
 
+nav .container,
+section .container
+{
+    position: relative;
+}
+
 /*
 
 IMAGES
@@ -1254,7 +1260,8 @@ RESPONSIVE
     }
     html body .navbar-toggler
     {
-        right: 44px;
+        position: fixed;
+        right: calc(calc(100% - 720px) / 2);
         top: 24px;
     }
     html body .navbar-expand-lg .navbar-nav
@@ -1342,10 +1349,17 @@ RESPONSIVE
     {
         font-size: 2.2rem;
     }
+    html body .navbar-toggler
+    {
+        right: calc(calc(100% - 540px) / 2);
+    }
 }
 @media (max-width: 565px)
 {
-    
+    html body .navbar-toggler
+    {
+        right: 18px;
+    }
 }
 
 @media (max-height: 560px)
