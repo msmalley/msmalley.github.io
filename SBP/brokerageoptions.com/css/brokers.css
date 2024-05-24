@@ -11,8 +11,9 @@ PRIMARY STYLES
     --padded: 3rem;
     --header-rem: 5rem;
     --header: 88px;
-    --border-radius: 2rem;
-    --border-radius-lg: 3rem;
+    --button-radius: 2rem;
+    --border-radius: 3px;
+    --button-radius-lg: 3rem;
     --box-shadow: 1px 1px 5px #555555;
     
     --color-bg: #EAEAEA;
@@ -186,11 +187,11 @@ html body .btn.btn-outline-dark:hover
 
 html body section .btn
 {
-    border-radius: var(--border-radius);
+    border-radius: var(--button-radius);
 }
 html body section .btn.lg
 {
-    border-radius: var(--border-radius-lg);
+    border-radius: var(--button-radius-lg);
 }
 html body .btn
 {
@@ -235,6 +236,7 @@ html body .navbar[data-bs-theme="dark"] .navbar-brand b
 }
 html body .navbar[data-bs-theme="dark"]
 {
+    z-index: 9999;
     padding-top: 0;
     padding-bottom: 0;
     line-height: var(--header-rem);
@@ -497,6 +499,17 @@ section
     border-bottom: 3px double var(--color-shadow);
 }
 
+section.breakout
+{
+    overflow: visible;
+    z-index: 999;
+}
+section.negative .container
+{
+    margin-top: calc(calc(var(--sections) + calc(var(--padded) / 2)) * -1);
+    margin-bottom: calc(calc(var(--sections) + calc(var(--padded) / 2)) * -1);
+}
+
 section.dark
 {
     background: var(--color-bg-dark);
@@ -519,6 +532,10 @@ section.dark.fold
 {
     margin-top: -3px;
     background: linear-gradient(180deg, var(--color-secondary-dark) 0%, var(--color-bg-dark) 100%);
+}
+section.dark.fold.page
+{
+    padding: calc(var(--padded) / 2) 0;
 }
 
 section .card p.mb-1
@@ -589,6 +606,205 @@ nav .container,
 section .container
 {
     position: relative;
+}
+
+/*
+
+TABLES
+
+*/
+
+html body table.table
+{
+    width: 100%;
+}
+html body table.table.table-lg thead tr th,
+html body table.table.table-lg tbody tr th,
+html body table.table.table-lg tbody tr td,
+html body table.table.table-lg
+{
+    padding: calc(var(--padded) / 2);
+}
+html body table.table.table-lg
+{
+    padding: var(--padded);
+}
+
+html body .dtfh-floatingparent,
+html body .dtfh-floatingparent-head,
+html body .dtfh-floatingparent .dtfh-floatingparent-head
+{
+    z-index: 9998 !important;
+    /*top: calc(var(--padded) * 2) !important;*/
+}
+
+html body table .avatar
+{
+    display: inline-block;
+    position: relative;
+    height: 22px;
+    width: auto;
+    margin: -3px 5px 0 0;
+}
+
+html body table.data-table thead tr th.sorter
+{
+    cursor: pointer;  
+    vertical-align: middle
+}
+html body table.data-table thead tr th.sorter:hover
+{
+    color: var(--color-primary-dark);
+}
+html body table.data-table thead tr th select
+{
+    width: 100%;
+}
+html body table.dataTable thead tr:first-child th .fa-angles-right
+{
+    display: inline-block;
+}
+html body table.dataTable thead tr:first-child th .fa-angles-up
+{
+    display: none;
+}
+html body table.dataTable thead tr:first-child th .fa-angles-down
+{
+    display: none;
+}
+html body table.dataTable thead tr:first-child th.dt-ordering-desc .fa-angles-right
+{
+    display: none;
+}
+html body table.dataTable thead tr:first-child th.dt-ordering-desc .fa-angles-up
+{
+    display: none;
+}
+html body table.dataTable thead tr:first-child th.dt-ordering-desc .fa-angles-down
+{
+    display: inline-block;
+}
+html body table.dataTable thead tr:first-child th.dt-ordering-asc .fa-angles-right
+{
+    display: none;
+}
+html body table.dataTable thead tr:first-child th.dt-ordering-asc .fa-angles-up
+{
+    display: inline-block;
+}
+html body table.dataTable thead tr:first-child th.dt-ordering-asc .fa-angles-down
+{
+    display: none;
+}
+html body table.dataTable thead tr:first-child th
+{
+    background: linear-gradient(180deg, var(--color-bg-light) -50%, var(--color-primary-light) 300%);
+    border-bottom-color: transparent;
+}
+html body table.dataTable thead tr:nth-child(2) th
+{
+    background: linear-gradient(180deg, var(--color-primary-light) -200%, var(--color-bg-light) 150%);
+    border-top-color: transparent;
+}
+html body table.dataTable thead tr:first-child th.dt-ordering-desc
+{
+    background: linear-gradient(180deg, var(--color-bg-light) -50%, var(--color-secondary-light) 300%);
+    border-bottom-color: transparent;
+}
+html body table.dataTable thead tr:first-child th.dt-ordering-asc
+{
+    background: linear-gradient(180deg, var(--color-bg-light) -50%, var(--color-tri-light) 300%);
+    border-bottom-color: transparent;
+}
+html body table.dataTable thead tr:nth-child(2) th.dt-ordering-desc
+{
+    background: linear-gradient(180deg, var(--color-secondary-light) -200%, var(--color-bg-light) 150%);
+    border-top-color: transparent;
+}
+html body table.dataTable thead tr:nth-child(2) th.dt-ordering-asc
+{
+    background: linear-gradient(180deg, var(--color-tri-light) -200%, var(--color-bg-light) 150%);
+    border-top-color: transparent;
+}
+html body table.dataTable tfoot tr th
+{
+    background: linear-gradient(180deg, var(--color-primary-light) -200%, var(--color-bg-light) 150%);
+    padding: calc(var(--padded) / 2);
+}
+html body table.dataTable tbody tr.child td ul.dtr-details,
+html body table.dataTable tbody tr.child td ul.dtr-details li
+{
+    display: block;
+}
+html body table.dataTable tbody tr.child td ul.dtr-details li
+{
+    border-bottom: 1px dotted var(--color-secondary);
+}
+html body table.dataTable tbody tr td.dtr-control 
+{
+    min-width: 215px;
+}
+html body table.dataTable tbody tr td i.fa-regular.fa-star-half-stroke,
+html body table.dataTable tbody tr td i.fa-regular.fa-star
+{
+    color: var(--color-primary-dark);
+}
+html body table.dataTable tbody tr td i.fa-solid.fa-star
+{
+    color: var(--color-secondary);
+}
+html body table.dataTable tbody tr.child td ul.dtr-details li span.dtr-data
+{
+    float: right;
+}
+html body table.dataTable tfoot tr th input
+{
+    min-width: 140px;
+}
+html body table.dataTable thead tr th span.dt-column-order
+{
+    display: none;
+}
+html body table.dataTable thead tr th a.sorter
+{
+    cursor: pointer;
+}
+html body .dt-container.dt-bootstrap5 .row mt-2.justify-content-md-center
+{
+    margin-top: 0 !important;
+}
+html body .dt-container.dt-bootstrap5 .row.mt-2.justify-content-between
+{
+    background: var(--color-bg);
+    border-radius: var(--border-radius);
+    padding: calc(var(--padded) / 2);
+    margin: 0 0 calc(var(--padded) / 2) 0 !important;
+}
+html body .dt-container.dt-bootstrap5 .row.mt-2.justify-content-between:last-child .page-link
+{
+    padding-top: 0;
+    padding-bottom: 0;
+    color: var(--color-primary-dark);
+}
+html body .dt-container.dt-bootstrap5 .row.mt-2.justify-content-between:last-child .active .page-link
+{
+    background: var(--color-primary-dark);
+    color: var(--color-bg-light);
+}
+html body .dt-container.dt-bootstrap5 .row.mt-2.justify-content-between:last-child
+{
+    margin: calc(var(--padded) / 2) 0 0 0 !important;
+}
+html body .dt-container.dt-bootstrap5 .row.mt-2.justify-content-between .col-md-auto.me-auto,
+html body .dt-container.dt-bootstrap5 .row.mt-2.justify-content-between .col-md-auto.me-auto div.dt-info,
+html body .dt-container.dt-bootstrap5 .row.mt-2.justify-content-between .col-md-auto.me-auto div.dt-search,
+html body .dt-container.dt-bootstrap5 .row.mt-2.justify-content-between .col-md-auto.ms-auto,
+html body .dt-container.dt-bootstrap5 .row.mt-2.justify-content-between .col-md-auto.ms-auto div.dt-info,
+html body .dt-container.dt-bootstrap5 .row.mt-2.justify-content-between .col-md-auto.ms-auto div.dt-search
+{
+    line-height: var(--padded);
+    padding: 0;
+    margin: 0;
 }
 
 /*
@@ -984,6 +1200,23 @@ ICONS
 
 /*
 
+MAPS
+
+*/
+
+.sbp-map .leaflet-popup-content
+{
+    font-size: 1.4rem;
+    padding: calc(var(--padded) / 2);
+    text-align: center;
+}
+.sbp-map .leaflet-popup-content b
+{
+    color: var(--color-secondary);
+}
+
+/*
+
 RESPONSIVE
 
 */
@@ -1165,6 +1398,14 @@ RESPONSIVE
     {
         margin-top: -40px;
     }
+    html body .page .hero-text
+    {
+        margin-top: -25px;
+    }
+    html body section.page .hero-row
+    {
+        margin-top: 0;
+    }
 }
 @media (max-width: 991px)
 {
@@ -1190,6 +1431,11 @@ RESPONSIVE
         padding-top: var(--sections-mobile);
         padding-bottom: var(--sections-mobile);
     }
+    html body section.page
+    {
+        padding-top: var(--sections);
+        padding-bottom: var(--sections);
+    }
     .fold h1
     {
         font-size: 200%;
@@ -1200,6 +1446,10 @@ RESPONSIVE
         margin-bottom: var(--padded);
         padding-left: calc(var(--padded) / 3);
         padding-right: calc(var(--padded) / 3);
+    }
+    section.page .hero-row
+    {
+        margin-bottom: 0;
     }
     section .spotlight
     {
@@ -1398,6 +1648,19 @@ RESPONSIVE
     html body .navbar-toggler
     {
         right: 18px;
+    }
+    section.negative.breakout,
+    section.negative.breakout .container
+    {
+        overflow: hidden
+    }
+    section.negative.breakout .container,
+    section.negative.breakout .card .card-body,
+    section.negative.breakout .card
+    {
+        padding-left: 0;
+        padding-right: 0;
+        margin: 0;
     }
 }
 
