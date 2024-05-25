@@ -746,7 +746,7 @@ html body table.dataTable tbody tr.child td ul.dtr-details li
 }
 html body table.dataTable tbody tr td.dtr-control 
 {
-    min-width: 225px !important;
+    min-width: 220px !important;
 }
 html body table.dataTable tbody tr td i.fa-regular.fa-star-half-stroke,
 html body table.dataTable tbody tr td i.fa-regular.fa-star
