@@ -73,6 +73,13 @@ html body
 {
     overflow-x: hidden !important;
 }
+html body .dtfh-floatingparent, 
+html body .dtfh-floatingparent-head, 
+html body .dtfh-floatingparent .dtfh-floatingparent-head
+{
+    max-width: 100% !important;
+    overflow-x: hidden !important;
+}
 
 /*
 
