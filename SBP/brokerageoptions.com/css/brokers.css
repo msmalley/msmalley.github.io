@@ -1646,13 +1646,13 @@ RESPONSIVE
     }
     html body .hero-text h1
     {
-        font-size: 2.2rem;
+        font-size: 2.1rem;
     }
     html body .navbar-toggler
     {
         right: calc(calc(100% - 540px) / 2);
     }
-    html body section.faq alert
+    html body section alert
     {
         padding-left: 0;
         padding-right: 0;
@@ -1674,7 +1674,7 @@ RESPONSIVE
     {
         margin-top: 10px;
     }
-    html body section.dark.folded.faq alert.alert
+    html body section.dark.folded alert.alert
     {
         margin-bottom: 0 !important;
     }
