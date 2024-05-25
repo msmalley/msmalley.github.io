@@ -99,6 +99,30 @@ html body .img.img-block
     height: auto;
 }
 
+html body .form-range::-webkit-slider-thumb
+{
+    background-color: var(--color-secondary-dark) !important;
+}
+html body .form-range::-moz-range-thumb
+{
+    background-color: var(--color-secondary-dark) !important;
+}
+html body .form-range::-ms-thumb
+{
+    background-color: var(--color-secondary-dark) !important;
+}
+html body .form-check-input:checked
+{
+    background-color: var(--color-secondary-dark) !important;
+    border-color: var(--color-secondary-dark) !important;
+}
+
+html body .form-select-lg
+{
+    font-size: 1rem;
+    line-height: 2.5rem;
+    color: var(--bs-body-color);
+}
 
 /*
 
@@ -820,6 +844,20 @@ html body .dt-container.dt-bootstrap5 .row.mt-2.justify-content-between .col-md-
 html body [data-bs-theme="dark"] .dt-container.dt-bootstrap5 .row.mt-2.justify-content-between
 {
     background: var(--color-shadow);
+}
+
+html body [data-bs-theme="dark"] table.dataTable.dtr-inline.collapsed > tbody > tr > td.dtr-control::before, 
+html body [data-bs-theme="dark"] table.dataTable.dtr-inline.collapsed > tbody > tr > th.dtr-control::before
+{
+    border-top-color: transparent;
+    border-left-color: var(--color-bg);
+}
+
+html body [data-bs-theme="dark"] table.dataTable.dtr-inline.collapsed > tbody > tr.dt-hasChild > td.dtr-control::before, 
+html body [data-bs-theme="dark"] table.dataTable.dtr-inline.collapsed > tbody > tr.dt-hasChild > th.dtr-control::before
+{
+    border-left-color: transparent;
+    border-top-color: var(--color-bg);
 }
 
 /*
@@ -1652,11 +1690,6 @@ RESPONSIVE
     {
         right: calc(calc(100% - 540px) / 2);
     }
-    html body section alert
-    {
-        padding-left: 0;
-        padding-right: 0;
-    }
     section .accordion-body
     {
         padding-left: calc(var(--padded) / 2);
@@ -1678,7 +1711,11 @@ RESPONSIVE
     {
         margin-bottom: 0 !important;
     }
-    html body section.tools .col
+    html body section.dark.folded form alert.alert,
+    html body section form alert
+    {
+        margin-bottom: 15px !important;
+    }
 }
 @media (max-width: 565px)
 {
