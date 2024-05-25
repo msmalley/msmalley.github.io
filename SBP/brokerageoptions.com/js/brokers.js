@@ -149,7 +149,7 @@ var brokers =
                             
                             */   
                             
-                            var select = $('<select><option value="">No ' + this_title + ' Filter</option></select>')
+                            var select = $('<select><option value="">No Filter</option></select>')
                                 .appendTo($(this_table).find("thead tr:eq(1) th").eq(column.index()).empty())
                                 .on('change', function() 
                                 {

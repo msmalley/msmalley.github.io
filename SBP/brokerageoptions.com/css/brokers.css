@@ -1689,10 +1689,6 @@ RESPONSIVE
     {
         background: var(--color-bg);
     }
-    html body table.table.data-table
-    {
-        font-size: 0.9rem;
-    }
 }
 
 @media (max-height: 560px)
