@@ -70,6 +70,8 @@ BOOTSTRAP MODS
 html body 
 {
     padding-top: var(--header);
+    max-width: 100vw !important;
+    overflow-x: hidden !important;
 }
 html body alert.alert
 {
