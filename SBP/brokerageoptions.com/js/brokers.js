@@ -57,6 +57,27 @@ var brokers =
         {
             var stored_tables = [];
             var data_tables = document.querySelectorAll('table.data-table');
+            
+            /*
+                            
+            SCROLL FUNCTION
+
+            USED AFTER FILTER, SEARCH, ETC
+
+            */
+
+            var scroll_table = function(this_table)
+            {    
+                var header_height = $('.dtfh-floatingparent').height();
+                if(typeof header_height == 'undefined')
+                {
+                    header_height = $(this_table).find('thead').height();
+                }
+                var position = $(this_table).offset().top - header_height;
+                $([document.documentElement, document.body]).animate({
+                    scrollTop: position
+                }, 200);
+            }
         	
             data_tables.forEach(async function(data_table, index)
             {
@@ -83,27 +104,6 @@ var brokers =
                 {
                     ajax_source = data_table.getAttribute('data-ajax');
                     ajax_options = data_table.getAttribute('data-options');
-                }
-                
-                /*
-                            
-                SCROLL FUNCTION
-
-                USED AFTER FILTER, SEARCH, ETC
-
-                */
-
-                var scroll_table = function(this_table)
-                {    
-                    var header_height = $('.dtfh-floatingparent').height();
-                    if(typeof header_height == 'undefined')
-                    {
-                        header_height = $(this_table).find('thead').height();
-                    }
-                    var position = $(this_table).offset().top - header_height;
-                    $([document.documentElement, document.body]).animate({
-                        scrollTop: position
-                    }, 200);
                 }
                 
                 /*
@@ -270,51 +270,6 @@ var brokers =
                 
                 /*
                 
-                CUSTOM SORT ACTIONS
-                
-                */
-
-                $('body').on('click', '.sorter', async function () 
-                {   
-                    var tab = parseInt($(this).attr('data-tab'));
-                    var column = parseInt($(this).attr('data-col'));
-                    var direction = $(this).attr('data-direction');
-                    
-                    // TODO - Why does this not work?
-                    // stored_tables[tab].search("");
-                    // Must instead loop manually ...
-                    var cols = stored_tables[tab].columns()[0].length;
-                    for(i = 0; i < cols; i++)
-                    {
-                        stored_tables[tab].column(i).search("");
-                    }
-                    // End of hack :-(
-                    
-                    if(direction == 'asc')
-                    {
-                        var val = 'N/A';
-                        stored_tables[tab].column(column).search('^((?!'+val+').)*$', true, false);
-                        
-                        $(this).attr('data-direction', 'desc');
-                    }
-                    else if(direction == 'desc')
-                    {
-                        var val = 'N/A';
-                        stored_tables[tab].column(column).search('^((?!'+val+').)*$', true, false);
-                        
-                        $(this).attr('data-direction', '');
-                    }
-                    else
-                    {
-                        stored_tables[tab].column(column).search("");
-                        $(this).attr('data-direction', 'asc');
-                    }
-                    stored_tables[tab].order([[column, direction]]).draw();
-                    scroll_table(data_tables[tab]);
-                });
-                
-                /*
-                
                 TABLE RESIZE
                 
                 */
@@ -324,6 +279,55 @@ var brokers =
                     table.responsive.recalc();
                     table.fixedHeader.headerOffset($('.navbar.fixed-top').height());
                 })
+            });
+            
+            /*
+                
+            CUSTOM SORT ACTIONS
+
+            */
+
+            $('body').on('click', '.sorter', async function () 
+            {   
+                var $this = this;
+                var tab = parseInt($(this).attr('data-tab'));
+                var column = parseInt($(this).attr('data-col'));
+                var direction = $(this).attr('data-direction');
+
+                // TODO - Why does this not work?
+                // stored_tables[tab].search("");
+                // Must instead loop manually ...
+                var cols = stored_tables[tab].columns()[0].length;
+                for(i = 0; i < cols; i++)
+                {
+                    stored_tables[tab].column(i).search("");
+                }
+                // End of hack :-(
+
+                console.log('direction', direction);
+
+
+                if(direction == 'asc')
+                {
+                    var val = 'N/A';
+                    stored_tables[tab].column(column).search('^((?!'+val+').)*$', true, false);
+
+                    $($this).attr('data-direction', 'desc');
+                }
+                else if(direction == 'desc')
+                {
+                    var val = 'N/A';
+                    stored_tables[tab].column(column).search('^((?!'+val+').)*$', true, false);
+
+                    $($this).attr('data-direction', '');
+                }
+                else
+                {
+                    stored_tables[tab].column(column).search("");
+                    $($this).attr('data-direction', 'asc');
+                }
+                stored_tables[tab].order([[column, direction]]).draw();
+                scroll_table(data_tables[tab]);
             });
         }
     }
