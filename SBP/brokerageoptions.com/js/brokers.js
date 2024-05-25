@@ -43,10 +43,6 @@ var brokers =
                 // Adding layer to the map
                 map.addLayer(layer);
                 
-                console.log('mlat', mlat);
-                console.log('mlng', mlng);
-                console.log('mhtml', mhtml);
-                
                 if(mlat && mlng && mhtml)
                 {
                     L.marker([mlat, mlng]).addTo(map)
@@ -62,10 +58,10 @@ var brokers =
             var stored_tables = [];
             var data_tables = document.querySelectorAll('table.data-table');
         	
-            data_tables.forEach(function(data_table, index)
+            data_tables.forEach(async function(data_table, index)
             {
                 // Default ordering ...
-                var order = [[0, 'desc']];
+                var order = [];
                 var ajax_source = false;
                 var ajax_options = false;
                 var table_wrapper = $(data_table).parent();
@@ -133,57 +129,76 @@ var brokers =
                         bottomStart: 'pageLength',
                         bottomEnd: 'paging'
                     },
-                    initComplete: function() 
+                    initComplete: function(this_obj, this_data) 
                     {
+                        
                         var this_table = this;
+                        var ajax_table = true;
+                        
+                        if(typeof this_data == 'undefined')
+                        {
+                            ajax_table = false;
+                        }
+                        
                         this.api().columns().every(function() 
                         {
                             var column = this;
-                            var title = column.footer().textContent;
+                            var title = column.header().textContent;
+                            
+                            if(ajax_table)
+                            {
+                                title = column.footer().textContent;
+                            }
+                            
                             var titles = title.split(' ');
                             var this_title = titles[titles.length - 1];
-                         
-                            /*
-
-                            SELECT FILTERS
                             
-                            */   
-                            
-                            var select = $('<select><option value="">No Filter</option></select>')
-                                .appendTo($(this_table).find("thead tr:eq(1) th").eq(column.index()).empty())
-                                .on('change', function() 
-                                {
-                                    var val = $.fn.dataTable.util.escapeRegex($(this).val());
-                                    column
-                                        .search( val ? '^'+val+'$' : '', true, false )
-                                        .draw();
-                                    scroll_table(this_table);
-                                });
-                            
-                            /*
-                            
-                            SELECT DISPLAY
-                            
-                            */
-                            
-                            column.data().unique().sort().each(function(d, j)
+                            if($(this_table).find('thead tr').length > 1)
                             {
-                                var value = d;
-                                var label = d;
+                         
+                                /*
+
+                                SELECT FILTERS
+
+                                */  
+
+                                var select = $('<select><option value="">No Filter</option></select>')
+                                    .appendTo($(this_table).find("thead tr:eq(1) th").eq(column.index()).empty())
+                                    .on('change', function() 
+                                    {
+                                        var val = $.fn.dataTable.util.escapeRegex($(this).val());
+                                        column
+                                            .search( val ? '^'+val+'$' : '', true, false )
+                                            .draw();
+                                        scroll_table(this_table);
+                                    }); 
+
+                                /*
+
+                                SELECT DISPLAY
+
+                                */
+
+                                column.data().unique().sort().each(function(d, j)
+                                {
+                                    var value = d;
+                                    var label = d;
+
+                                    if (d.indexOf('class="avatar"') > -1) 
+                                    {
+                                        value = $($(this)[j]).attr('data-label');   
+                                        label = value;
+                                    }
+                                    else if (d.indexOf('class="rating"') > -1) 
+                                    {
+                                        label = $($(this)[j]).attr('data-label');   
+                                        value = parseFloat(label).toFixed(1);
+                                    }
+
+                                    select.append('<option value="' + value + '">' + label + '</option>');
+                                });
                                 
-                                if (d.indexOf('class="avatar"') > -1) 
-                                {
-                                    value = $($(this)[j]).attr('data-label');   
-                                    label = value;
-                                }
-                                else if (d.indexOf('class="rating"') > -1) 
-                                {
-                                    label = $($(this)[j]).attr('data-label');   
-                                    value = parseFloat(label).toFixed(1);
-                                }
-                                 
-                                select.append('<option value="' + value + '">' + label + '</option>');
-                            });
+                            }
                             
                             /*
 
@@ -191,18 +206,34 @@ var brokers =
                             
                             */
  
-                            $('<input type="text" class="form-control" placeholder="Search ' + this_title + '" />')
-                                .appendTo($(column.footer()).empty())
-                                .on('keyup change clear', function()
-                                {
-                                    if (column.search() !== this.value) 
+                            if($(this_table).find('tfoot').length > 0)
+                            {
+                                $('<input type="text" class="form-control" placeholder="Search ' + this_title + '" />')
+                                    .appendTo($(column.footer()).empty())
+                                    .on('keyup change clear', function()
                                     {
-                                        column.search(this.value).draw();
-                                        scroll_table(this_table);
-                                    }
-                                });
-                        })
+                                        if (column.search() !== this.value) 
+                                        {
+                                            column.search(this.value).draw();
+                                            scroll_table(this_table);
+                                        }
+                                    });
+                            }
+                        });
+                        
+                        // Not sure why this is required :-(
+                        
+                        setTimeout(function()
+                        {
+                            this_obj.api.responsive.recalc();
+                            this_obj.api.fixedHeader.headerOffset($('.navbar.fixed-top').height());
+                        }, 350);
                     }
+                }
+                
+                if($(data_table).hasClass('simple-options'))
+                {
+                    table_options.layout = false;
                 }
                 
                 /*
@@ -229,7 +260,7 @@ var brokers =
                 
                 */
                 
-                var table = new DataTable(data_table, table_options);
+                var table = await new DataTable(data_table, table_options);
                 stored_tables.push(table);
                 
                 table.on('page', function() 

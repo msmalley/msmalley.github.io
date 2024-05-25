@@ -22,7 +22,7 @@
         <link rel="stylesheet" href="../../css/bootstrap.min.css">
         <link rel="stylesheet" href="../../css/dataTables.bootstrap5.css">
         <link rel="stylesheet" href="../../fontawesome/css/all.min.css">
-        <link rel="stylesheet" href="../../css/brokers.css?v=0.0.0.37">
+        <link rel="stylesheet" href="../../css/brokers.css?v=0.0.0.38">
         
         <!-- FONTS -->
         <link href="https://fonts.googleapis.com/css2?family=Kanit:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Oswald:wght@200..700&family=Play:wght@400;700&family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
@@ -157,8 +157,9 @@
                     <div class="card-body">
                         
                         <table 
-                               
-                            class="table table-striped table-hover table-bordered table-lg data-table"
+                            
+                            id="main-table"
+                            class="table table-striped table-hover table-bordered table-lg data-table nowrap"
                             data-tab="0" // which table is this in DOM ...?
                             data-col="7" // which column to start sort by ...?
                             data-direction="desc" // which direction to start sort by ...?
@@ -300,6 +301,20 @@
                             <alert class="alert alert-dark">
                                 <small>This form uses <b>Horizontal Labels</b></small>
                             </alert>
+                            
+                            <div class="row">
+                                <div class="col-6 sbp-range">
+                                    <label for="customRange2" class="form-label">Min</label>
+                                    <input type="range" class="form-range" min="0" max="5" id="customRange2" oninput="this.nextElementSibling.value = this.value" value="2">
+                                    <output class="floating-value">2</output>
+                                </div>
+                                <div class="col-6 sbp-range">
+                                    <label for="customRange3" class="form-label">Max</label>
+                                    <input type="range" class="form-range" min="0" max="5" id="customRange3" oninput="this.nextElementSibling.value = this.value" value="3">
+                                    <output class="floating-value">3</output>
+                                </div>
+                            </div>
+                            <hr>
                             <div class="mb-3 row">
                                 <label for="staticEmail" class="col-4 col-form-label">
                                     Email
@@ -316,6 +331,18 @@
                                     <input type="password" class="form-control" id="inputPassword">
                                 </div>
                             </div>
+                            <div class="mb-3 row">
+                                <div class="col-4"></div>
+                                <div class="col-8">
+                                    <div class="form-check form-switch">
+                                        <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckChecked" checked>
+                                        <label class="form-check-label" for="flexSwitchCheckChecked">
+                                            <small>Include Offshore Brokers</small>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+
                             <hr>
                             <div class="mb-3 row">
                                 <div class="col-sm-4">
@@ -343,6 +370,13 @@
                                 <input type="password" class="form-control" id="floatingPassword" placeholder="Password">
                                 <label for="floatingPassword">Password</label>
                             </div>
+                            <br />
+                            <select class="form-select form-select-lg mb-3" aria-label="Large select example">
+                                <option selected>Open this select menu</option>
+                                <option value="1">One</option>
+                                <option value="2">Two</option>
+                                <option value="3">Three</option>
+                            </select>
                             <hr>
                             <div class="mb-3 row">
                                 <div class="col-sm-4">
@@ -355,149 +389,227 @@
                     </div>
                 </div>
                 
-            </div>
-        </section>
-        
-        <section class="folded content negative breakout page">
-            <div class="container">
+                <p>&nbsp;</p>
+                <p>&nbsp;</p>
                 
+                <div class="row">
                 
-                <div class="card">
-                    <div class="card-body">
-                        
+                    <div class="col-12" data-bs-theme="dark">
+                        <alert class="alert alert-dark">
+                            <small>This table showcases the <b>dark</b> theme as well as simple options</small>
+                        </alert>
+                    </div>
+                    
+                    <div class="col-6" data-bs-theme="dark">
                         <table 
                                
-                            class="table table-striped table-hover table-bordered table-lg data-table"
-                            data-col="7" // which column to start sort by ...?
-                            data-direction="desc" // which direction to start sort by ...?
-                            data-ajax="data/table.json" // where to get data (if not in HTML)
-                            data-options="brokers" // where to get AJAX options from tables.js ?
+                            id="second-table"
+                            class="table table-striped table-hover table-bordered table-lg data-table nowrap simple-options"
 
                         >
-                            <thead class="table-light">
-                                
-                                <!--
+                            <thead class="table-dark">
 
-                                USED FOR FIXED HEADER
-
-                                -->
-                                
                                 <tr>
-                                    <th class="sorter" data-col="0" data-direction="asc" data-tab="1">
-                                        Broker
-                                        <i class="fa-solid fa-angles-right"></i>
-                                        <i class="fa-solid fa-angles-down"></i>
-                                        <i class="fa-solid fa-angles-up"></i>
-                                    </th>
-                                    <th class="sorter" data-col="1" data-direction="asc" data-tab="1">
-                                        Founded
-                                        <i class="fa-solid fa-angles-right"></i>
-                                        <i class="fa-solid fa-angles-down"></i>
-                                        <i class="fa-solid fa-angles-up"></i>
-                                    </th>
-                                    <th class="sorter" data-col="2" data-direction="asc" data-tab="1">
-                                        Stock Fee
-                                        <i class="fa-solid fa-angles-right"></i>
-                                        <i class="fa-solid fa-angles-down"></i>
-                                        <i class="fa-solid fa-angles-up"></i>
-                                    </th>
-                                    <th class="sorter" data-col="3" data-direction="asc" data-tab="1">
-                                        EUR/USD Spread
-                                        <i class="fa-solid fa-angles-right"></i>
-                                        <i class="fa-solid fa-angles-down"></i>
-                                        <i class="fa-solid fa-angles-up"></i>
-                                    </th>
-                                    <th class="sorter" data-col="4" data-direction="asc" data-tab="1">
-                                        Options Fee
-                                        <i class="fa-solid fa-angles-right"></i>
-                                        <i class="fa-solid fa-angles-down"></i>
-                                        <i class="fa-solid fa-angles-up"></i>
-                                    </th>
-                                    <th class="sorter" data-col="5" data-direction="asc" data-tab="1">
-                                        S&amp;P500 Spread
-                                        <i class="fa-solid fa-angles-right"></i>
-                                        <i class="fa-solid fa-angles-down"></i>
-                                        <i class="fa-solid fa-angles-up"></i>
-                                    </th>
-                                    <th class="sorter" data-col="6" data-direction="asc" data-tab="1">
-                                        URL
-                                        <i class="fa-solid fa-angles-right"></i>
-                                        <i class="fa-solid fa-angles-down"></i>
-                                        <i class="fa-solid fa-angles-up"></i>
-                                    </th>
-                                    <th class="sorter" data-col="7" data-direction="asc" data-tab="1">
-                                        Ratings
-                                        <i class="fa-solid fa-angles-right"></i>
-                                        <i class="fa-solid fa-angles-down"></i>
-                                        <i class="fa-solid fa-angles-up"></i>
-                                    </th>
-                                </tr>
-                                
-                                <!--
-
-                                Needed for the filter select boxes
-
-                                -->
-                                
-                                <tr>
-                                    <th class="filters" data-orderable="false">Broker</th>
-                                    <th class="filters" data-orderable="false">Founded</th>
-                                    <th class="filters" data-orderable="false">Stock Fee</th>
-                                    <th class="filters" data-orderable="false">EUR/USD Spread</th>
-                                    <th class="filters" data-orderable="false">Options Fee</th>
-                                    <th class="filters" data-orderable="false">S&amp;P500 Spread</th>
-                                    <th class="filters" data-orderable="false">URL</th>
-                                    <th class="filters" data-orderable="false">Ratings</th>
-                                </tr>
-                                
-                                <!-- 
-
-                                Needed in order to populate responsive content 
-
-                                -->
-                                
-                                <tr style="display: none;">
-                                    <th data-priority="1">Broker</th>
-                                    <th data-priority="8">Founded</th>
-                                    <th data-priority="2">Stock Fee</th>
-                                    <th data-priority="3">EUR/USD Spread</th>
-                                    <th data-priority="2">Options Fee</th>
-                                    <th data-priority="3">S&amp;P500 Spread</th>
-                                    <th data-priority="9">URL</th>
-                                    <th data-priority="1">Ratings</th>
+                                    <th data-sortable="false" data-priority="1">Broker</th>
+                                    <th data-sortable="false" data-priority="9">Founded</th>
+                                    <th data-sortable="false" data-priority="4">Stock Fee</th>
+                                    <th data-sortable="false" data-priority="6">EUR/USD Spread</th>
+                                    <th data-sortable="false" data-priority="5">Options Fee</th>
+                                    <th data-sortable="false" data-priority="7">S&amp;P500 Spread</th>
+                                    <th data-sortable="false" data-priority="8">URL</th>
+                                    <th data-sortable="false" data-priority="1">Ratings</th>
                                 </tr>
                                 
                             </thead>
                             
-                            <!--
-
-                            NEEDED FOR FOOTER SEARCH BOXES
-
-                            -->
-                            
-                            <tfoot>
+                            <tbody>
                                 <tr>
-                                    <th>Broker</th>
-                                    <th>Founded</th>
-                                    <th>Stock Fee</th>
-                                    <th>EUR/USD Spread</th>
-                                    <th>Options Fee</th>
-                                    <th>S&amp;P500 Spread</th>
-                                    <th>URL</th>
-                                    <th>Ratings</th>
+                                    <td>
+                                        <img class="avatar" src="../../img/interactive-brokers-review.webp" />
+                                        Interactive Broker
+                                    </td>
+                                    <td>1977</td>
+                                    <td>US$1.00</td>
+                                    <td>0.2</td>
+                                    <td>US$6.50</td>
+                                    <td>0.4</td>
+                                    <td>
+                                        <a href="https://interactivebrokers.com" target="_blank">
+                                            interactivebrokers.com
+                                        </a>
+                                    </td>
+                                    <td>
+                                        <small class="rating" data-label="5.0">
+                                            <i class="fa-solid fa-star"></i>
+                                            <i class="fa-solid fa-star"></i>
+                                            <i class="fa-solid fa-star"></i>
+                                            <i class="fa-solid fa-star"></i>
+                                            <i class="fa-solid fa-star"></i>
+                                        </small>
+                                    </td>
                                 </tr>
-                            </tfoot>
+                                <tr>
+                                    <td>
+                                        <img class="avatar" src="../../img/saxo-bank-review.webp" />
+                                        Saxo
+                                    </td>
+                                    <td>1992</td>
+                                    <td>US$1.60</td>
+                                    <td>0.8</td>
+                                    <td>US$20.00</td>
+                                    <td>0.5</td>
+                                    <td>
+                                        <a href="https://home.saxo" target="_blank">
+                                            home.saxo
+                                        </a>
+                                    </td>
+                                    <td>
+                                        <small class="rating" data-label="4.5">
+                                            <i class="fa-solid fa-star"></i>
+                                            <i class="fa-solid fa-star"></i>
+                                            <i class="fa-solid fa-star"></i>
+                                            <i class="fa-solid fa-star"></i>
+                                            <i class="fa-solid fa-star-half-stroke"></i>
+                                        </small>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <img class="avatar" src="../../img/alpaca-trading-review.webp" />
+                                        Alpaca Trading
+                                    </td>
+                                    <td>N/A</td>
+                                    <td>N/A</td>
+                                    <td>N/A</td>
+                                    <td>N/A</td>
+                                    <td>N/A</td>
+                                    <td>
+                                        <a href="https://alpaca.markets" target="_blank">
+                                            alpaca.markets
+                                        </a>
+                                    </td>
+                                    <td>
+                                        <small class="rating" data-label="4.0">
+                                            <i class="fa-solid fa-star"></i>
+                                            <i class="fa-solid fa-star"></i>
+                                            <i class="fa-solid fa-star"></i>
+                                            <i class="fa-solid fa-star"></i>
+                                            <i class="fa-regular fa-star"></i>
+                                        </small>
+                                    </td>
+                                </tr>
+                            </tbody>
                         </table>
-                        
+                    
+                    </div>
+                    
+                    <div class="col-6" data-bs-theme="dark">
+                        <table 
+                               
+                            id="third-table"
+                            class="table table-striped table-hover table-bordered table-lg data-table nowrap simple-options"
+
+                        >
+                            <thead class="table-dark">
+
+                                <tr>
+                                    <th data-sortable="false" data-priority="1">Broker</th>
+                                    <th data-sortable="false" data-priority="9">Founded</th>
+                                    <th data-sortable="false" data-priority="4">Stock Fee</th>
+                                    <th data-sortable="false" data-priority="6">EUR/USD Spread</th>
+                                    <th data-sortable="false" data-priority="5">Options Fee</th>
+                                    <th data-sortable="false" data-priority="7">S&amp;P500 Spread</th>
+                                    <th data-sortable="false" data-priority="8">URL</th>
+                                    <th data-sortable="false" data-priority="1">Ratings</th>
+                                </tr>
+                                
+                            </thead>
+                            
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <img class="avatar" src="../../img/interactive-brokers-review.webp" />
+                                        Interactive Broker
+                                    </td>
+                                    <td>1977</td>
+                                    <td>US$1.00</td>
+                                    <td>0.2</td>
+                                    <td>US$6.50</td>
+                                    <td>0.4</td>
+                                    <td>
+                                        <a href="https://interactivebrokers.com" target="_blank">
+                                            interactivebrokers.com
+                                        </a>
+                                    </td>
+                                    <td>
+                                        <small class="rating" data-label="5.0">
+                                            <i class="fa-solid fa-star"></i>
+                                            <i class="fa-solid fa-star"></i>
+                                            <i class="fa-solid fa-star"></i>
+                                            <i class="fa-solid fa-star"></i>
+                                            <i class="fa-solid fa-star"></i>
+                                        </small>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <img class="avatar" src="../../img/saxo-bank-review.webp" />
+                                        Saxo
+                                    </td>
+                                    <td>1992</td>
+                                    <td>US$1.60</td>
+                                    <td>0.8</td>
+                                    <td>US$20.00</td>
+                                    <td>0.5</td>
+                                    <td>
+                                        <a href="https://home.saxo" target="_blank">
+                                            home.saxo
+                                        </a>
+                                    </td>
+                                    <td>
+                                        <small class="rating" data-label="4.5">
+                                            <i class="fa-solid fa-star"></i>
+                                            <i class="fa-solid fa-star"></i>
+                                            <i class="fa-solid fa-star"></i>
+                                            <i class="fa-solid fa-star"></i>
+                                            <i class="fa-solid fa-star-half-stroke"></i>
+                                        </small>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <img class="avatar" src="../../img/alpaca-trading-review.webp" />
+                                        Alpaca Trading
+                                    </td>
+                                    <td>N/A</td>
+                                    <td>N/A</td>
+                                    <td>N/A</td>
+                                    <td>N/A</td>
+                                    <td>N/A</td>
+                                    <td>
+                                        <a href="https://alpaca.markets" target="_blank">
+                                            alpaca.markets
+                                        </a>
+                                    </td>
+                                    <td>
+                                        <small class="rating" data-label="4.0">
+                                            <i class="fa-solid fa-star"></i>
+                                            <i class="fa-solid fa-star"></i>
+                                            <i class="fa-solid fa-star"></i>
+                                            <i class="fa-solid fa-star"></i>
+                                            <i class="fa-regular fa-star"></i>
+                                        </small>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    
                     </div>
                 </div>
-            </div>
-        </section>
-        
-        <section class="dark folded faq">
-            <div class="container">
                 
                 <alert class="alert kanit" style="margin: 3rem 0 -9rem;">
+                    <p>&nbsp;</p>
+                    <p>&nbsp;</p>
                     <h2>Find Nearest Broker</h2>
                     <h4 class="kanit-thin">Google Maps requires cloud account so am testing OpenStreetMaps instead.</h4>
                 </alert>
@@ -698,7 +810,7 @@
                 
                 <alert class="alert">
                     
-                    <small>&copy; 2024 - All rights reserved by <a href="#">SBP</a> v0.0.0.37</small>
+                    <small>&copy; 2024 - All rights reserved by <a href="#">SBP</a> v0.0.0.38</small>
                     
                 </alert>
             </div>
@@ -757,7 +869,7 @@
         <script src="../../js/dataTables.responsive.js"></script>
         <script src="../../js/dataTables.fixedHeader.min.js"></script>
         <script src="../../js/tables.js"></script>
-        <script src="../../js/brokers.js?v=0.0.0.26"></script>
+        <script src="../../js/brokers.js?v=0.0.0.38"></script>
         
     </body>
 </html>

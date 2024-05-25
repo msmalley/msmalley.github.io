@@ -735,6 +735,12 @@ html body table.dataTable tfoot tr th
     background: linear-gradient(180deg, var(--color-primary-light) -200%, var(--color-bg-light) 150%);
     padding: calc(var(--padded) / 2);
 }
+html body table.dataTable thead.table-dark tr th,
+html body [data-bs-theme="dark"] table.dataTable thead tr th,
+html body [data-bs-theme="dark"] table.dataTable tfoot tr th
+{
+    background: linear-gradient(180deg, var(--color-primary-dark) -200%, var(--color-shadow) 150%);
+}
 html body table.dataTable tbody tr.child td ul.dtr-details,
 html body table.dataTable tbody tr.child td ul.dtr-details li
 {
@@ -809,6 +815,28 @@ html body .dt-container.dt-bootstrap5 .row.mt-2.justify-content-between .col-md-
     line-height: var(--padded);
     padding: 0;
     margin: 0;
+}
+
+html body [data-bs-theme="dark"] .dt-container.dt-bootstrap5 .row.mt-2.justify-content-between
+{
+    background: var(--color-shadow);
+}
+
+/*
+
+FORMS
+
+*/
+
+.sbp-range
+{
+    position: relative;
+}
+.sbp-range output
+{
+    position: absolute;
+    top: 0;
+    right: 15px;
 }
 
 /*
