@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+<link rel='shortcut icon' href='favicon.ico'>
+<title>NUKES | 3 PLAYERS</title>
+
+<script type="text/javascript" src="js/stuquery.js"></script>
+<script type="text/javascript" src="js/stuquery.hexmap.js"></script>
+<script type="text/javascript" src="js/interact.min.js"></script>
+<link rel="stylesheet" href="css/stuquery.hexmap.css">
+    
+<style>.hex .token { display: none;}</style>
+    
+<script>
+function setDraggables()
+{
+    var wrapper = document.getElementById('hexmapinner');
+    var elements = document.getElementsByClassName('token');
+    var elements = document.getElementById('t-R6D29');
+    var x = 0; var y = 0;
+
+    interact(elements)
+      .draggable({
+        modifiers: [
+          interact.modifiers.snap({
+            targets: [
+              interact.createSnapGrid({ x: 120, y: 120 })
+            ],
+            range: Infinity,
+            relativePoints: [ { x: 0, y: 0 } ]
+          }),
+          interact.modifiers.restrict({
+            //restriction: wrapper.parentNode,
+            restriction: wrapper,
+            elementRect: { top: 0, left: 0, bottom: 0, right: 0 },
+            endOnly: true
+          })
+        ],
+        inertia: true
+      })
+      .on('dragmove', function (event) {
+        x += event.dx
+        y += event.dy
+
+        event.target.style.webkitTransform =
+        event.target.style.transform =
+            'translate(' + x + 'px, ' + y + 'px)'
+      });
+}
+</script>
+
+<body>
+
+<div id="hexmap-8" class="ex-8">
+<code>
+{
+	"layout":"odd-r",
+	"hexes": {
+    
+        "R1D1":{"q":1,"r":3,"dice":0,"type":"forest"},
+        "R1D2":{"q":2,"r":2,"dice":0,"type":"forest"},
+        "R1D3":{"q":1,"r":1,"dice":0,"type":"forest"},
+        "R1D4":{"q":0,"r":1,"dice":0,"type":"forest"},
+        "R1D5":{"q":0,"r":2,"dice":0,"type":"forest"},
+        "R1D6":{"q":0,"r":3,"dice":0,"type":"forest"},
+    
+        "R2D1":{"q":1,"r":4,"dice":0,"type":"desert"},
+        "R2D2":{"q":2,"r":4,"dice":0,"type":"water"},
+        "R2D3":{"q":2,"r":3,"dice":0,"type":"desert"},
+        "R2D4":{"q":3,"r":2,"dice":0,"type":"water"},
+        "R2D5":{"q":2,"r":1,"dice":0,"type":"desert"},
+        "R2D6":{"q":2,"r":0,"dice":0,"type":"water"},
+        "R2D7":{"q":1,"r":0,"dice":0,"type":"desert"},
+        "R2D8":{"q":0,"r":0,"dice":0,"type":"water"},
+        "R2D9":{"q":-1,"r":1,"dice":0,"type":"desert"},
+        "R2D10":{"q":-1,"r":2,"dice":0,"type":"water"},
+        "R2D11":{"q":-1,"r":3,"dice":0,"type":"desert"},
+		"R2D12":{"q":0,"r":4,"dice":0,"type":"water"},
+    
+        "R3D1":{"q":1,"r":5,"dice":0,"type":"hills"},
+        "R3D2":{"q":2,"r":5,"dice":0,"type":"hills"},
+        "R3D3":{"q":3,"r":4,"dice":0,"type":"hills"},
+        "R3D4":{"q":3,"r":3,"dice":0,"type":"mountains"},
+        "R3D5":{"q":4,"r":2,"dice":0,"type":"hills"},
+        "R3D6":{"q":3,"r":1,"dice":0,"type":"mountains"},
+        "R3D7":{"q":3,"r":0,"dice":0,"type":"hills"},
+        "R3D8":{"q":2,"r":-1,"dice":0,"type":"hills"},
+        "R3D9":{"q":1,"r":-1,"dice":0,"type":"hills"},
+        "R3D10":{"q":0,"r":-1,"dice":0,"type":"mountains"},
+        "R3D11":{"q":-1,"r":-1,"dice":0,"type":"hills"},
+        "R3D12":{"q":-1,"r":0,"dice":0,"type":"mountains"},
+        "R3D13":{"q":-2,"r":1,"dice":0,"type":"hills"},
+        "R3D14":{"q":-2,"r":2,"dice":0,"type":"hills"},
+        "R3D15":{"q":-2,"r":3,"dice":0,"type":"hills"},
+        "R3D16":{"q":-1,"r":4,"dice":0,"type":"mountains"},
+        "R3D17":{"q":-1,"r":5,"dice":0,"type":"hills"},
+        "R3D18":{"q":0,"r":5,"dice":0,"type":"mountains"},
+    
+        "R4D1":{"q":1,"r":6,"dice":0,"type":"forest"},
+        "R4D2":{"q":2,"r":6,"dice":0,"type":"forest"},
+        "R4D3":{"q":3,"r":6,"dice":0,"type":"hills"},
+        "R4D4":{"q":3,"r":5,"dice":0,"type":"forest"},
+        "R4D5":{"q":4,"r":4,"dice":0,"type":"forest"},
+        "R4D6":{"q":4,"r":3,"dice":0,"type":"mountains"},
+        "R4D7":{"q":5,"r":2,"dice":0,"type":"hills"},
+        "R4D8":{"q":4,"r":1,"dice":0,"type":"mountains"},
+        "R4D9":{"q":4,"r":0,"dice":0,"type":"forest"},
+        "R4D10":{"q":3,"r":-1,"dice":0,"type":"forest"},
+        "R4D11":{"q":3,"r":-2,"dice":0,"type":"hills"},
+        "R4D12":{"q":2,"r":-2,"dice":0,"type":"forest"},
+        "R4D13":{"q":1,"r":-2,"dice":0,"type":"forest"},
+        "R4D14":{"q":0,"r":-2,"dice":0,"type":"mountains"},
+        "R4D15":{"q":-1,"r":-2,"dice":0,"type":"hills"},
+        "R4D16":{"q":-2,"r":-1,"dice":0,"type":"mountains"},
+        "R4D17":{"q":-2,"r":0,"dice":0,"type":"forest"},
+        "R4D18":{"q":-3,"r":1,"dice":0,"type":"forest"},
+        "R4D19":{"q":-3,"r":2,"dice":0,"type":"hills"},
+        "R4D20":{"q":-3,"r":3,"dice":0,"type":"forest"},
+        "R4D21":{"q":-2,"r":4,"dice":0,"type":"forest"},
+        "R4D22":{"q":-2,"r":5,"dice":0,"type":"mountains"},
+        "R4D23":{"q":-1,"r":6,"dice":0,"type":"hills"},
+        "R4D24":{"q":0,"r":6,"dice":0,"type":"mountains"},
+    
+        "R5D1":{"q":1,"r":7,"dice":0,"type":"mountains"},
+        "R5D2":{"q":2,"r":7,"dice":0,"type":"hills"},
+        "R5D3":{"q":3,"r":7,"dice":0,"type":"water"},
+        "R5D4":{"q":4,"r":6,"dice":0,"type":"hills"},
+        "R5D5":{"q":4,"r":5,"dice":0,"type":"mountains"},
+        "R5D6":{"q":5,"r":4,"dice":"A","type":"mountains","player":"w"},
+        "R5D7":{"q":5,"r":3,"dice":"T","type":"forest","player":"w"},
+        "R5D8":{"q":6,"r":2,"dice":"T","type":"hills","player":"w"},
+        "R5D9":{"q":5,"r":1,"dice":"T","type":"forest","player":"w"},
+        "R5D10":{"q":5,"r":0,"dice":"A","type":"mountains","player":"w"},
+        "R5D11":{"q":4,"r":-1,"dice":0,"type":"mountains"},
+        "R5D12":{"q":4,"r":-2,"dice":0,"type":"hills"},
+        "R5D13":{"q":3,"r":-3,"dice":0,"type":"water"},
+        "R5D14":{"q":2,"r":-3,"dice":0,"type":"hills"},
+        "R5D15":{"q":1,"r":-3,"dice":0,"type":"mountains"},
+        "R5D16":{"q":0,"r":-3,"dice":0,"type":"mountains"},
+        "R5D17":{"q":-1,"r":-3,"dice":0,"type":"forest"},
+        "R5D18":{"q":-2,"r":-3,"dice":0,"type":"hills"},
+        "R5D19":{"q":-2,"r":-2,"dice":0,"type":"forest"},
+        "R5D20":{"q":-3,"r":-1,"dice":0,"type":"mountains"},
+        "R5D21":{"q":-3,"r":0,"dice":"A","type":"mountains","player":"b"},
+        "R5D22":{"q":-4,"r":1,"dice":"T","type":"hills","player":"b"},
+        "R5D23":{"q":-4,"r":2,"dice":"T","type":"water","player":"b"},
+        "R5D24":{"q":-4,"r":3,"dice":"T","type":"hills","player":"b"},
+        "R5D25":{"q":-3,"r":4,"dice":"A","type":"mountains","player":"b"},
+        "R5D26":{"q":-3,"r":5,"dice":0,"type":"mountains"},
+        "R5D27":{"q":-2,"r":6,"dice":0,"type":"forest"},
+        "R5D28":{"q":-2,"r":7,"dice":0,"type":"hills"},
+        "R5D29":{"q":-1,"r":7,"dice":0,"type":"forest"},
+        "R5D30":{"q":0,"r":7,"dice":0,"type":"mountains"},
+    
+        "R6D1":{"q":1,"r":8,"dice":0,"type":"hills"},
+        "R6D2":{"q":2,"r":8,"dice":0,"type":"forest"},
+        "R6D3":{"q":3,"r":8,"dice":0,"type":"forest"},
+        "R6D4":{"q":4,"r":8,"dice":0,"type":"desert"},
+        "R6D5":{"q":4,"r":7,"dice":0,"type":"forest"},
+        "R6D6":{"q":5,"r":6,"dice":0,"type":"forest"},
+        "R6D7":{"q":5,"r":5,"dice":"T","type":"hills"},
+        "R6D8":{"q":6,"r":4,"dice":"T","type":"forest"},
+        "R6D9":{"q":6,"r":3,"dice":"D","type":"forest"},
+        "R6D10":{"q":7,"r":2,"dice":"L","type":"base"},
+        "R6D11":{"q":6,"r":1,"dice":"D","type":"forest"},
+        "R6D12":{"q":6,"r":0,"dice":"T","type":"forest"},
+        "R6D13":{"q":5,"r":-1,"dice":"T","type":"hills"},
+        "R6D14":{"q":5,"r":-2,"dice":0,"type":"forest"},
+        "R6D15":{"q":4,"r":-3,"dice":0,"type":"forest"},
+        "R6D16":{"q":4,"r":-4,"dice":0,"type":"desert"},
+        "R6D17":{"q":3,"r":-4,"dice":0,"type":"forest"},
+        "R6D18":{"q":2,"r":-4,"dice":0,"type":"forest"},
+        "R6D19":{"q":1,"r":-4,"dice":0,"type":"hills"},
+        "R6D20":{"q":0,"r":-4,"dice":0,"type":"forest"},
+        "R6D21":{"q":-1,"r":-4,"dice":0,"type":"forest"},
+        "R6D22":{"q":-2,"r":-4,"dice":0,"type":"base"},
+        "R6D23":{"q":-3,"r":-3,"dice":0,"type":"forest"},
+        "R6D24":{"q":-3,"r":-2,"dice":0,"type":"forest"},
+        "R6D25":{"q":-4,"r":-1,"dice":"T","type":"hills"},
+        "R6D26":{"q":-4,"r":0,"dice":"T","type":"forest"},
+        "R6D27":{"q":-5,"r":1,"dice":"D","type":"forest"},
+        "R6D28":{"q":-5,"r":2,"dice":"L","type":"desert"},
+        "R6D29":{"q":-5,"r":3,"dice":"D","type":"forest"},
+        "R6D30":{"q":-4,"r":4,"dice":"T","type":"forest"},
+        "R6D31":{"q":-4,"r":5,"dice":"T","type":"hills"},
+        "R6D32":{"q":-3,"r":6,"dice":0,"type":"forest"},
+        "R6D33":{"q":-3,"r":7,"dice":0,"type":"forest"},
+        "R6D34":{"q":-2,"r":8,"dice":0,"type":"base"},
+        "R6D35":{"q":-1,"r":8,"dice":0,"type":"forest"},
+        "R6D36":{"q":0,"r":8,"dice":0,"type":"forest"},
+    
+        "R0":{"q":1,"r":2,"dice":0,"type":"hills"}
+	}
+}
+</code>
+</div>
+    
+<script>
+S(document).ready(function(){
+	var hexmap = S.hexmap('hexmap-8');
+    
+    var tiles = {
+        base: 0,
+        forest: 0,
+        mountains: 0,
+        hills: 0
+    };
+    
+	hexmap.positionHexes().resize();
+
+	// Define the content of each hex
+	hexmap.setContent(function(id,hex){
+
+        tiles[hex.type]++;
+        
+		// Define an abstract odds for outcomes 0-12 from rolling two dice
+		odds = [0,0,1,2,3,4,5,6,5,4,3,2,1];
+		ostr = '';
+		// Display circles to represent the odds
+		for(var i = 0; i < odds[hex.dice]; i++) ostr += '●'
+		
+		// Build the circular token that sits on a hex
+		//str = '<div class="token'+((hex.dice==8 || hex.dice == 6) ? ' token-red':'')+'">';
+        if(hex.dice)
+        {
+            if(typeof hex.player != 'undefined' && hex.player=="b")
+            {
+                str = '<div class="token token-black" id="t-'+id+'" title="'+id+'">';
+            }
+            else
+            {
+                str = '<div class="token" id="t-'+id+'" title="'+id+'">';
+            }
+            if(hex.n == "Robber"){
+                //str += 'Robber '+hex.q+','+hex.r;
+                str += '<div class="dice">'+hex.dice+'</div>';
+            }else{
+                str += '<div class="dice">'+hex.dice+'</div>';
+                //str += '<div class="odds">'+ostr+'</div>';
+            }
+            str += '</div>';
+
+            return str;
+        }
+	});
+	
+	// Set the CSS class of each hex to be the hex type
+	hexmap.setClass(function(id,hex){
+		return hex.type;
+	});
+    console.log('titles', tiles);
+    setDraggables();
+});    
+</script>
+    
+</body>
+</html>
