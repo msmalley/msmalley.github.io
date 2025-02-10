@@ -108,11 +108,11 @@ ul.images li.item img.obj {
 }
 
 .hex .hexinner.water {
-    background-image: url(../img/water_tile_03.PNG);
+    background-image: url(../img/water_tile_03.png);
 }
 
 .hex .hexinner.forest {
-    background-image: url(../img/nature_tile_02.PNG);
+    background-image: url(../img/nature_tile_02.png);
 }
 
 .hex .hexinner.mountains {
