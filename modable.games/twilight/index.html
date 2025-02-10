@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+<title>TWILIGHT IMPERIUM | RANDOM SETUP</title>
+
+<script type="text/javascript" src="js/opengames.config.js"></script>
+<script type="text/javascript" src="js/stuquery.js"></script>
+<script type="text/javascript" src="js/stuquery.hexmap.js"></script>
+<script type="text/javascript" src="js/interact.min.js"></script>
+<script type="text/javascript" src="js/xor.js"></script>
+<link rel="stylesheet" href="css/stuquery.hexmap.css">
+    
+<style>
+    .hex .token { display: none; }
+    .hexmap .hexmapinner {  }
+</style>
+    
+<script>
+
+var random_numbers;
+    
+function generate_random_numbers(seed = false)
+{
+    if(!seed) seed = '' + Date.now();
+    if(window.location.search !== '?seed=' + seed) window.location.search = 'seed=' + seed;
+    var random = new XorShift128(seed);
+    random_numbers = {
+        test_int_1: random.integer(1, 100),
+        test_int_2: random.integer(1, 100),
+        test_dec_1: parseFloat('0.' + random.integer(1, 99)),
+        test_dec_2: parseFloat('0.' + random.integer(1, 99))
+    };
+    return random_numbers;
+}
+    
+function random_init()
+{
+    var seed = false;
+    var url = new URL(window.location);
+    var fixed_seed = url.searchParams.get("seed");
+    if(fixed_seed) seed = fixed_seed;
+    generate_random_numbers(seed);
+}
+
+random_init();
+  
+</script>
+
+<body>
+
+<div id="hexmap-8" class="ex-8">
+<code>
+{
+	"layout":"odd-q",
+	"hexes": 
+    {
+        "R-0-00":{"q":0,"r":0,"label":"Rex","type":"rex"},
+    
+        "R-1-01":{"q":0,"r":1,"label":"M","type":"red"},
+		"R-1-02":{"q":1,"r":1,"label":"N","type":"red"},
+		"R-1-03":{"q":1,"r":0,"label":"O","type":"red"},
+		"R-1-04":{"q":0,"r":-1,"label":"P","type":"red"},
+		"R-1-05":{"q":-1,"r":0,"label":"Q","type":"red"},
+		"R-1-06":{"q":-1,"r":1,"label":"R","type":"red"},
+    
+		"R-2-01":{"q":0,"r":2,"label":"A","type":"lanes"},
+		"R-2-02":{"q":1,"r":2,"label":"B","type":"blue"},
+		"R-2-03":{"q":2,"r":1,"label":"C","type":"lanes"},
+		"R-2-04":{"q":2,"r":0,"label":"D","type":"blue"},
+		"R-2-05":{"q":2,"r":-1,"label":"E","type":"lanes"},
+		"R-2-06":{"q":1,"r":-1,"label":"F","type":"blue"},
+		"R-2-07":{"q":0,"r":-2,"label":"G","type":"lanes"},
+		"R-2-08":{"q":-1,"r":-1,"label":"H","type":"blue"},
+		"R-2-09":{"q":-2,"r":-1,"label":"I","type":"lanes"},
+		"R-2-10":{"q":-2,"r":0,"label":"J","type":"blue"},
+		"R-2-11":{"q":-2,"r":1,"label":"K","type":"lanes"},
+		"R-2-12":{"q":-1,"r":2,"label":"L","type":"blue"},
+    
+        "R-3-01":{"q":0,"r":3,"label":"A","type":"green"},
+		"R-3-02":{"q":1,"r":3,"label":"B","type":"blue"},
+		"R-3-03":{"q":2,"r":2,"label":"C","type":"red"},
+        "R-3-04":{"q":3,"r":2,"label":"D","type":"green"},
+        "R-3-05":{"q":3,"r":1,"label":"E","type":"blue"},
+        "R-3-06":{"q":3,"r":0,"label":"E","type":"red"},
+        "R-3-07":{"q":3,"r":-1,"label":"E","type":"green"},
+        "R-3-08":{"q":2,"r":-2,"label":"D","type":"blue"},
+        "R-3-09":{"q":1,"r":-2,"label":"D","type":"red"},
+        "R-3-10":{"q":0,"r":-3,"label":"D","type":"green"},
+        "R-3-11":{"q":-1,"r":-2,"label":"D","type":"blue"},
+        "R-3-12":{"q":-2,"r":-2,"label":"D","type":"red"},
+        "R-3-13":{"q":-3,"r":-1,"label":"E","type":"green"},
+        "R-3-14":{"q":-3,"r":0,"label":"E","type":"blue"},
+        "R-3-15":{"q":-3,"r":1,"label":"E","type":"red"},
+        "R-3-16":{"q":-3,"r":2,"label":"E","type":"green"},
+        "R-3-17":{"q":-2,"r":2,"label":"C","type":"blue"},
+        "R-3-18":{"q":-1,"r":3,"label":"C","type":"red"},
+    
+        "R-4-01":{"q":0,"r":4,"type":"red"},
+        "R-4-02":{"q":1,"r":4,"type":"blue"},
+        "R-4-03":{"q":2,"r":3,"type":"blue"},
+        "R-4-04":{"q":3,"r":3,"type":"blue"},
+        "R-4-05":{"q":4,"r":2,"type":"red"},
+        "R-4-06":{"q":4,"r":1,"type":"blue"},
+        "R-4-07":{"q":4,"r":0,"type":"legends"},
+        "R-4-08":{"q":4,"r":-1,"type":"blue"},
+        "R-4-09":{"q":4,"r":-2,"type":"red"},
+        "R-4-10":{"q":3,"r":-2,"type":"blue"},
+        "R-4-11":{"q":2,"r":-3,"type":"blue"},
+        "R-4-12":{"q":1,"r":-3,"type":"blue"},
+        "R-4-13":{"q":0,"r":-4,"type":"red"},
+        "R-4-14":{"q":-1,"r":-3,"type":"blue"},
+        "R-4-15":{"q":-2,"r":-3,"type":"blue"},
+        "R-4-16":{"q":-3,"r":-2,"type":"blue"},
+        "R-4-17":{"q":-4,"r":-2,"type":"red"},
+        "R-4-18":{"q":-4,"r":-1,"type":"blue"},
+        "R-4-19":{"q":-4,"r":0,"type":"legends"},
+        "R-4-20":{"q":-4,"r":1,"type":"blue"},
+        "R-4-21":{"q":-4,"r":2,"type":"red"},
+        "R-4-22":{"q":-3,"r":3,"type":"blue"},
+        "R-4-23":{"q":-2,"r":3,"type":"blue"},
+        "R-4-24":{"q":-1,"r":4,"type":"blue"}
+	}
+}
+</code>
+</div>
+    
+<script>
+    
+    var tiles = opengames_config.twilight.tiles;
+    
+    var tile_icons = [];
+    
+    for(i = 0; i < tiles.nonplayer.length; i++)
+    {
+        tile_icons.push(tiles.nonplayer[i].type + '/' + tiles.nonplayer[i].id + '.webp');
+    }
+    
+    S(document).ready(function()
+    {
+        var hexmap = S.hexmap('hexmap-8');
+
+        var tile_counts = 
+        {
+
+        };
+
+        hexmap.positionHexes().resize();
+
+        // Define the content of each hex
+        hexmap.setContent(function(id,hex)
+        {
+            //tile_counts[hex.type]++;
+        });
+
+        var url = new URL(window.location);
+        var fixed_seed = url.searchParams.get("seed");
+
+        // Set the CSS class of each hex to be the hex type
+        hexmap.setClass(function(id, hex)
+        {
+            var this_random = 0;
+
+            if(fixed_seed)
+            {
+                var id_for_rand = '' + id.split('-')[1] + id.split('-')[2];
+                this_random = new XorShift128(id_for_rand + fixed_seed);
+            }
+
+            if(hex.type == 'rex')
+            {
+                hex.type = 'rex.webp';
+            }
+            if(hex.type == 'random')
+            {
+                return tile_icons.splice(this_random.integer(0, tile_icons.length - 1), 1);
+            }
+            else if(hex.type == 'green')
+            {
+                var tile = tiles.green.splice
+                (
+                    this_random.integer(0, tiles.green.length - 1), 
+                    1
+                );
+                return 'green/' + tile[0].id + '.webp';
+            }
+            else if(hex.type == 'blue')
+            {
+                var tile = tiles.blue.splice
+                (
+                    this_random.integer(0, tiles.blue.length - 1), 
+                    1
+                );
+                return 'blue/' + tile[0].id + '.webp';
+            }
+            else if(hex.type == 'red')
+            {
+                var tile = tiles.red.splice
+                (
+                    this_random.integer(0, tiles.red.length - 1), 
+                    1
+                );
+                return 'red/' + tile[0].id + '.webp';
+            }
+            else if(hex.type == 'lanes')
+            {
+                var tile = tiles.lanes.splice
+                (
+                    this_random.integer(0, tiles.lanes.length - 1), 
+                    1
+                );
+                return 'lanes/' + tile[0].id + '.webp';
+            }
+            else if(hex.type == 'legends')
+            {
+                var tile = tiles.legends.splice
+                (
+                    this_random.integer(0, tiles.legends.length - 1), 
+                    1
+                );
+                return 'legends/' + tile[0].id + '.webp';
+            }
+            else
+            {
+                return hex.type;
+            }
+        });
+    });    
+</script>
+    
+</body>
+</html>
