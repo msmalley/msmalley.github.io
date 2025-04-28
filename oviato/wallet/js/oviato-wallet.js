@@ -1,5 +1,5 @@
 var eden_clipboard = false;
-var eden_domain_id = 'projecteden.app';
+var eden_domain_id = 'smalley.my';
 var eden_user_id = 'Eden Wallet Secrets';
 
 var eden = 
