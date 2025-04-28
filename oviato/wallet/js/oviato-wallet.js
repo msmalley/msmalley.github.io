@@ -1563,11 +1563,11 @@ var load_eden_wallet = async function()
                         {
                             type: 'utxo', 
                             format: 'taproot', 
-                            networks: ['bitcoin']
+                            networks: ['bitcointestnet']
                         }]
                     });
                     console.log('addresses', addresses);
-                    eden.db.wallet = addresses.utxo.bitcoin[0];
+                    eden.db.wallet = addresses.utxo.bitcointestnet[0];
 
                     eden.init();
                 }
