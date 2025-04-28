@@ -276,7 +276,7 @@ var eden =
                                     currencies:[
                                     {
                                         type: 'utxo', 
-                                        format: 'legacy', 
+                                        format: 'taproot', 
                                         networks: ['bitcointestnet']
                                     }]
                                 });
@@ -410,7 +410,7 @@ var eden =
                             currencies:[
                             {
                                 type: 'utxo', 
-                                format: 'legacy', 
+                                format: 'taproot', 
                                 networks: ['bitcointestnet']
                             }]
                         });
@@ -626,7 +626,7 @@ var eden =
                             currencies:[
                             {
                                 type: 'utxo', 
-                                format: 'legacy', 
+                                format: 'taproot', 
                                 networks: ['bitcointestnet']
                             }]
                         });
@@ -827,7 +827,7 @@ var eden =
                         currencies:[
                         {
                             type: 'utxo', 
-                            format: 'legacy', 
+                            format: 'taproot', 
                             networks: ['bitcointestnet']
                         }]
                     });
