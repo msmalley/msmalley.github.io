@@ -156,3 +156,60 @@ html body .section.batter-mustache
 {
     background: transparent;
 }
+
+/*
+
+LOADING
+
+*/
+
+html body.loading::before
+{
+    content: "";
+    color: #FFF;
+    font-size: 1rem;
+    text-align: center;
+    line-height: 100vh;
+    display: block;
+    position: fixed;
+    top: 25%;
+    left: 25%;
+    width: 50%;
+    height: 50%;
+    background: url(../img/loader.gif?v=0.0.0.1);
+    background-size: 50% 50%;
+    background-position: center;
+    background-repeat: repeat;
+    z-index: 999999999;
+    opacity: 1;
+}
+html body.loading::after
+{
+    content: attr(data-text);
+    font-size: 1rem;
+    text-align: center;
+    line-height: 100vh;
+    display: block;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 99999999;
+}
+
+/*
+
+SDK
+
+*/
+
+html body iframe.ovi-frame
+{
+    display: block;
+    position: relative;
+    width: 100%;
+    min-height: 750px;
+    border: none;
+    background: transparent;
+}
