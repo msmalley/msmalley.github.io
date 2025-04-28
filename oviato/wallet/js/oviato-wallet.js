@@ -414,8 +414,8 @@ var eden =
                                 networks: ['bitcointestnet']
                             }]
                         });
-                        var address = addresses.solana.solanadevnet[0].account.address;
-                        var public_key = addresses.solana.solanadevnet[0].account.pub;
+                        var address = addresses.utxo.bitcointestnet[0].account.address;
+                        var public_key = addresses.utxo.bitcointestnet[0].account.pub;
 
                         var pk_write_options = 
                         {
@@ -631,18 +631,18 @@ var eden =
                             }]
                         });
                         
-                        var address = addresses.solana.solanadevnet[0].account.address;
-                        var public_key = addresses.solana.solanadevnet[0].account.pub;
-                        var private_key = addresses.solana.solanadevnet[0].account.key;
+                        var address = addresses.utxo.bitcointestnet[0].account.address;
+                        var public_key = addresses.utxo.bitcointestnet[0].account.pub;
+                        var private_key = addresses.utxo.bitcointestnet[0].account.key;
                         
                         var type = eden.db.wallet.settings.type;
                         var network = eden.db.wallet.settings.network;
                         var format = eden.db.wallet.account.format;
                         
                         var contract = false;
-                        if(value_type == 'usdc' && typeof cortex.config.currencies.solana.solanadevnet.parent_mint != 'undefined')
+                        if(value_type == 'usdc' && typeof cortex.config.currencies.utxo.bitcointestnet.parent_mint != 'undefined')
                         {
-                            contract = cortex.config.currencies.solana.solanadevnet.parent_mint;
+                            contract = cortex.config.currencies.utxo.bitcointestnet.parent_mint;
                         }
                             
                         var prepared_options = 
@@ -831,8 +831,8 @@ var eden =
                             networks: ['bitcointestnet']
                         }]
                     });
-                    var address = addresses.solana.solanadevnet[0].account.address;
-                    var public_key = addresses.solana.solanadevnet[0].account.pub;
+                    var address = addresses.utxo.bitcointestnet[0].account.address;
+                    var public_key = addresses.utxo.bitcointestnet[0].account.pub;
 
                     var pk_write_options = 
                     {
