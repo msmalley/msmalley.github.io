@@ -8,18 +8,31 @@
 <title>NUKES | RANDOM</title>
 
 <script type="text/javascript" src="../js/xor.js"></script>
-<script type="text/javascript" src="../../../bootblock/assets/js/bootstrap.bundle.min.js"></script>
+<script type="text/javascript" src="js/bootstrap.bundle.min.js"></script>
     
 <script type="text/javascript" src="js/hexes.js"></script>
 <script type="text/javascript" src="../stu/js/stuquery.js"></script>
 <script type="text/javascript" src="../stu/js/stuquery.hexmap.js"></script>
 <script type="text/javascript" src="../stu/js/interact.min.js"></script>
     
-<link rel="stylesheet" href="../../../bootblock/assets/css/bootstrap.min.css">
+<link rel="stylesheet" href="css/bootstrap.min.css">
 <link rel="stylesheet" href="../stu/css/stuquery.hexmap.css">
 <link rel="stylesheet" href="css/hexeses.css">
     
-<style>.hex .token { display: none;}</style>
+<style>
+    .hex .token 
+    { 
+        display: none;
+    }
+    html body #sidebar-ux
+    {
+        height: 100%;
+    }
+    html body .hexmapinner
+    {
+        top: calc(100vh - 100px) !important;
+    }
+</style>
     
 </head>
 <body>
