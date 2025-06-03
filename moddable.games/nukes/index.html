@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+<link rel='shortcut icon' href='favicon.ico'>
+<title>NUKES | RANDOM</title>
+
+<script type="text/javascript" src="../js/xor.js"></script>
+<script type="text/javascript" src="../../../bootblock/assets/js/bootstrap.bundle.min.js"></script>
+    
+<script type="text/javascript" src="js/hexes.js"></script>
+<script type="text/javascript" src="../stu/js/stuquery.js"></script>
+<script type="text/javascript" src="../stu/js/stuquery.hexmap.js"></script>
+<script type="text/javascript" src="../stu/js/interact.min.js"></script>
+    
+<link rel="stylesheet" href="../../../bootblock/assets/css/bootstrap.min.css">
+<link rel="stylesheet" href="../stu/css/stuquery.hexmap.css">
+<link rel="stylesheet" href="css/hexeses.css">
+    
+<style>.hex .token { display: none;}</style>
+    
+</head>
+<body>
+
+<div id="main-map" class="moddable">
+    
+    <code></code>
+        
+    <div id="sidebar-ux">
+        
+        <div class="editor">
+            <nav class="mb-5">
+                <div class="nav nav-tabs" id="nav-tab" role="tablist" data-bs-theme="dark">
+                    <button class="nav-link active" id="nav-random-tab" data-bs-toggle="tab" data-bs-target="#nav-random" type="button" role="tab" aria-controls="nav-random" aria-selected="true">Random</button>
+                    <button class="nav-link" id="nav-editor-tab" data-bs-toggle="tab" data-bs-target="#nav-editor" type="button" role="tab" aria-controls="nav-editor" aria-selected="false">Editor</button>
+                    <button class="nav-link" id="nav-data-tab" data-bs-toggle="tab" data-bs-target="#nav-data" type="button" role="tab" aria-controls="nav-data" aria-selected="false">Data</button>
+                </div>
+            </nav>
+
+            <div class="tab-content" id="nav-tabContent">
+                <div class="tab-pane fade show active" id="nav-random" role="tabpanel" aria-labelledby="nav-random-tab" tabindex="0">
+
+                    <form id="randomizer" data-bs-theme="dark">
+                        <div class="form-group">
+                            <select class="form-select form-select-lg mb-3" aria-label="Select Size" id="map-size">
+                                <option value="0" selected>Select Size</option>
+                                <option value="2" data-players="2,3,4">2 Rings (2R)</option> <!-- 12 -->
+                                <option value="3" data-players="2,3,6">3 Rings (3R)</option> <!-- 18 -->
+                                <option value="4" data-players="2,3,4,6">4 Rings (4R)</option> <!-- 24 -->
+                                <option value="5" data-players="2,3,5,6">5 Rings (5R)</option> <!-- 30 -->
+                                <option value="6" data-players="2,3,4,6">6 Rings (6R)</option> <!-- 36 -->
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <select class="form-select form-select-lg mb-3" aria-label="Select Style" id="map-style">
+                                <option selected>Select Style</option>
+                                <option value="classic">Classic</option>
+                                <option value="artistic">Artistic</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <select class="form-select form-select-lg mb-3" aria-label="Select Style" id="map-hqs">
+                                <option selected>Player Count</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                                <option value="6">6</option>
+                            </select>
+                        </div>
+
+                        <!--
+                        <div class="form-group">
+                            <select class="form-select form-select-lg mb-3" aria-label="Select Layout" id="map-layout">
+                                <option selected>Select Layout</option>
+                                <option value="random">Random</option>
+                            </select>
+                        </div>
+                        -->
+
+                        <div class="form-floating mb-3">
+                            <input type="number" class="form-control" id="map-seed" placeholder="Only affects random maps ..." autocomplete="off">
+                            <label for="map-seed">Seed</label>
+                        </div>
+
+                        <!--
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="map-rivers" id="map-rivers-01">
+                            <label class="form-check-label" for="map-rivers-01">
+                                Enable rivers
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="map-rivers" id="map-rivers-02" checked>
+                            <label class="form-check-label" for="map-rivers-02">
+                                Disable rivers
+                            </label>
+                        </div>
+                        -->
+
+                    </form>
+
+                </div>
+                <div class="tab-pane fade" id="nav-editor" role="tabpanel" aria-labelledby="nav-editor-tab" tabindex="0">
+                    
+                    <form id="editor" data-bs-theme="dark">
+                        <div class="form-group">
+                            <select class="form-select form-select mb-3 ring-reset form-select-sm" aria-label="Reset Central Hex" id="map-reset-r0" data-ring="0">
+                                <option value="0" selected>Reset Central Hex?</option>
+                                <option value="grass">Fields</option>
+                                <option value="trees">Forests</option>
+                                <option value="mount">Mountains</option>
+                                <option value="water">Water</option>
+                                <option value="sand">Desert</option>
+                            </select>
+                        </div>
+                        <div class="form-group ringger" data-ring="1">
+                            <select class="form-select form-select mb-3 ring-reset form-select-sm" aria-label="Reset Ring One" id="map-reset-r1" data-ring="1">
+                                <option value="0" selected>Reset Ring 1?</option>
+                                <option value="grass">Fields</option>
+                                <option value="trees">Forests</option>
+                                <option value="mount">Mountains</option>
+                                <option value="water">Water</option>
+                                <option value="sand">Desert</option>
+                            </select>
+                        </div>
+                        <div class="form-group ringger" data-ring="2">
+                            <select class="form-select form-select mb-3 ring-reset form-select-sm" aria-label="Reset Ring Two" id="map-reset-r2" data-ring="1">
+                                <option value="0" selected>Reset Ring 2?</option>
+                                <option value="grass">Fields</option>
+                                <option value="trees">Forests</option>
+                                <option value="mount">Mountains</option>
+                                <option value="water">Water</option>
+                                <option value="sand">Desert</option>
+                            </select>
+                        </div>
+                        <div class="form-group ringger" data-ring="3">
+                            <select class="form-select form-select mb-3 ring-reset form-select-sm" aria-label="Reset Ring Three" id="map-reset-r3" data-ring="3">
+                                <option value="0" selected>Reset Ring 3?</option>
+                                <option value="grass">Fields</option>
+                                <option value="trees">Forests</option>
+                                <option value="mount">Mountains</option>
+                                <option value="water">Water</option>
+                                <option value="sand">Desert</option>
+                            </select>
+                        </div>
+                        <div class="form-group ringger" data-ring="4">
+                            <select class="form-select form-select mb-3 ring-reset form-select-sm" aria-label="Reset Ring Four" id="map-reset-r4" data-ring="4">
+                                <option value="0" selected>Reset Ring 4?</option>
+                                <option value="grass">Fields</option>
+                                <option value="trees">Forests</option>
+                                <option value="mount">Mountains</option>
+                                <option value="water">Water</option>
+                                <option value="sand">Desert</option>
+                            </select>
+                        </div>
+                        <div class="form-group ringger" data-ring="5">
+                            <select class="form-select form-select mb-3 ring-reset form-select-sm" aria-label="Reset Ring Five" id="map-reset-r5" data-ring="5">
+                                <option value="0" selected>Reset Ring 5?</option>
+                                <option value="grass">Fields</option>
+                                <option value="trees">Forests</option>
+                                <option value="mount">Mountains</option>
+                                <option value="water">Water</option>
+                                <option value="sand">Desert</option>
+                            </select>
+                        </div>
+                        <div class="form-group ringger" data-ring="6">
+                            <select class="form-select form-select mb-3 ring-reset form-select-sm" aria-label="Reset Ring Six" id="map-reset-r6" data-ring="6">
+                                <option value="0" selected>Reset Ring 6?</option>
+                                <option value="grass">Fields</option>
+                                <option value="trees">Forests</option>
+                                <option value="mount">Mountains</option>
+                                <option value="water">Water</option>
+                                <option value="sand">Desert</option>
+                            </select>
+                        </div>
+                    </form>
+                    
+                </div>
+                <div class="tab-pane fade" id="nav-data" role="tabpanel" aria-labelledby="nav-data-tab" tabindex="0">
+                    
+                    <form id="data" data-bs-theme="dark">
+                        <div class="form-group">
+                            <textarea class="form-control" aria-label="Map Data" style="min-height: 250px" id="map-data"></textarea>
+                            <hr>
+                            <div class="row">
+                                <div class="col-sm-4">
+                                    <alert class="alert alert-block p-2" id="copy-message" style="font-size: 75%;">
+                                        
+                                    </alert>
+                                </div>
+                                <div class="col-sm-4">
+                                    <a href="#" class="btn btn-sm btn-outline-light btn-block" onclick="moddable_clear_textarea()">CLEAR</a>
+                                </div>
+                                <div class="col-sm-4">
+                                    <a href="#" class="btn btn-sm btn-outline-light btn-block" onclick="moddable_select_textarea()">COPY</a>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+    
+<script>
+    
+var terrains = 
+[
+    "water", "trees", "mount", "grass", 
+    "water", "trees", "mount", "grass", 
+    "water", "trees", "mount", "grass", 
+    "sand"
+];
+    
+var choices = ['water','grass','trees','mount','sand','base'];
+    
+var callback_function = function(map)
+{
+    map.on('click', function(e)
+    {
+        console.log('e', e);
+        if(e && typeof e.i != 'undefined' && typeof e.hex != 'undefined')
+        {
+            var index = e.i;
+            var hex = e.hex;
+            console.log('index', index);
+            console.log('hex', hex);
+
+
+            var type = hex.type;
+            var current_type = choices.indexOf(type);
+            var next_type = JSON.parse(JSON.stringify(current_type + 1));
+
+            if(next_type >= choices.length) next_type = 0;
+
+            hexmap.hexes[index].type = choices[next_type];
+            hexmap.hexes[index].el[0].childNodes[0].className = "";
+            hexmap.hexes[index].el[0].childNodes[0].classList.add('hexinner');
+            hexmap.hexes[index].el[0].childNodes[0].classList.add(choices[next_type]);
+
+            dump_data();
+        }
+    });
+}
+    
+var hexmap = false;
+        
+S(document).ready(function()
+{
+    random_init();
+    
+    setTimeout(function()
+    {
+        hexmap = S.hexmap('main-map', false, map_hexes.r6);
+        setup_map(hexmap, callback_function);
+        setup_ux();
+        dump_data();
+        
+    }, 600);
+});
+    
+</script>
+    
+</body>
+</html>

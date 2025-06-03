@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+<title>TWILIGHT IMPERIUM | RANDOM SETUP</title>
+    
+<script>
+    var tiles = false;
+    var callback_function = false;
+    var original_map_tiles = false;
+    var map_tiles = [];
+</script>
+
+<script type="text/javascript" src="../../../bootblock/assets/js/bootstrap.bundle.min.js"></script>
+    
+<script type="text/javascript" src="js/opengames.config.js"></script>
+<script type="text/javascript" src="../stu/js/stuquery.js"></script>
+<script type="text/javascript" src="../stu/js/stuquery.hexmap.js"></script>
+<script type="text/javascript" src="../stu/js/interact.min.js"></script>
+<script type="text/javascript" src="../js/xor.js"></script>
+    
+<link rel="stylesheet" href="../../../bootblock/assets/css/bootstrap.min.css">
+<link rel="stylesheet" href="../stu/css/stuquery.hexmap.css">
+<link rel="stylesheet" href="css/hexes.css">
+    
+<style>
+    .hex .token { display: none; }
+    .hexmap .hexmapinner {  }
+</style>
+
+<body>
+
+<div id="main-map" class="moddable">
+    <code>
+    {
+        "layout":"odd-q",
+        "hexes": 
+        {
+            "R0":{"q":0,"r":0,"label":"Rex","type":"rex"},
+
+            "R1D1":{"q":0,"r":1,"label":"M","type":"red"},
+            "R1D2":{"q":1,"r":1,"label":"N","type":"red"},
+            "R1D3":{"q":1,"r":0,"label":"O","type":"red"},
+            "R1D4":{"q":0,"r":-1,"label":"P","type":"red"},
+            "R1D5":{"q":-1,"r":0,"label":"Q","type":"red"},
+            "R1D6":{"q":-1,"r":1,"label":"R","type":"red"},
+
+            "R2D1":{"q":0,"r":2,"label":"A","type":"lanes"},
+            "R2D2":{"q":1,"r":2,"label":"B","type":"blue"},
+            "R2D3":{"q":2,"r":1,"label":"C","type":"lanes"},
+            "R2D4":{"q":2,"r":0,"label":"D","type":"blue"},
+            "R2D5":{"q":2,"r":-1,"label":"E","type":"lanes"},
+            "R2D6":{"q":1,"r":-1,"label":"F","type":"blue"},
+            "R2D7":{"q":0,"r":-2,"label":"G","type":"lanes"},
+            "R2D8":{"q":-1,"r":-1,"label":"H","type":"blue"},
+            "R2D9":{"q":-2,"r":-1,"label":"I","type":"lanes"},
+            "R2D10":{"q":-2,"r":0,"label":"J","type":"blue"},
+            "R2D11":{"q":-2,"r":1,"label":"K","type":"lanes"},
+            "R2D12":{"q":-1,"r":2,"label":"L","type":"blue"},
+
+            "R3D1":{"q":0,"r":3,"label":"A","type":"green"},
+            "R3D2":{"q":1,"r":3,"label":"B","type":"blue"},
+            "R3D3":{"q":2,"r":2,"label":"C","type":"red"},
+            "R3D4":{"q":3,"r":2,"label":"D","type":"green"},
+            "R3D5":{"q":3,"r":1,"label":"E","type":"blue"},
+            "R3D6":{"q":3,"r":0,"label":"E","type":"red"},
+            "R3D7":{"q":3,"r":-1,"label":"E","type":"green"},
+            "R3D8":{"q":2,"r":-2,"label":"D","type":"blue"},
+            "R3D9":{"q":1,"r":-2,"label":"D","type":"red"},
+            "R3D10":{"q":0,"r":-3,"label":"D","type":"green"},
+            "R3D11":{"q":-1,"r":-2,"label":"D","type":"blue"},
+            "R3D12":{"q":-2,"r":-2,"label":"D","type":"red"},
+            "R3D13":{"q":-3,"r":-1,"label":"E","type":"green"},
+            "R3D14":{"q":-3,"r":0,"label":"E","type":"blue"},
+            "R3D15":{"q":-3,"r":1,"label":"E","type":"red"},
+            "R3D16":{"q":-3,"r":2,"label":"E","type":"green"},
+            "R3D17":{"q":-2,"r":2,"label":"C","type":"blue"},
+            "R3D18":{"q":-1,"r":3,"label":"C","type":"red"},
+
+            "R4D1":{"q":0,"r":4,"type":"red"},
+            "R4D2":{"q":1,"r":4,"type":"blue"},
+            "R4D3":{"q":2,"r":3,"type":"blue"},
+            "R4D4":{"q":3,"r":3,"type":"blue"},
+            "R4D5":{"q":4,"r":2,"type":"red"},
+            "R4D6":{"q":4,"r":1,"type":"blue"},
+            "R4D7":{"q":4,"r":0,"type":"legends"},
+            "R4D8":{"q":4,"r":-1,"type":"blue"},
+            "R4D9":{"q":4,"r":-2,"type":"red"},
+            "R4D10":{"q":3,"r":-2,"type":"blue"},
+            "R4D11":{"q":2,"r":-3,"type":"blue"},
+            "R4D12":{"q":1,"r":-3,"type":"blue"},
+            "R4D13":{"q":0,"r":-4,"type":"red"},
+            "R4D14":{"q":-1,"r":-3,"type":"blue"},
+            "R4D15":{"q":-2,"r":-3,"type":"blue"},
+            "R4D16":{"q":-3,"r":-2,"type":"blue"},
+            "R4D17":{"q":-4,"r":-2,"type":"red"},
+            "R4D18":{"q":-4,"r":-1,"type":"blue"},
+            "R4D19":{"q":-4,"r":0,"type":"legends"},
+            "R4D20":{"q":-4,"r":1,"type":"blue"},
+            "R4D21":{"q":-4,"r":2,"type":"red"},
+            "R4D22":{"q":-3,"r":3,"type":"blue"},
+            "R4D23":{"q":-2,"r":3,"type":"blue"},
+            "R4D24":{"q":-1,"r":4,"type":"blue"}
+        }
+    }
+    </code>
+    
+    <div id="sidebar-ux">
+        
+        <div class="editor">
+            <nav class="mb-5">
+                <div class="nav nav-tabs" id="nav-tab" role="tablist" data-bs-theme="dark">
+                    <button class="nav-link active" id="nav-random-tab" data-bs-toggle="tab" data-bs-target="#nav-random" type="button" role="tab" aria-controls="nav-random" aria-selected="true">Random</button>
+                    <button class="nav-link" id="nav-data-tab" data-bs-toggle="tab" data-bs-target="#nav-data" type="button" role="tab" aria-controls="nav-data" aria-selected="false">Data</button>
+                </div>
+            </nav>
+
+            <div class="tab-content" id="nav-tabContent">
+                <div class="tab-pane fade show active" id="nav-random" role="tabpanel" aria-labelledby="nav-random-tab" tabindex="0">
+
+                    <form id="randomizer" data-bs-theme="dark">
+                        
+                        <div style="display: none;">
+                        <div class="form-group">
+                            <select class="form-select form-select-lg mb-3" aria-label="Select Size" id="map-size">
+                                <option value="4" selected>Select Size</option>
+                                <option value="2" data-players="2,3,4">2 Rings (2R)</option> <!-- 12 -->
+                                <option value="3" data-players="2,3,6">3 Rings (3R)</option> <!-- 18 -->
+                                <option value="4" data-players="2,3,4,6">4 Rings (4R)</option> <!-- 24 -->
+                                <option value="5" data-players="2,3,5,6">5 Rings (5R)</option> <!-- 30 -->
+                                <option value="6" data-players="2,3,4,6">6 Rings (6R)</option> <!-- 36 -->
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <select class="form-select form-select-lg mb-3" aria-label="Select Style" id="map-style">
+                                <option selected>Select Style</option>
+                                <option value="classic">Classic</option>
+                                <option value="artistic">Artistic</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <select class="form-select form-select-lg mb-3" aria-label="Select Style" id="map-hqs">
+                                <option selected>Player Count</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                                <option value="6">6</option>
+                            </select>
+                        </div>
+                        </div>
+
+                        <div class="form-floating mb-3">
+                            <input type="number" class="form-control" id="map-seed" placeholder="Only affects random maps ..." autocomplete="off">
+                            <label for="map-seed">Seed</label>
+                        </div>
+
+                    </form>
+
+                </div>
+                <div class="tab-pane fade" id="nav-data" role="tabpanel" aria-labelledby="nav-data-tab" tabindex="0">
+                    
+                    <form id="data" data-bs-theme="dark">
+                        <div class="form-group">
+                            <textarea class="form-control" aria-label="Map Data" style="min-height: 250px" id="map-data"></textarea>
+                            <hr>
+                            <div class="row">
+                                <div class="col-sm-4">
+                                    <alert class="alert alert-block p-2" id="copy-message" style="font-size: 75%;">
+                                        
+                                    </alert>
+                                </div>
+                                <div class="col-sm-4">
+                                    <a href="#" class="btn btn-sm btn-outline-light btn-block" onclick="moddable_clear_textarea()">CLEAR</a>
+                                </div>
+                                <div class="col-sm-4">
+                                    <a href="#" class="btn btn-sm btn-outline-light btn-block" onclick="moddable_select_textarea()">COPY</a>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+    
+<script>
+    
+    tiles = opengames_config.twilight.tiles;
+    
+    for(i = 0; i < tiles.nonplayer.length; i++)
+    {
+        map_tiles.push(tiles.nonplayer[i].type + '/' + tiles.nonplayer[i].id + '.webp');
+    }
+    
+    original_map_tiles = JSON.parse(JSON.stringify(opengames_config.twilight.tiles));
+
+    callback_function = function(map)
+    {
+        tiles = JSON.parse(JSON.stringify(opengames_config.twilight.tiles));
+
+        map.setClass(function(id, hex)
+        {
+            if(hex.type == 'rex')
+            {
+                hex.type = 'rex.webp';
+            }
+            if(hex.type == 'random')
+            {
+                return map_tiles.splice(random_number(id, 0, map_tiles.length - 1), 1);
+            }
+            else if(hex.type == 'green')
+            {
+                var tile = tiles.green.splice
+                (
+                    random_number(id, 0, tiles.green.length - 1), 
+                    1
+                );
+                return 'green/' + tile[0].id + '.webp';
+            }
+            else if(hex.type == 'blue')
+            {
+                var tile = tiles.blue.splice
+                (
+                    random_number(id, 0, tiles.blue.length - 1), 
+                    1
+                );
+                return 'blue/' + tile[0].id + '.webp';
+            }
+            else if(hex.type == 'red')
+            {
+                var tile = tiles.red.splice
+                (
+                    random_number(id, 0, tiles.red.length - 1), 
+                    1
+                );
+                return 'red/' + tile[0].id + '.webp';
+            }
+            else if(hex.type == 'lanes')
+            {
+                var tile = tiles.lanes.splice
+                (
+                    random_number(id, 0, tiles.lanes.length - 1), 
+                    1
+                );
+                return 'lanes/' + tile[0].id + '.webp';
+            }
+            else if(hex.type == 'legends')
+            {
+                var tile = tiles.legends.splice
+                (
+                    random_number(id, 0, tiles.legends.length - 1), 
+                    1
+                );
+                return 'legends/' + tile[0].id + '.webp';
+            }
+            else
+            {
+                return hex.type;
+            }
+        });
+    }
+    
+    S(document).ready(function()
+    {
+        random_init();
+
+        setTimeout(function()
+        {
+            hexmap = S.hexmap('main-map', false);
+            setup_map(hexmap, callback_function);
+            setup_ux();
+            dump_data();
+
+        }, 600);
+    });
+    
+</script>
+    
+</body>
+</html>

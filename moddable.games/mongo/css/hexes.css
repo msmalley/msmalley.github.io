@@ -1,0 +1,99 @@
+/*
+
+HEXES
+
+*/
+
+.hex .hexinner.water {
+    background-image: url(../img/water_tile_03.PNG);
+}
+.hex .hexinner.submerged {
+    background-image: url(../img/tiles/water/water_tile_05.png);
+}
+
+.hex .hexinner.forest {
+    background-image: url(../img/tiles/nature/nature_tile_07.PNG);
+}
+.hex .hexinner.jungle {
+    background-image: url(../img/tiles/nature/nature_tile_02.PNG);
+}
+
+.hex .hexinner.mountains {
+    background-image: url(../img/nature_tile_04.png);
+}
+
+.hex .hexinner.hills {
+    background-image: url(../img/nature_tile_01.png);
+}
+
+.hex .hexinner.ice1 {
+    background-image: url(../img/tiles/ice/ice_tile_01.png);
+}
+.hex .hexinner.ice2 {
+    background-image: url(../img/tiles/ice/ice_tile_02.png);
+}
+.hex .hexinner.ice3 {
+    background-image: url(../img/tiles/ice/ice_tile_03.png);
+}
+.hex .hexinner.ice4 {
+    background-image: url(../img/tiles/ice/ice_tile_04.png);
+}
+.hex .hexinner.ice5 {
+    background-image: url(../img/tiles/ice/ice_tile_05.png);
+}
+.hex .hexinner.ice6 {
+    background-image: url(../img/tiles/ice/ice_tile_06.png);
+}
+.hex .hexinner.ice7 {
+    background-image: url(../img/tiles/ice/ice_tile_07.png);
+}
+.hex .hexinner.ice8 {
+    background-image: url(../img/tiles/ice/ice_tile_08.png);
+}
+.hex .hexinner.ice9 {
+    background-image: url(../img/tiles/ice/ice_tile_09.png);
+}
+.hex .hexinner.ice10 {
+    background-image: url(../img/tiles/ice/ice_tile_10.png);
+}
+.hex .hexinner.ice11 {
+    background-image: url(../img/tiles/ice/ice_tile_11.png);
+}
+.hex .hexinner.ice12 {
+    background-image: url(../img/tiles/ice/ice_tile_12.png);
+}
+.hex .hexinner.ice13 {
+    background-image: url(../img/tiles/ice/ice_tile_13.png);
+}
+.hex .hexinner.ice14 {
+    background-image: url(../img/tiles/ice/ice_tile_14.png);
+}
+.hex .hexinner.ice15 {
+    background-image: url(../img/tiles/ice/ice_tile_15.png);
+}
+.hex .hexinner.ice16 {
+    background-image: url(../img/tiles/ice/ice_tile_16.png);
+}
+.hex .hexinner.ice17 {
+    background-image: url(../img/tiles/ice/ice_tile_17.png);
+}
+.hex .hexinner.ice18 {
+    background-image: url(../img/tiles/ice/ice_tile_18.png);
+}
+.hex .hexinner.ice19 {
+    background-image: url(../img/tiles/ice/ice_tile_19.png);
+}
+
+.hex .hexinner.desert {
+    background-image: url(../img/tiles/desert/desert_tile_20.png);
+}
+.hex .hexinner.volcanic {
+    background-image: url(../img/tiles/lava/lava_tile_02.png);
+}
+
+.hex .hexinner.market {
+    background-image: url(../img/tiles/desert/desert_tile_17.png);
+}
+.hex .hexinner.magneticans {
+    background-image: url(../img/tiles/nature/nature_tile_18.png);
+}

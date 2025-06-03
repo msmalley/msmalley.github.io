@@ -1,0 +1,156 @@
+/*
+
+RESETS
+
+*/
+
+html, body 
+{
+    margin: 0;
+    padding: 0;
+    height: 100%;
+}
+html 
+{
+    background-color: transparent;
+}
+body 
+{
+    z-index: 1;
+    font-family: sans-serif;
+    padding: 1rem;
+    text-align: center;
+    background-color: transparent;
+}
+
+html body .moddable .hexmap
+{
+    margin: auto;
+}
+
+html body .hexmapinner
+{
+    position: absolute;
+    top: 0;
+}
+
+html body .moddable .hexmap.flat .hexmapinner
+{
+    left: 15vw;
+    margin-top: 5vh;
+    margin-bottom: 15vh;
+}
+
+.hex .hexinner 
+{
+    background-size: cover;
+}
+.hex .hexinner:hover 
+{
+    opacity: 0.75;
+    background-color: #000;
+}
+
+html body #main-map
+{
+    width: calc(100% - 300px);
+    min-width: calc(100% - 300px);
+    max-width: calc(100% - 300px);
+    height: calc(100% - 27vw);
+    min-height: calc(100% - 27vw);
+    max-height: calc(100% - 27vw);
+    overflow: hidden;
+}
+
+/*
+
+HEXES
+
+*/
+
+.hex 
+{
+	box-sizing: border-box;
+	position: absolute;
+	background: #333;
+	margin: 0;
+	z-index: 1;
+}
+.hex:hover, .hex:focus { z-index: 2; }
+
+.hexinner 
+{
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	right: 0px;
+	bottom: 0px;
+	margin: 1px;
+	background: #666;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	text-align: center;
+	color: white;
+	text-decoration: none; 
+}
+.hexmap.pointy .hex, .hexmap.pointy .hexinner 
+{
+	-webkit-clip-path: polygon(50% 0, 100% 25%, 100% 75%, 50% 100%, 0 75%, 0 25%);
+	clip-path: polygon(50% 0, 100% 25%, 100% 75%, 50% 100%, 0 75%, 0 25%);
+}
+.hexmap.flat .hex, .hexmap.flat .hexinner 
+{
+	-webkit-clip-path: polygon(25% 0, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0 50%);
+	clip-path: polygon(25% 0, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0 50%);
+}
+
+.when-selected { display: none;}
+.hex:hover .when-selected, .hex:focus .when-selected { display: block; font-size: 1em;; }
+.hex .when-selected .value { font-size: 2em; font-weight: 700; }
+.hex:hover .default, .hex:hover .no-hover, .hex:focus .default, .hex:focus .no-hover { display: none; }
+
+/*
+
+ADDED FOR SIDEBAR
+
+*/
+
+alert.alert-block,
+.btn.btn-block
+{
+    display: block;
+    width: 100%;
+    text-align: center;
+}
+
+#sidebar-ux
+{
+    display: block;
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 300px;
+    height: calc(100% - 25rem);
+    background: #222;
+    border-left: 1px solid #AAA;
+    color: #AAA;
+    padding: 30px;
+    z-index: 999;
+}
+#sidebar-ux .editor
+{
+    display: block;
+    position: relative;
+    top: calc(50% - 210px);
+}
+
+#main-map.classic .hex .hexinner
+{
+    background-image: none !important;
+}
+
+form .hidden
+{
+    display: none;
+}

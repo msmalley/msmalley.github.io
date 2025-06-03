@@ -1,0 +1,335 @@
+/*
+
+HEXES
+
+*/
+
+.hex .hexinner.fields 
+{
+    background-color: #8e9a23;
+    background-image: url(../img/fields.png);
+}
+
+.hex .hexinner.plains 
+{
+    background-color: #8e9a23;
+    background-image: url(../img/plains.png);
+}
+
+.hex .hexinner.woods 
+{
+    background-color: #8e9a23;
+    background-image: url(../img/woods.png);
+}
+
+.hex .hexinner.hills 
+{
+    background-color: #8e9a23;
+    background-image: url(../img/hills.png);
+}
+
+.hex .hexinner.forest 
+{
+    background-color: #8e9a23;
+    background-image: url(../img/forest.png);
+}
+
+.hex .hexinner.graveyard 
+{
+    background-color: #8e9a23;
+    background-image: url(../img/graveyard.png);
+}
+
+.hex .hexinner.crags 
+{
+    background-color: #8e9a23;
+    background-image: url(../img/crags.png);
+}
+
+.hex .hexinner.sentinel 
+{
+    background-color: #8e9a23;
+    background-image: url(../img/sentinel.png);
+}
+
+.hex .hexinner.ruins 
+{
+    background-color: #8e9a23;
+    background-image: url(../img/ruins.png);
+}
+
+.hex .hexinner.city 
+{
+    background-color: #8e9a23;
+    background-image: url(../img/city.png);
+}
+
+.hex .hexinner.village 
+{
+    background-color: #8e9a23;
+    background-image: url(../img/village.png);
+}
+
+.hex .hexinner.tavern 
+{
+    background-color: #8e9a23;
+    background-image: url(../img/tavern.png);
+}
+
+.hex .hexinner.chapel 
+{
+    background-color: #8e9a23;
+    background-image: url(../img/chapel.png);
+}
+
+.hex .hexinner.river 
+{
+    background-color: #8e9a23;
+    background-image: url(../img/river.png);
+}
+
+.hex .hexinner.desert 
+{
+    background-color: #8e9a23;
+    background-image: url(../img/desert.png);
+}
+
+.hex .hexinner.oasis 
+{
+    background-color: #8e9a23;
+    background-image: url(../img/oasis.png);
+}
+
+.hex .hexinner.valley 
+{
+    background-color: #8e9a23;
+    background-image: url(../img/valley.png);
+}
+
+.hex .hexinner.runes 
+{
+    background-color: #8e9a23;
+    background-image: url(../img/runes.png);
+}
+
+.hex .hexinner.temple 
+{
+    background-color: #8e9a23;
+    background-image: url(../img/temple.png);
+}
+
+.hex .hexinner.cave 
+{
+    background-color: #8e9a23;
+    background-image: url(../img/cave.png);
+}
+
+.hex .hexinner.chasm 
+{
+    background-color: #8e9a23;
+    background-image: url(../img/chasm.png);
+}
+
+.hex .hexinner.castle 
+{
+    background-color: #8e9a23;
+    background-image: url(../img/castle.png);
+}
+
+.hex .hexinner.portal 
+{
+    background-color: #8e9a23;
+    background-image: url(../img/portal.png);
+}
+
+.hex .hexinner.knight 
+{
+    background-color: #8e9a23;
+    background-image: url(../img/knight.png);
+}
+
+.hex .hexinner.glade 
+{
+    background-color: #8e9a23;
+    background-image: url(../img/glade.png);
+}
+
+.hex .hexinner.peril 
+{
+    background-color: #8e9a23;
+    background-image: url(../img/peril.png);
+}
+
+.hex .hexinner.fire 
+{
+    background-color: #8e9a23;
+    background-image: url(../img/fire.png);
+}
+
+.hex .hexinner.mines 
+{
+    background-color: #8e9a23;
+    background-image: url(../img/mines.png);
+}
+
+.hex .hexinner.vampire 
+{
+    background-color: #8e9a23;
+    background-image: url(../img/vampire.png);
+}
+
+.hex .hexinner.death 
+{
+    background-color: #8e9a23;
+    background-image: url(../img/death.png);
+}
+
+.hex .hexinner.crypt 
+{
+    background-color: #8e9a23;
+    background-image: url(../img/crypt.png);
+}
+
+.hex .hexinner.den 
+{
+    background-color: #8e9a23;
+    background-image: url(../img/den.png);
+}
+
+.hex .hexinner.pits 
+{
+    background-color: #8e9a23;
+    background-image: url(../img/pits.png);
+}
+
+.hex .hexinner.crown 
+{
+    background-color: #8e9a23;
+    background-image: url(../img/crown.png);
+}
+
+.hex .hexinner.battle 
+{
+    background-color: #8e9a23;
+    background-image: url(../img/battle.png);
+}
+
+.hex .hexinner.dragon 
+{
+    background-color: #8e9a23;
+    background-image: url(../img/dragon.png);
+}
+
+.hex .hexinner.guild 
+{
+    background-color: #8e9a23;
+    background-image: url(../img/guild.png);
+}
+
+.hex .hexinner.eagle 
+{
+    background-color: #8e9a23;
+    background-image: url(../img/eagle.png);
+}
+
+.hex .hexinner.demon 
+{
+    background-color: #8e9a23;
+    background-image: url(../img/demon.png);
+}
+
+.hex .hexinner.doom 
+{
+    background-color: #8e9a23;
+    background-image: url(../img/doom.png);
+}
+
+.hex .hexinner.cavern 
+{
+    background-color: #8e9a23;
+    background-image: url(../img/cavern.png);
+}
+
+.hex .hexinner.corridor 
+{
+    background-color: #8e9a23;
+    background-image: url(../img/corridor.png);
+}
+
+.hex .hexinner.tunnel 
+{
+    background-color: #8e9a23;
+    background-image: url(../img/tunnel.png);
+}
+
+.hex .hexinner.vault 
+{
+    background-color: #8e9a23;
+    background-image: url(../img/vault.png);
+}
+
+.hex .hexinner.cell 
+{
+    background-color: #8e9a23;
+    background-image: url(../img/cell.png);
+}
+
+.hex .hexinner.entrance 
+{
+    background-color: #8e9a23;
+    background-image: url(../img/entrance.png);
+}
+
+.hex .hexinner.guard 
+{
+    background-color: #8e9a23;
+    background-image: url(../img/guard.png);
+}
+
+.hex .hexinner.hall 
+{
+    background-color: #8e9a23;
+    background-image: url(../img/hall.png);
+}
+
+.hex .hexinner.kitchen 
+{
+    background-color: #8e9a23;
+    background-image: url(../img/kitchen.png);
+}
+
+.hex .hexinner.library 
+{
+    background-color: #8e9a23;
+    background-image: url(../img/library.png);
+}
+
+.hex .hexinner.monster 
+{
+    background-color: #8e9a23;
+    background-image: url(../img/monster.png);
+}
+
+.hex .hexinner.summon 
+{
+    background-color: #8e9a23;
+    background-image: url(../img/summon.png);
+}
+
+.hex .hexinner.torture 
+{
+    background-color: #8e9a23;
+    background-image: url(../img/torture.png);
+}
+
+.hex .hexinner.treasure 
+{
+    background-color: #8e9a23;
+    background-image: url(../img/treasure.png);
+}
+
+.hex .hexinner.mountains 
+{
+    background-color: #8e9a23;
+    background-image: url(../img/mountains.png);
+}

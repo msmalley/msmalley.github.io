@@ -1,0 +1,16 @@
+/*
+
+HEXES
+
+*/
+
+.hex .hexinner 
+{
+    background-size: cover;
+    background-size: 115%;
+    background-position: 33% 0;
+}
+
+.hex .hexinner {
+    background-image: var(--background);
+}

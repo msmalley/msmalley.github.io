@@ -1,0 +1,41 @@
+/*
+
+HEXES
+
+*/
+
+.hex .hexinner.water 
+{
+    background-color: #49b0c6;
+    background-image: url(../img/water_tile_03.png);
+}
+
+.hex .hexinner.trees 
+{
+    background-color: #38620b;
+    background-image: url(../img/nature_tile_02.png);
+}
+
+.hex .hexinner.mount
+{
+    background-color: #7d8c7c;
+    background-image: url(../img/nature_tile_04.png);
+}
+
+.hex .hexinner.grass 
+{
+    background-color: #8e9a23;
+    background-image: url(../img/nature_tile_01.PNG);
+}
+
+.hex .hexinner.sand 
+{
+    background-color: #e1bf65;
+    background-image: url(../img/autumn_tile_09.png);
+}
+
+.hex .hexinner.base 
+{
+    background-color: #b88672;
+    background-image: url(../img/nature_tile_18.png);
+}
